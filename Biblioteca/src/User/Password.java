@@ -62,4 +62,9 @@ public class Password {
         // Se asigna el password:
         setPassword(sb.toString().toCharArray()); 
     }
+    
+    // Compara dos passwords y retorna true si los dos passwords son iguales:
+    public boolean compare(Password password) {
+        return getPassword().equals(password);
+    }
 }
