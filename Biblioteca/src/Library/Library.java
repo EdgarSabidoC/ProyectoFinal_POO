@@ -10,17 +10,15 @@ import java.util.ArrayList;
  *
  * @author edgar
  */
-public class Library {
+public abstract class Library {
     private String fileName;
     private String fileExtension;
-    private String separationSign;
     private File file;
     
     // Constructor:
-    public Library(String fileName, String fileExtension, String separationSign) {
+    public Library(String fileName, String fileExtension) {
         this.fileName = fileName;
         this.fileExtension = fileExtension;
-        this.separationSign = separationSign;
         generateFile();
     }
     
@@ -31,10 +29,6 @@ public class Library {
 
     public String getFileExtension() {
         return fileExtension;
-    }
-
-    public String getSeparationSign() {
-        return separationSign;
     }
 
     public File getFile() {
@@ -48,10 +42,6 @@ public class Library {
 
     public void setFileExtension(String fileExtension) {
         this.fileExtension = fileExtension;
-    }
-
-    public void setSeparationSign(String separationSign) {
-        this.separationSign = separationSign;
     }
 
     public void setFile(File file) {
@@ -109,9 +99,7 @@ public class Library {
                     if(line.contains(word) == true) {
                        
                         // Se generan los tokens de los atributos del libro:
-                        String[] split = line.split("\\|\\|"); // Utiliza || como separador.
-                        //String[] split = line.split(getSeparationSign());
-                        
+                        String[] split = line.split("\\|\\|"); // Utiliza || como separador.                        
                         
                         // Se quitan los espacios al inicio y al final de los tokens (por si hay) con String.trim()
                         // También se hace parsing para cambiar el tipo de dato al del atributo correspondiente del libro.
