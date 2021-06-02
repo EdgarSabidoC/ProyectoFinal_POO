@@ -13,9 +13,7 @@ public class Admin extends User {
     public Admin(String name, String firstLastName, String secondLastName) {
         super(name, firstLastName, secondLastName);
         setAdminID(UUID.randomUUID());
-    }
-    
-    
+    }   
     
     // Getters:
     private UUID getAdminID() {
@@ -38,9 +36,8 @@ public class Admin extends User {
     
     // Verifica que el password del Admin sea correcto:
     @Override
-    public boolean authenticate(char[] password) {
-        // Aquí va la validación.
-        if(getPassword.equals(password))
+    public boolean authenticate(Password password) {
+        return adminPassword.compare(password);
     }
 
     // Retorna el número de indentificación del admin:
@@ -54,7 +51,4 @@ public class Admin extends User {
     public String toString() {
         return super.toString() + ", adminID: " + getAdminID();
     }
-    
-    
-    
 }

@@ -8,6 +8,6 @@ import java.util.UUID;
  */
 public interface Profile {
     void rename(String name, String firstLastName, String secondLastName); // Cambia el nombre y apellidos.
-    boolean authenticate(char[] password); // Verifica que el perfil sea el correcto.
+    boolean authenticate(Password password); // Verifica que el perfil sea el correcto.
     int identity(); // Retorna la identidad del usuario.
 }
