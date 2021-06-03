@@ -14,6 +14,7 @@ public class Client extends User {
 
     public Client(String name, String firstLastName, String secondLastName, BookCollection bookList) {
         super(name, firstLastName, secondLastName);
+        generateClientID(); // Se genera el ID del cliente.
         generatePassword(); // Se genera el password de 10 chars.
         this.bookList = bookList;
     }
@@ -23,13 +24,14 @@ public class Client extends User {
         return bookList;
     }
     
-    private UUID getClientID() {
-        return clientID;
-    }
-    
     // Setter:
     public void setBookList(BookCollection bookList) {
         this.bookList = bookList;
+    }
+    
+    // Genera el ID del Cliente:
+    private void generateClientID() {
+        this.clientID = UUID.randomUUID();
     }
     
     // Genera el password:
@@ -42,7 +44,7 @@ public class Client extends User {
     @Override
     public boolean authenticate(Password password) {
         if(password.getLength() == 10) {
-            return clientPassword.compare(password);
+            return this.clientPassword.compare(password);
         } 
         System.out.println("ERROR! Tamaño de contraseña no válido.");
         return false;
@@ -51,6 +53,6 @@ public class Client extends User {
     // Retorna el número de indentificación del cliente:
     @Override
     public String identity() {
-        return "CLNT-" + getClientID().hashCode();
+        return "CLNT-" + this.clientID.hashCode();
     }
 }
