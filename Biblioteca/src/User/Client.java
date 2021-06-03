@@ -15,7 +15,7 @@ public class Client extends User {
     public Client(String name, String firstLastName, String secondLastName, BookCollection bookList) {
         super(name, firstLastName, secondLastName);
         generateClientID(); // Se genera el ID del cliente.
-        generatePassword(); // Se genera el password de 10 chars.
+        generateClientPassword(); // Se genera el password de 10 chars.
         this.bookList = bookList;
     }
     
@@ -35,7 +35,7 @@ public class Client extends User {
     }
     
     // Genera el password:
-    private void generatePassword() {
+    private void generateClientPassword() {
         this.clientPassword = new Password(10);
     }
     
