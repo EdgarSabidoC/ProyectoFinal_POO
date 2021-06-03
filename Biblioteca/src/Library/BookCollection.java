@@ -17,7 +17,7 @@ public class BookCollection {
     } 
     
     // Getters:
-    public String getName() {
+    public String getCollectionName() {
         return collectionName;
     }
 
@@ -26,7 +26,7 @@ public class BookCollection {
     }
     
     // Setters:
-    public void setName(String collectionName) {
+    public void setCollectionName(String collectionName) {
         this.collectionName = collectionName;
     }
 
@@ -39,7 +39,7 @@ public class BookCollection {
     public String isAvailable(Book book) {
         for(Book element : bookList) {
             if(element.isBorrowed() == false) {
-                return "Collection: " + collectionName + "\n" + element.toString();
+                return "Collection: " + getCollectionName() + "\n" + element.toString();
             }
         }
         System.out.println("No hay libros disponibles actualmente.");

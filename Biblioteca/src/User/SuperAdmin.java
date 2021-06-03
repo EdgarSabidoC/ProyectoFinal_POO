@@ -13,7 +13,7 @@ public final class SuperAdmin extends Admin {
     public SuperAdmin(String name, String firstLastName, String secondLastName) {
         super(name, firstLastName, secondLastName);
         generateRootID(); // Se genera el ID del root.
-        generatePassword(); // Se genera la contraseña de 20 chars.
+        generateRootPassword(); // Se genera la contraseña de 20 chars.
     }
     
     // Genera el ID del SuperAdmin(root):
@@ -22,7 +22,7 @@ public final class SuperAdmin extends Admin {
     }
     
     // Genera el password:
-    private void generatePassword() {
+    private void generateRootPassword() {
         SuperAdmin.rootPassword = new Password(20);
     }
     
