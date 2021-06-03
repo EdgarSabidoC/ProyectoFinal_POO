@@ -54,7 +54,6 @@ public abstract class User implements Profile {
         setSecondLastName(secondLastName);
     }
     
-    
     // Método toString:
     @Override
     public String toString() {

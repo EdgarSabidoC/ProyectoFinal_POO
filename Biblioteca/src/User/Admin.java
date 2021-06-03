@@ -13,7 +13,7 @@ public class Admin extends User {
     public Admin(String name, String firstLastName, String secondLastName) {
         super(name, firstLastName, secondLastName);
         generateAdminID(); // Se genera el ID del admin.
-        generatePassword(); // Se genera la contraseña de 15 chars.
+        generateAdminPassword(); // Se genera la contraseña de 15 chars.
     }   
     
     // Genera el ID del Admin:
@@ -22,7 +22,7 @@ public class Admin extends User {
     }
     
     // Genera el password:
-    private void generatePassword() {
+    private void generateAdminPassword() {
         this.adminPassword = new Password(15);
     }
     
