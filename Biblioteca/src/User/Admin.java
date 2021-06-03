@@ -12,43 +12,34 @@ public class Admin extends User {
     
     public Admin(String name, String firstLastName, String secondLastName) {
         super(name, firstLastName, secondLastName);
-        setAdminID(UUID.randomUUID());
+        generateAdminID(); // Se genera el ID del admin.
+        generatePassword(); // Se genera la contraseña de 15 chars.
     }   
     
-    // Getters:
-    private UUID getAdminID() {
-        return adminID;
+    // Genera el ID del Admin:
+    private void generateAdminID() {
+        this.adminID = UUID.randomUUID();
     }
     
-    // Setters:
-    private void setAdminID(UUID adminID) {
-        this.adminID = adminID;
+    // Genera el password:
+    private void generatePassword() {
+        this.adminPassword = new Password(15);
     }
     
-    
-    // Métodos concretos:
-    @Override
-    public void rename(String name, String firstLastName, String secondLastName) {
-        super.setName(name);
-        super.setFirstLastName(firstLastName);
-        super.setSecondLastName(secondLastName);
-    }
-    
+    // Métodos concretos:    
     // Verifica que el password del Admin sea correcto:
     @Override
     public boolean authenticate(Password password) {
-        return adminPassword.compare(password);
+        if(password.getLength() == 15) {
+            return this.adminPassword.compare(password);
+        } 
+        System.out.println("ERROR! Tamaño de contraseña no válido.");
+        return false;
     }
 
     // Retorna el número de indentificación del admin:
     @Override
-    public int identity() {
-        return getAdminID().hashCode();
-    }
-
-    // Método toString:
-    @Override
-    public String toString() {
-        return super.toString() + ", adminID: " + getAdminID();
+    public String identity() {
+        return "ADMN-" + this.adminID.hashCode();
     }
 }

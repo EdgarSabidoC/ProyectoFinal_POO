@@ -5,9 +5,6 @@
  */
 package User;
 
-import java.security.SecureRandom;
-import java.util.UUID;
-
 /**
  *
  * @author edgar
@@ -49,7 +46,16 @@ public abstract class User implements Profile {
     public void setSecondLastName(String secondLastName) {
         this.secondLastName = secondLastName;
     }
-
+    
+    // Cambia el nombre completo de un usuario:
+    public void rename(String name, String firstLastName, String secondLastName) {
+        setName(name);
+        setFirstLastName(firstLastName);
+        setSecondLastName(secondLastName);
+    }
+    
+    
+    // Método toString:
     @Override
     public String toString() {
         return "name: " + getName() + ", firstLastName: " + getFirstLastName() + ", secondLastName: " + getSecondLastName();
