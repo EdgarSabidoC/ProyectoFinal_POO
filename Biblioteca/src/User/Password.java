@@ -16,7 +16,7 @@ public class Password {
     private char[] password;
     
     public Password(int length) {
-        setLength(length);
+        this.length = length;
         generatePassword();
     }
     
@@ -31,11 +31,13 @@ public class Password {
 
     // Setters:
     // Modifica el password y su tamaño:
-    public void setLength(int length) {
+    public boolean modifyPassword(int length) {
         if(length >= 10){
             this.length = length;
             generatePassword();
+            return true;
         }
+        return false; // Hubo un error al generar el password.
     }
     
     // Modifica el password:
@@ -65,6 +67,9 @@ public class Password {
     
     // Compara dos passwords y retorna true si los dos passwords son iguales:
     public boolean compare(Password password) {
-        return getPassword().equals(password);
+        if(getPassword().equals(password) == false) {
+            System.out.println("ERROR! Contraseña incorrecta.");
+        }
+        return true;
     }
 }
