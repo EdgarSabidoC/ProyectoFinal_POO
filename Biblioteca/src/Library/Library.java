@@ -51,13 +51,17 @@ public abstract class Library {
     
     // Genera un fichero con el nombre y la extensión designada:
     private void generateFile() {
+        
         if(!getFileName().isEmpty() && !getFileExtension().isEmpty()) {
+            
+            // Se crea el objeto File con el nombre y la extensión:
             File newFile = new File(getFileName() + getFileExtension());
+            
             try{
-                // Se verifica si existe el archivo:
+                // Se verifica si no existe el archivo:
                 if(!(newFile.exists())){
                     
-                    // Se crea el archivo:
+                    // Se crea el archivo en caso de no existir:
                     newFile.createNewFile();
                 }
                 
@@ -70,6 +74,7 @@ public abstract class Library {
                 System.out.println("Error: " + fileError.getMessage());
             }
         }
+        // Si hubo un error en la asignación de nombre o extensión:
         System.out.println("Error al generar el archivo de la base de datos.\n");
     }
     
@@ -112,7 +117,6 @@ public abstract class Library {
                         int bookISBN = Integer.parseInt(split[6].trim());
                         String available = split[7].trim();
                         
-                        // Si el libro está prestado:
                         boolean bookBorrowed = true;
                         
                         // Si el libro está disponible:

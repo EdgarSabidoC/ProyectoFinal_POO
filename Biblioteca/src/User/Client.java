@@ -1,50 +1,40 @@
 package User;
 
 import Library.BookCollection;
-import java.util.UUID;
 
 /**
  *
  * @author edgar
  */
 public class Client extends User {
-    private UUID clientID;
-    private Password clientPassword;
     private BookCollection bookList;
-
-    public Client(String name, String firstLastName, String secondLastName, BookCollection bookList) {
-        super(name, firstLastName, secondLastName);
-        generateClientID(); // Se genera el ID del cliente.
-        generateClientPassword(); // Se genera el password de 10 chars.
+    
+    // Constructor:
+    public Client(String name, String firstLastName, String secondLastName, ID user_ID, 
+                  Password clientPassword, Date last_login, BookCollection bookList) {
+        super(name, firstLastName, secondLastName, user_ID, clientPassword, last_login);
         this.bookList = bookList;
     }
     
-    // Getter:
-    public BookCollection getBookList() {
+    
+    // Getters:
+    protected BookCollection getBookList() {
         return bookList;
     }
+
     
-    // Setter:
-    public void setBookList(BookCollection bookList) {
+    // Setters:
+    protected void setBookList(BookCollection bookList) {
         this.bookList = bookList;
     }
     
-    // Genera el ID del Cliente:
-    private void generateClientID() {
-        this.clientID = UUID.randomUUID();
-    }
-    
-    // Genera el password:
-    private void generateClientPassword() {
-        this.clientPassword = new Password(10);
-    }
     
     // Métodos concretos:
     // Verifica que el password del cliente sea correcto:
     @Override
-    public boolean authenticate(Password password) {
-        if(password.getLength() == 10) {
-            return this.clientPassword.compare(password);
+    public boolean authenticate(char[] password) {
+        if(password.length == 9) {
+            return getPassword().compare(password);
         } 
         System.out.println("ERROR! Tamaño de contraseña no válido.");
         return false;
@@ -53,6 +43,6 @@ public class Client extends User {
     // Retorna el número de indentificación del cliente:
     @Override
     public String identity() {
-        return "CLNT-" + this.clientID.hashCode();
+        return "CLNT-" + super.getUser_ID();
     }
 }
