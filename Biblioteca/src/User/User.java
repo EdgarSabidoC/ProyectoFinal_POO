@@ -9,15 +9,17 @@ public abstract class User implements Profile {
     private String firstLastName;
     private String secondLastName;
     private ID user_ID;
+    private int userNumber;
     private Password password;
     private Date last_login;
     
     // Constructor:
-    public User(String name, String firstLastName, String secondLastName, ID user_ID, Password password, Date last_login) {
+    public User(String name, String firstLastName, String secondLastName, ID user_ID, int userNumber, Password password, Date last_login) {
         this.name = name;
         this.firstLastName = firstLastName;
         this.secondLastName = secondLastName;
         this.user_ID = user_ID;
+        this.userNumber = userNumber;
         this.password = password;
         this.last_login = last_login;
     }
@@ -48,6 +50,9 @@ public abstract class User implements Profile {
         return last_login;
     }
     
+    protected int getUserNumber() {
+        return userNumber;
+    }
     
     // Setters:
     protected void setName(String name) {
@@ -66,6 +71,10 @@ public abstract class User implements Profile {
         this.user_ID = user_ID;
     }
 
+    protected void setUserNumber(int userNumber) {
+        this.userNumber = userNumber;
+    }
+    
     protected void setPassword(Password password) {
         this.password = password;
     }
