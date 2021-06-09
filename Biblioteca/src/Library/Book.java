@@ -31,78 +31,10 @@ public class Book {
     }
     
     // Getters:
-    public String getAuthor() {
-        return author;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getEdition() {
-        return edition;
-    }
-
-    public String getEditorial() {
-        return editorial;
-    }
     
-    public int getNumPages() {
-        return numPages;
-    }
-    
-    public int getISBN() {
-        return ISBN;
-    }
-
-    public boolean isBorrowed() {
-        return borrowed;
-    }
-    
-    public UUID getCode() {
-        return code;
-    }
     
     // Setters:
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setEdition(String edition) {
-        this.edition = edition;
-    }
-
-    public void setEditorial(String editorial) {
-        this.editorial = editorial;
-    }
-    
-    public void setNumPages(int numPages) {
-        this.numPages = numPages;
-    }
-    
-    public void setISBN(int ISBN) {
-        this.ISBN = ISBN;
-    }
-
-    public void setIsBorrowed(boolean borrowed) {
-        this.borrowed = borrowed;
-    }
-    
-    private void setCode(UUID code) {
-        this.code = code;
-    }
+   
     
     // Genera el código del libro:
     private void generateCode(){

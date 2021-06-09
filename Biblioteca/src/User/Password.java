@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package User;
 
 import java.security.SecureRandom;
@@ -12,35 +7,23 @@ import java.security.SecureRandom;
  * @author edgar
  */
 public class Password {
-    private int length;
+    private final int length;
     private char[] password;
     
     public Password(int length) {
         this.length = length;
-        generatePassword();
     }
     
-    // Getter:
-    public int getLength() {
+    // Getters:
+    protected int getLength() {
         return length;
     }
 
-    public char[] getPassword() {
+    protected char[] getPassword() {
         return password;
     }
 
-    // Setters:
-    // Modifica el password y su tamaño:
-    public boolean modifyPassword(int length) {
-        if(length >= 10){
-            this.length = length;
-            generatePassword();
-            return true;
-        }
-        return false; // Hubo un error al generar el password.
-    }
-    
-    // Modifica el password:
+    // Setters:    
     private void setPassword(char[] password){
         this.password = password;
     }
@@ -48,7 +31,7 @@ public class Password {
     // Genera una contraseña aleatoria:
     private void generatePassword() {
         // String constante con los chars para generar la cadena aleatoria:
-        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ$%<>¡!¿?#-_{}[]()/\\abcdefghijklmnopqrstuvwxyz0123456789";
+        final String chars = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ$%<>¡!¿?#-_{}[]()/\\abcdefghijklmnñopqrstuvwxyz0123456789";
  
         SecureRandom random = new SecureRandom();
         StringBuilder sb = new StringBuilder();
@@ -65,9 +48,20 @@ public class Password {
         setPassword(sb.toString().toCharArray()); 
     }
     
-    // Compara dos passwords y retorna true si los dos passwords son iguales:
-    public boolean compare(Password password) {
-        if(getPassword().equals(password) == false) {
+    // Modifica el password y su tamaño:
+    public boolean createNewPassword() {
+        if(length >= 9){
+            generatePassword();
+            return true;
+        }
+        return false; // Hubo un error al generar el password.
+    }
+    
+    // Compara dos passwords y retorna true si los dos passwords son iguales.
+    // ENTRADA: Arreglo de chars.
+    // SALIDA: true si los passwords son iguales, false si no.
+    public boolean compare(char[] password) {
+        if(getPassword().equals(String.valueOf(password)) == false) {
             System.out.println("ERROR! Contraseña incorrecta.");
         }
         return true;
