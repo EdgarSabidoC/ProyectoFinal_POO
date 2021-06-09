@@ -11,8 +11,9 @@ public class Client extends User {
     
     // Constructor:
     public Client(String name, String firstLastName, String secondLastName, ID user_ID, 
-                  Password clientPassword, Date last_login, BookCollection bookList) {
-        super(name, firstLastName, secondLastName, user_ID, clientPassword, last_login);
+                  int userNumber, Password clientPassword, Date last_login, BookCollection bookList) {
+        
+        super(name, firstLastName, secondLastName, user_ID, userNumber, clientPassword, last_login);
         this.bookList = bookList;
     }
     

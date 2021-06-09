@@ -4,21 +4,21 @@ package User;
  *
  * @author edgar
  */
-public final class SuperAdmin extends Admin implements AdminManagement {
+public final class SuperAdmin extends Admin {
     
     // Constructor:
-    public SuperAdmin(String name, String firstLastName, String secondLastName, ID user_ID, Password rootPassword, Date last_login) {
-        super(name, firstLastName, secondLastName, user_ID, rootPassword, last_login);
+    public SuperAdmin(String name, String firstLastName, String secondLastName, ID user_ID, 
+                      int userNumber, Password rootPassword, Date last_login) {
+        
+        super(name, firstLastName, secondLastName, user_ID, userNumber, rootPassword, last_login);
     }
     
     // Agrega un nuevo admin:
-    @Override
     public boolean addAdmin(Admin admin) {
         return false;
     }
     
     // Elimina un admin:
-    @Override
     public boolean deleteAdmin(String admin_ID) {
         return false;
     }

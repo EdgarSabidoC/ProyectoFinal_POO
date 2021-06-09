@@ -7,20 +7,19 @@ import Library.Magazine;
  *
  * @author edgar
  */
-public class Admin extends User implements ClientManagement {
+public class Admin extends User {
 
-    public Admin(String name, String firstLastName, String secondLastName, ID user_ID, Password adminPassword, Date last_login) {
-        super(name, firstLastName, secondLastName, user_ID, adminPassword, last_login);
+    public Admin(String name, String firstLastName, String secondLastName, ID user_ID, 
+                 int userNumber , Password adminPassword, Date last_login) {
+        super(name, firstLastName, secondLastName, user_ID, userNumber, adminPassword, last_login);
     }
     
     // Agrega un nuevo usuario:
-    @Override
     public boolean addClient(Client client) {
         return false;
     }
     
     // Elimina un usuario:
-    @Override
     public boolean deleteClient(String client_ID) {
         return false;
     }
