@@ -37,9 +37,9 @@ public class BookCollection {
     
     // Verifica si hay libros disponibles dentro de la colección:
     public String isAvailable(Book book) {
-        for(Book book : bookList) {
-            if(book.isBorrowed() == false) {
-                return "Collection: " + getCollectionName() + "\n" + element.toString();
+        for(int i = 0; i < bookList.size(); i++) {
+            if(bookList.get(i).isBorrowed() == false) {
+                return "Colección: " + getCollectionName() + "\n" + bookList.get(i).toString();
             }
         }
         System.out.println("No hay libros disponibles actualmente.");

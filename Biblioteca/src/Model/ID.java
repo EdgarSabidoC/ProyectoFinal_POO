@@ -10,29 +10,44 @@ import java.util.Random;
 public class ID {
     private String mode;
     private int length;
-    private User user;
-
-    public ID(String mode, int length, User user) {
+    
+    public ID(String mode, int length) {
         this.mode = mode;
         this.length = length;
-        this.user = user;
     }
     
+    // Getters:
+    public String getMode() {
+        return mode;
+    }
+
+    public int getLength() {
+        return length;
+    }
+    
+    // Setters:
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+    
+
     // Genera un ID aleatorio.
     // SALIDA: Una cadena aleatoria. 
     // Retorna null si el número de usuario es mayor a 9999
     // o si es menor a 0.
-    public char[] generateID() {
+    public char[] generateID(char[] str, int number) {
         char[] _base64chars = "0123456789ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz".toCharArray();
         
-        if(user.getUserNumber() < 0 || user.getUserNumber() > 9999) {
+        if(number < 0 || number > 9999) {
             System.out.println("Error! Númer de usuario no válido");
             return null;
         }
         
         Random _random = new Random();
-        
-        char[] nm = {user.getName().charAt(0), user.getFirstLastName().charAt(0), user.getSecondLastName().charAt(0)};
         
         StringBuilder sb = null;
         
@@ -56,7 +71,7 @@ public class ID {
         char[] ID = null;
         
         if(sb != null) {
-            ID = (LocalDate.now().getYear()%100+ new String(nm)+String.format("%04d", user.getUserNumber())+sb.toString()).toCharArray();   
+            ID = (LocalDate.now().getYear()%100+ new String(str)+String.format("%04d", number)+sb.toString()).toCharArray();   
         }        
         return ID;
     }

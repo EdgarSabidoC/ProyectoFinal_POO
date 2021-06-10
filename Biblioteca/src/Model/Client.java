@@ -28,6 +28,23 @@ public class Client extends User {
     }
     
     
+    // Permite apartar un libro:
+    public boolean bookABook(Book book) {
+        
+        if(book == null) {
+            return false;
+        }
+        
+        // Se cambia el libro y se coloca como prestado:
+        book.setBorrowed(true);
+        
+        
+        
+        
+        return true;
+    }
+    
+    
     // Métodos concretos:
     // Verifica que el password del cliente sea correcto:
     @Override

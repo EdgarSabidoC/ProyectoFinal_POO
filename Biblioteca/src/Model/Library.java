@@ -10,25 +10,19 @@ import java.util.ArrayList;
  *
  * @author edgar
  */
-public abstract class Library {
+public class Library {
     private String fileName;
-    private String fileExtension;
     private File file;
     
     // Constructor:
-    public Library(String fileName, String fileExtension) {
+    public Library(String fileName, File file) {
         this.fileName = fileName;
-        this.fileExtension = fileExtension;
-        generateFile();
+        this.file = file;
     }
     
     // Getters:
     public String getFileName() {
         return fileName;
-    }
-
-    public String getFileExtension() {
-        return fileExtension;
     }
 
     public File getFile() {
@@ -40,43 +34,10 @@ public abstract class Library {
         this.fileName = fileName;
     }
 
-    public void setFileExtension(String fileExtension) {
-        this.fileExtension = fileExtension;
-    }
-
     public void setFile(File file) {
         this.file = file;
     }
     
-    
-    // Genera un fichero con el nombre y la extensión designada:
-    private void generateFile() {
-        
-        if(!getFileName().isEmpty() && !getFileExtension().isEmpty()) {
-            
-            // Se crea el objeto File con el nombre y la extensión:
-            File newFile = new File(getFileName() + getFileExtension());
-            
-            try{
-                // Se verifica si no existe el archivo:
-                if(!(newFile.exists())){
-                    
-                    // Se crea el archivo en caso de no existir:
-                    newFile.createNewFile();
-                }
-                
-                // Se asigna el archivo al atributo:
-                setFile(newFile);
-                
-            } catch(IOException fileError) {
-                
-                // Si hubo un error al generar el archivo:
-                System.out.println("Error: " + fileError.getMessage());
-            }
-        }
-        // Si hubo un error en la asignación de nombre o extensión:
-        System.out.println("Error al generar el archivo de la base de datos.\n");
-    }
     
     // Busca una cadena dentro de un archivo y retorna una lista con los libros que coincidan
     // en alguno de sus atributos con la cadena, si no hay ninguno, retorna una lista vacía:
@@ -88,7 +49,7 @@ public abstract class Library {
         // Se verifica si existe el archivo:
         if(!(getFile().exists())) {
             // Si no existe el archivo:
-            System.out.println("Error, no se encontró el archivo " + getFileName() + getFileExtension() + "\n");
+            System.out.println("Error, no se encontró el archivo " + getFileName() + "\n");
         } else {  
             // Si el archivo existe:
             try{
@@ -108,14 +69,15 @@ public abstract class Library {
                         
                         // Se quitan los espacios al inicio y al final de los tokens (por si hay) con String.trim()
                         // También se hace parsing para cambiar el tipo de dato al del atributo correspondiente del libro.
-                        String bookAuthor = split[0].trim();
-                        int bookYear = Integer.parseInt(split[1].trim());
-                        String bookTitle = split[2].trim();
-                        String bookEdition = split[3].trim();
-                        String bookEditorial = split[4].trim();
-                        int bookPages = Integer.parseInt(split[5].trim());
-                        int bookISBN = Integer.parseInt(split[6].trim());
-                        String available = split[7].trim();
+                        char[] bookID = (split[0].trim()).toCharArray();
+                        String bookAuthor = split[1].trim();
+                        int bookYear = Integer.parseInt(split[2].trim());
+                        String bookTitle = split[3].trim();
+                        String bookEdition = split[4].trim();
+                        String bookEditorial = split[5].trim();
+                        int bookPages = Integer.parseInt(split[6].trim());
+                        int bookISBN = Integer.parseInt(split[7].trim());
+                        String available = split[8].trim();
                         
                         boolean bookBorrowed = true;
                         
@@ -126,7 +88,7 @@ public abstract class Library {
                         
                         // Se ingresa el libro a la lista de libros:
                         listOfBooks.add(new Book(bookAuthor, bookYear, bookTitle, bookEdition, 
-                                        bookEditorial, bookPages, bookISBN, bookBorrowed));
+                                        bookEditorial, bookPages, bookISBN, bookID, bookBorrowed));
                     }
                 }   
             } catch(IOException fileError) {
