@@ -1,7 +1,4 @@
-package User;
-
-import Library.Book;
-import Library.Magazine;
+package Model;
 
 /**
  *
@@ -35,16 +32,6 @@ public class Admin extends User {
         return false;
     }
     
-    // Agrega un Magazine a MagazineLibrary:
-    public boolean addMagazine(Magazine magazine) {
-        return false;
-    }
-    
-    // Elimina un Magazine de MagazineLibrary:
-    public boolean deleteMagazine(String magazine_ID) {
-        return false;
-    }
-    
     
     // Métodos concretos:    
     // Verifica que el password del Admin sea correcto:
@@ -60,6 +47,6 @@ public class Admin extends User {
     // Retorna la indentificación del admin:
     @Override
     public String identity() {
-        return "ADMN-" + super.getUser_ID();
+        return "ADMN-" + getUser_ID();
     }
 }

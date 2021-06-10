@@ -1,4 +1,4 @@
-package Library;
+package Model;
 
 import java.util.UUID;
 

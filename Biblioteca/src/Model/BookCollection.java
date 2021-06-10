@@ -1,4 +1,4 @@
-package Library;
+package Model;
 
 import java.util.ArrayList;
 
@@ -37,8 +37,8 @@ public class BookCollection {
     
     // Verifica si hay libros disponibles dentro de la colección:
     public String isAvailable(Book book) {
-        for(Book element : bookList) {
-            if(element.isBorrowed() == false) {
+        for(Book book : bookList) {
+            if(book.isBorrowed() == false) {
                 return "Collection: " + getCollectionName() + "\n" + element.toString();
             }
         }

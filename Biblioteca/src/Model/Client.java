@@ -1,6 +1,4 @@
-package User;
-
-import Library.BookCollection;
+package Model;
 
 /**
  *
