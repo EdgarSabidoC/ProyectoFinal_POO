@@ -8,38 +8,56 @@ import java.util.ArrayList;
  */
 public class BookCollection {
     
-    private String collectionName;
     private ArrayList<Book> bookList;
+    private String listOfElements;
 
-    public BookCollection(String collectionName, ArrayList<Book> bookList) {
-        this.collectionName = collectionName;
+    public BookCollection(ArrayList<Book> bookList) {
         this.bookList = bookList;
-    } 
-    
-    // Getters:
-    public String getCollectionName() {
-        return collectionName;
+        generateListOfElements();
     }
 
+    // Getters:
     public ArrayList<Book> getBookList() {
         return bookList;
     }
-    
-    // Setters:
-    public void setCollectionName(String collectionName) {
-        this.collectionName = collectionName;
+
+    public int getNumberOfBooks() {
+        return bookList.size();
     }
 
+    public String getListOfElements() {
+        return listOfElements;
+    }
+
+    // Setters:
     public void setBookList(ArrayList<Book> bookList) {
         this.bookList = bookList;
     }
+
+    public void setListOfElements(String listOfElements) {
+        this.listOfElements = listOfElements;
+    }
     
     
+    // Genera un String con la lista de elementos:
+    private void generateListOfElements() {
+        String elements = "{";
+
+        for (int i = 0; i < getNumberOfBooks(); i++) {
+            // Se añade el (ID,TítuloLibro):
+            elements += "(" + String.valueOf(bookList.get(i).getID().getIDCode()) + ',' + bookList.get(i).getTitle() + ')' + ',';
+        }
+        elements += "}";
+
+        setListOfElements(elements);
+    }
+    
+
     // Verifica si hay libros disponibles dentro de la colección:
     public String isAvailable(Book book) {
-        for(Book book : bookList) {
-            if(book.isBorrowed() == false) {
-                return "Collection: " + getCollectionName() + "\n" + element.toString();
+        for (int i = 0; i < bookList.size(); i++) {
+            if (bookList.get(i).isBorrowed() == false) {
+                return "Colección: "  + getListOfElements();
             }
         }
         System.out.println("No hay libros disponibles actualmente.");
