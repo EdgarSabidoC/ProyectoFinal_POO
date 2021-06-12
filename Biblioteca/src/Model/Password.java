@@ -7,8 +7,10 @@ import java.security.SecureRandom;
  * @author edgar
  */
 public class Password {
-    private final int length;
+    private int length;
     private char[] password;
+    
+    public Password(){}
     
     public Password(int length) {
         this.length = length;
@@ -24,8 +26,13 @@ public class Password {
     }
 
     // Setters:    
-    private void setPassword(char[] password){
+    public void setLength(int length) {
+        this.length = length;
+    }
+    
+    protected void setPassword(char[] password){
         this.password = password;
+        setLength(getPassword().length);
     }
 
     // Genera una contraseña aleatoria:

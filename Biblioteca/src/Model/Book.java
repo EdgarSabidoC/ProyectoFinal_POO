@@ -14,10 +14,10 @@ public class Book {
     private int numPages;
     private int ISBN;
     private boolean borrowed;    
-    private char[] ID; // ID único del libro.
+    private ID ID; // ID único del libro.
     
     // Constructor:
-    public Book(String author, int year, String title, String edition, String editorial, int numPages, int ISBN, char[] ID, boolean borrowed) {
+    public Book(String author, int year, String title, String edition, String editorial, int numPages, int ISBN, ID ID, boolean borrowed) {
         this.author = author;
         this.year = year;
         this.title = title;
@@ -63,7 +63,7 @@ public class Book {
         return borrowed;
     }
 
-    public char[] getID() {
+    public ID getID() {
         return ID;
     }
     
@@ -111,7 +111,7 @@ public class Book {
         this.borrowed = borrowed;
     }
 
-    public void setCode(char[] ID) {
+    public void setCode(ID ID) {
         this.ID = ID;
     }
     
@@ -126,12 +126,12 @@ public class Book {
     // Verifica que el entero que se ingresa sea igual al código del libro,
     // retorna True si son iguales y False si no.
     public boolean isValidCode(char[] ID) {
-        return getID().equals(String.valueOf(ID));
+        return getID().getIDCode().equals(String.valueOf(ID));
     }
     
     @Override
     public String toString() {
-        return "ID: " + String.valueOf(getID()) + 
+        return "ID: " + String.valueOf(getID().getIDCode()) + 
                "\nAutor: "+ getAuthor() + 
                "\nAño: " + getYear() + 
                "\nTítulo: " + getTitle() +

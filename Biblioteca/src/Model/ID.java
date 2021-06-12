@@ -10,6 +10,9 @@ import java.util.Random;
 public class ID {
     private String mode;
     private int length;
+    private char[] ID;
+    
+    public ID(){}
     
     public ID(String mode, int length) {
         this.mode = mode;
@@ -17,7 +20,11 @@ public class ID {
     }
     
     // Getters:
-    public String getMode() {
+    public char[] getIDCode() {
+        return ID;
+    }
+    
+    protected String getMode() {
         return mode;
     }
 
@@ -33,7 +40,13 @@ public class ID {
     public void setLength(int length) {
         this.length = length;
     }
-    
+
+    public void setID(char[] ID) {
+        this.ID = ID;
+        setLength(ID.length);
+        setMode("");
+    }
+   
 
     // Genera un ID aleatorio.
     // SALIDA: Una cadena aleatoria. 
@@ -51,7 +64,7 @@ public class ID {
         
         StringBuilder sb = null;
         
-        switch(mode) {
+        switch(getMode()) {
             case "_base64":
                 sb = new StringBuilder(length);
             
@@ -72,7 +85,10 @@ public class ID {
         
         if(sb != null) {
             ID = (LocalDate.now().getYear()%100+ new String(str)+String.format("%04d", number)+sb.toString()).toCharArray();   
-        }        
+        }       
+        
+        setID(ID);
+        
         return ID;
     }
 }

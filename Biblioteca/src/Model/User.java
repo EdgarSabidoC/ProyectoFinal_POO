@@ -8,20 +8,20 @@ public abstract class User implements Profile {
     private String name;
     private String firstLastName;
     private String secondLastName;
-    private ID user_ID;
+    private ID userID;
     private int userNumber;
     private Password password;
-    private Date last_login;
+    private String lastLogin;
     
     // Constructor:
-    public User(String name, String firstLastName, String secondLastName, ID user_ID, int userNumber, Password password, Date last_login) {
+    public User(String name, String firstLastName, String secondLastName, ID userID, int userNumber, Password password, String lastLogin) {
         this.name = name;
         this.firstLastName = firstLastName;
         this.secondLastName = secondLastName;
-        this.user_ID = user_ID;
+        this.userID = userID;
         this.userNumber = userNumber;
         this.password = password;
-        this.last_login = last_login;
+        this.lastLogin = lastLogin;
     }
     
     
@@ -38,16 +38,16 @@ public abstract class User implements Profile {
         return secondLastName;
     }
 
-    protected ID getUser_ID() {
-        return user_ID;
+    protected ID getUserID() {
+        return userID;
     }
     
     protected Password getPassword(){
         return password;
     }
 
-    public Date getLast_login() {
-        return last_login;
+    public String getLastLogin() {
+        return lastLogin;
     }
     
     protected int getUserNumber() {
@@ -67,8 +67,8 @@ public abstract class User implements Profile {
         this.secondLastName = secondLastName;
     }
 
-    protected void setUser_ID(ID user_ID) {
-        this.user_ID = user_ID;
+    protected void setUserID(ID userID) {
+        this.userID = userID;
     }
 
     protected void setUserNumber(int userNumber) {
@@ -79,8 +79,8 @@ public abstract class User implements Profile {
         this.password = password;
     }
     
-    protected void setLast_login(Date last_login) {
-        this.last_login = last_login;
+    protected void setLastLogin(String lastLogin) {
+        this.lastLogin = lastLogin;
     }
     
     

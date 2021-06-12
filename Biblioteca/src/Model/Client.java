@@ -1,45 +1,60 @@
 package Model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author edgar
  */
 public class Client extends User {
-    private BookCollection bookList;
-    
-    // Constructor:
-    public Client(String name, String firstLastName, String secondLastName, ID user_ID, 
-                  int userNumber, Password clientPassword, Date last_login, BookCollection bookList) {
+    private ArrayList<String> bookList;
         
-        super(name, firstLastName, secondLastName, user_ID, userNumber, clientPassword, last_login);
+    // Constructor:
+    public Client(String name, String firstLastName, String secondLastName, ID userID, 
+                  int userNumber, Password clientPassword, String lastLogin, ArrayList<String> bookList) {
+        
+        super(name, firstLastName, secondLastName, userID, userNumber, clientPassword, lastLogin);
         this.bookList = bookList;
     }
     
     
     // Getters:
-    protected BookCollection getBookList() {
+    protected ArrayList<String> getBookList() {
         return bookList;
     }
-
+    
+    // Retorna un string con todos los elementos de la lista de libros
+    // separados por '$'
+    protected String getBookListElements() {
+        String str = "";
+        for(int i = 0; i < getBookList().size(); i++) {
+            str += getBookList().get(i)+'$';
+        }
+        
+        return str;
+    }
+    
     
     // Setters:
-    protected void setBookList(BookCollection bookList) {
+    protected void setBookList(ArrayList<String> bookList) {
         this.bookList = bookList;
     }
     
-    
     // Permite apartar un libro:
-    public boolean bookABook(Book book) {
-        
-        if(book == null) {
+    public boolean bookABook(ArrayList<Book> sourceOfBooks, Book book) {      
+        if(book == null || sourceOfBooks.isEmpty() == true || !(sourceOfBooks.contains(book))) {
             return false;
         }
+       
+        Book tempBook = sourceOfBooks.get(sourceOfBooks.indexOf(book));
+        tempBook.setBorrowed(true); // Se cambia el libro como prestado.
         
-        // Se cambia el libro y se coloca como prestado:
-        book.setBorrowed(true);
+        // Se crea la fecha de devolución:
+        Date date = new Date();
         
-        
-        
+        // Se añade el string a la lista:
+        getBookList().add("(" + String.valueOf(tempBook.getID().getIDCode()) + ',' +
+                          tempBook.getTitle() + ',' + date +')');
         
         return true;
     }
@@ -50,7 +65,7 @@ public class Client extends User {
     @Override
     public boolean authenticate(char[] password) {
         if(password.length == 9) {
-            return getPassword().compare(password);
+            super.getPassword().compare(password);
         } 
         System.out.println("ERROR! Tamaño de contraseña no válido.");
         return false;
@@ -59,6 +74,6 @@ public class Client extends User {
     // Retorna el número de indentificación del cliente:
     @Override
     public String identity() {
-        return "CLNT-" + super.getUser_ID();
+        return "CLNT-" + super.getUserID();
     }
 }
