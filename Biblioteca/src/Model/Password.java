@@ -1,6 +1,7 @@
 package Model;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
 
 /**
  *
@@ -68,7 +69,7 @@ public class Password {
     // ENTRADA: Arreglo de chars.
     // SALIDA: true si los passwords son iguales, false si no.
     public boolean compare(char[] password) {
-        if(getPassword().equals(String.valueOf(password)) == false) {
+        if(Arrays.equals(getPassword(), password) == false) {
             System.out.println("ERROR! Contraseña incorrecta.");
         }
         return true;

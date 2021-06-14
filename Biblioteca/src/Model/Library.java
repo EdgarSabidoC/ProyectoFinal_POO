@@ -148,6 +148,7 @@ public class Library {
         return listOfBooks;
     }
 
+    
     // Carga la información a un arreglo de tipo User (Client o Admin).
     // ENTRADA: Archivo que contiene la información de un User.
     // SALIDA: ArrayList de tipo User con la información correspondiente.
@@ -250,6 +251,7 @@ public class Library {
         return listOfUsers;
     }
 
+    
     // Actualiza el archivo de algún tipo de usuario (Client o Admin):
     // ENTRADA: Un arreglo con la información ya actualizada.
     // SALIDA: Retorna true si la operación fue exitosa, false si no.
@@ -317,6 +319,7 @@ public class Library {
         return false; // No se pudo actualizar el archivo.
     }
 
+    
     // Actualiza un archivo de Book:
     // ENTRADA: Un arreglo con la información ya actualizada.
     // SALIDA: Retorna true si la operación fue exitosa, false si no.
@@ -363,6 +366,7 @@ public class Library {
         return false; // No se pudo actualizar el archivo.
     }
 
+    
     // Busca una cadena dentro de una lista de libros y retorna una lista con los libros que coincidan
     // en Autor, ISBN o Título con la cadena ingresada, si no hay ninguno, retorna una lista vacía:
     public ArrayList<Book> searchBook(ArrayList<Book> sourceOfBooks,String word) {

@@ -45,7 +45,7 @@ public class BookCollection {
 
         for (int i = 0; i < getNumberOfBooks(); i++) {
             // Se añade el (ID,TítuloLibro):
-            elements += "(" + String.valueOf(bookList.get(i).getID().getIDCode()) + ',' + bookList.get(i).getTitle() + ')' + ',';
+            elements += "(" + String.valueOf(bookList.get(i).getID().getCharCode()) + ',' + bookList.get(i).getTitle() + ')' + ',';
         }
         elements += "}";
 

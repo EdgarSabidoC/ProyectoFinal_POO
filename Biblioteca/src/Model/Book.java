@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Arrays;
+
 /**
  *
  * @author edgar
@@ -126,12 +128,12 @@ public class Book {
     // Verifica que el entero que se ingresa sea igual al código del libro,
     // retorna True si son iguales y False si no.
     public boolean isValidCode(char[] ID) {
-        return getID().getIDCode().equals(String.valueOf(ID));
+        return Arrays.equals(getID().getCharCode(), ID);
     }
     
     @Override
     public String toString() {
-        return "ID: " + String.valueOf(getID().getIDCode()) + 
+        return "ID: " + String.valueOf(getID().getCharCode()) + 
                "\nAutor: "+ getAuthor() + 
                "\nAño: " + getYear() + 
                "\nTítulo: " + getTitle() +
