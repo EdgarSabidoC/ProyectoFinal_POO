@@ -27,10 +27,11 @@ public class Client extends User {
     // separados por '$'
     protected String getBookListElements() {
         String str = "";
-        for(int i = 0; i < getBookList().size(); i++) {
+        int i;
+        for(i = 0; i < getBookList().size()-1; i++) {
             str += getBookList().get(i)+'$';
         }
-        
+        str += getBookList().get(i); // El último elemento no lleva separador.
         return str;
     }
     
@@ -53,7 +54,7 @@ public class Client extends User {
         Date date = new Date();
         
         // Se añade el string a la lista:
-        getBookList().add("(" + String.valueOf(tempBook.getID().getIDCode()) + ',' +
+        getBookList().add("(" + String.valueOf(tempBook.getID().getCharCode()) + ',' +
                           tempBook.getTitle() + ',' + date +')');
         
         return true;
@@ -65,7 +66,7 @@ public class Client extends User {
     @Override
     public boolean authenticate(char[] password) {
         if(password.length == 9) {
-            super.getPassword().compare(password);
+            return super.getPassword().compare(password);
         } 
         System.out.println("ERROR! Tamaño de contraseña no válido.");
         return false;

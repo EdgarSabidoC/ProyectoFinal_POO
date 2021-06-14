@@ -5,17 +5,31 @@
  */
 package App;
 
+import Model.Book;
+import Model.User;
+import Model.Client;
+import Model.Admin;
+import java.util.ArrayList;
+
 /**
  *
  * @author edgar
  */
 public class PruebaBiblioteca {
 
+    public static ArrayList<Book> listaLibros = new ArrayList<>();
+    public static ArrayList<User> listaClientes = new ArrayList<>();
+    public static ArrayList<User> listaAdmins = new ArrayList<>();
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        
+        
+        // Se actualizan los archivos:
+        
     }
     
 }

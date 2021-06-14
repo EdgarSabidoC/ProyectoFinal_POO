@@ -1,6 +1,7 @@
 package Model;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Random;
 public class ID {
     private String mode;
     private int length;
-    private char[] ID;
+    private char[] charCode;
     
     public ID(){}
     
@@ -20,8 +21,8 @@ public class ID {
     }
     
     // Getters:
-    public char[] getIDCode() {
-        return ID;
+    public char[] getCharCode() {
+        return charCode;
     }
     
     protected String getMode() {
@@ -41,12 +42,16 @@ public class ID {
         this.length = length;
     }
 
-    public void setID(char[] ID) {
-        this.ID = ID;
-        setLength(ID.length);
+    public void setID(char[] charCode) {
+        this.charCode = charCode;
+        setLength(charCode.length);
         setMode("");
     }
    
+    // Compara dos charCodes:
+    public boolean compareID(char[] charCodeID) {
+        return Arrays.equals(getCharCode(), charCodeID);
+    }
 
     // Genera un ID aleatorio.
     // SALIDA: Una cadena aleatoria. 
