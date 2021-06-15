@@ -14,12 +14,14 @@ public class Book {
     private String edition;
     private String editorial;
     private int numPages;
-    private int ISBN;
+    private String ISBN;
     private boolean borrowed;    
-    private ID ID; // ID único del libro.
+    private ID ID;
+    private String returnDate;
     
     // Constructor:
-    public Book(String author, int year, String title, String edition, String editorial, int numPages, int ISBN, ID ID, boolean borrowed) {
+    public Book(String author, int year, String title, String edition, String editorial, 
+                int numPages, String ISBN, ID ID, boolean borrowed, String returnDate) {
         this.author = author;
         this.year = year;
         this.title = title;
@@ -29,6 +31,7 @@ public class Book {
         this.ISBN = ISBN;
         this.ID = ID;
         this.borrowed = borrowed;
+        this.returnDate = returnDate;
     }
     
     
@@ -57,7 +60,7 @@ public class Book {
         return numPages;
     }
 
-    public int getISBN() {
+    public String getISBN() {
         return ISBN;
     }
 
@@ -78,7 +81,11 @@ public class Book {
         
         return availability;
     }
-    
+
+    public String getReturnDate() {
+        return returnDate;
+    }
+
     
     // Setters:
     public void setAuthor(String author) {
@@ -105,7 +112,7 @@ public class Book {
         this.numPages = numPages;
     }
 
-    public void setISBN(int ISBN) {
+    public void setISBN(String ISBN) {
         this.ISBN = ISBN;
     }
 
@@ -124,6 +131,14 @@ public class Book {
             setBorrowed(false);
         }
     }
+
+    public void setReturnDate(String returnDate) {
+        this.returnDate = returnDate;
+    }
+
+    public void setID(ID ID) {
+        this.ID = ID;
+    }
     
     // Verifica que el entero que se ingresa sea igual al código del libro,
     // retorna True si son iguales y False si no.
@@ -141,6 +156,7 @@ public class Book {
                "\nEditorial: " + getEditorial() +
                "\nPag: " + getNumPages() +
                "\nISBN: " + getISBN() +
-               "\nDisponibilidad: " + getAvailability();
+               "\nDisponibilidad: " + getAvailability() +
+               "\nFecha de devolución: " + getReturnDate();
     }
 }

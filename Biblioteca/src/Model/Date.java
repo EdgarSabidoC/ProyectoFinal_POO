@@ -15,7 +15,9 @@ public class Date {
     private LocalDateTime dateTime;
 
     public Date() {
-       setDate(LocalDate.now());    
+       setDate(LocalDate.now());
+       setTime(LocalTime.now());
+       setDateTime(LocalDateTime.now());
     }
     
     public Date(int day, int month, int year) {
@@ -52,6 +54,7 @@ public class Date {
         setDateTime(LocalDateTime.of(year, month, day, hour, minute, second));
     }
     
+    // Setters:
     private void setDate(LocalDate date) {
         this.date = date;
     }
@@ -63,9 +66,18 @@ public class Date {
     private void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
-
+    
+    // Getters:
     public LocalDate getDate() {
         return date;
+    }
+    
+    public LocalDate getDateAfter(int days) {
+        return date.plusDays(days);
+    }
+    
+    public LocalDate getDateAfterSeven() {
+        return date.plusDays(7);
     }
     
     public LocalTime getTime() {
@@ -79,6 +91,20 @@ public class Date {
     public String getDateS() {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String dateF = this.date.format(dateFormat);
+        return dateF;
+    }
+    
+    public String getDateAfterS(int days) {
+        LocalDate dateA = date.plusDays(days);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dateF = dateA.format(dateFormat);
+        return dateF;
+    }
+    
+    public String getDateAfterSevenS() {
+        LocalDate dateA = date.plusDays(7);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dateF = dateA.format(dateFormat);
         return dateF;
     }
 

@@ -19,19 +19,20 @@ public class Client extends User {
     
     
     // Getters:
-    protected ArrayList<String> getBookList() {
+    public ArrayList<String> getBookList() {
         return bookList;
     }
     
     // Retorna un string con todos los elementos de la lista de libros
     // separados por '$'
-    protected String getBookListElements() {
-        String str = "";
+    public String getBookListElements() {
         int i;
-        for(i = 0; i < getBookList().size()-1; i++) {
-            str += getBookList().get(i)+'$';
+        String str = "";
+        for(i = 0; i < getBookList().size()-1; i ++) {
+            str += getBookList().get(i)+ "$";
         }
-        str += getBookList().get(i); // El último elemento no lleva separador.
+        str += getBookList().get(i);
+        
         return str;
     }
     
@@ -41,23 +42,15 @@ public class Client extends User {
         this.bookList = bookList;
     }
     
-    // Permite apartar un libro:
-    public boolean bookABook(ArrayList<Book> sourceOfBooks, Book book) {      
-        if(book == null || sourceOfBooks.isEmpty() == true || !(sourceOfBooks.contains(book))) {
-            return false;
+    
+    // Elimina un libro de la lista de libros:
+    public void removeBook(Book book) {
+        for(int i = 0; i < getBookList().size(); i++) {
+            if(getBookList().get(i).equals(String.valueOf(book.getID().getCharCode()))) {
+                getBookList().remove(i);
+                break;
+            }
         }
-       
-        Book tempBook = sourceOfBooks.get(sourceOfBooks.indexOf(book));
-        tempBook.setBorrowed(true); // Se cambia el libro como prestado.
-        
-        // Se crea la fecha de devolución:
-        Date date = new Date();
-        
-        // Se añade el string a la lista:
-        getBookList().add("(" + String.valueOf(tempBook.getID().getCharCode()) + ',' +
-                          tempBook.getTitle() + ',' + date +')');
-        
-        return true;
     }
     
     
@@ -66,7 +59,7 @@ public class Client extends User {
     @Override
     public boolean authenticate(char[] password) {
         if(password.length == 9) {
-            return super.getPassword().compare(password);
+            return super.getUserPassword().compare(password);
         } 
         System.out.println("ERROR! Tamaño de contraseña no válido.");
         return false;
@@ -75,6 +68,7 @@ public class Client extends User {
     // Retorna el número de indentificación del cliente:
     @Override
     public String identity() {
-        return "CLNT-" + super.getUserID();
+        return "CLNT-" + String.valueOf(super.getUserID().getCharCode()) + 
+               "\nElments: " + getBookList();
     }
 }

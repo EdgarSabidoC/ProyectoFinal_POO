@@ -14,26 +14,26 @@ import java.util.ArrayList;
  */
 public class Library {
 
+    private ArrayList<Book> booksList;
+    private ArrayList<User> clientsList;
+    private ArrayList<User> adminsList;
     private File clientsFile;
     private File adminsFile;
     private File booksFile;
-    private int numberOfClients;
-    private int numberOfAdmins;
-    private int numberOfBooks;
 
     // Constructores:
     public Library() {
     }
 
-    public Library(File clientsFile, File adminsFile, File booksFile, int numberOfClients,
-        int numberOfAdmins, int numberOfBooks) {
-
+    public Library(ArrayList<User> adminsList, ArrayList<User> clientsList,
+        ArrayList<Book> booksList, File adminsFile, File clientsFile,
+        File booksFile) {
+        this.booksList = booksList;
+        this.clientsList = clientsList;
+        this.adminsList = adminsList;
         this.clientsFile = clientsFile;
         this.adminsFile = adminsFile;
         this.booksFile = booksFile;
-        this.numberOfClients = numberOfClients;
-        this.numberOfAdmins = numberOfAdmins;
-        this.numberOfBooks = numberOfBooks;
     }
 
     // Getters:
@@ -49,19 +49,43 @@ public class Library {
         return booksFile;
     }
 
+    public ArrayList<Book> getBooksList() {
+        return booksList;
+    }
+
+    public ArrayList<User> getClientsList() {
+        return clientsList;
+    }
+
+    public ArrayList<User> getAdminsList() {
+        return adminsList;
+    }
+
     public int getNumberOfClients() {
-        return numberOfClients;
+        return getClientsList().size();
     }
 
     public int getNumberOfAdmins() {
-        return numberOfAdmins;
+        return getAdminsList().size();
     }
 
     public int getNumberOfBooks() {
-        return numberOfBooks;
+        return getBooksList().size();
     }
 
     // Setters:
+    public void setBooksList(ArrayList<Book> booksList) {
+        this.booksList = booksList;
+    }
+
+    public void setClientsList(ArrayList<User> clientsList) {
+        this.clientsList = clientsList;
+    }
+
+    public void setAdminsList(ArrayList<User> adminsList) {
+        this.adminsList = adminsList;
+    }
+
     public void setClientsFile(File clientsFile) {
         this.clientsFile = clientsFile;
     }
@@ -74,38 +98,69 @@ public class Library {
         this.booksFile = booksFile;
     }
 
-    public void setNumberOfClients(int numberOfClients) {
-        this.numberOfClients = numberOfClients;
+    
+    // Devuelve un libro:
+    // SALIDA: Retorna true si la operación fue exitosa, false si no.
+    public boolean returnABook(Client client, Book book) {
+        
+        if(!(getBooksList().contains(book)) || !(getClientsList().contains(client))) {
+            // Si en las listas no se encuentra el libro o el cliente:
+            return false;
+        }
+        
+        // Se cambia la fecha de devolución a N/A:
+         getBooksList().get(getBooksList().indexOf(book)).setReturnDate("N/A");
+        
+        // Se cambia el estado de prestado del libro:
+        getBooksList().get(getBooksList().indexOf(book)).setBorrowed(false);
+        
+        // Se elimina el libro de la colección del cliente:
+        int clientIndex = getClientsList().indexOf(client);
+       ((Client) getClientsList().get(clientIndex)).removeBook(book);
+        
+        return true;
     }
-
-    public void setNumberOfAdmins(int numberOfAdmins) {
-        this.numberOfAdmins = numberOfAdmins;
+    
+    
+    // Reserva un libro.
+    // SALIDA: Retorna true si la operación fue exitosa, false si no.
+    public boolean bookABook(Client client, Book book) {
+        
+        if(!(getBooksList().contains(book)) || !(getClientsList().contains(client))) {
+            // Si en las listas no se encuentra el libro o el cliente:
+            return false;
+        }
+        
+        
+        // Se agrega la fecha de devolución al libro:
+        getBooksList().get(getBooksList().indexOf(book)).setReturnDate(new Date().getDateAfterSevenS());
+        
+        // Se cambia el estado de prestado del libro:
+        getBooksList().get(getBooksList().indexOf(book)).setBorrowed(true);
+        
+        // Se añade el libro a la colección del cliente:
+        ((Client) getClientsList().get(getClientsList().indexOf(client))).getBookList().add(String.valueOf(book.getID().getCharCode()));
+        
+        return true;
     }
-
-    public void setNumberOfBooks(int numberOfBooks) {
-        this.numberOfBooks = numberOfBooks;
-    }
-
     
     // Carga la información a un arreglo de tipo Book.
-    // ENTRADA: Archivo que contiene la información de un User.
-    // SALIDA: ArrayList de tipo Book con la información correspondiente.
-    public ArrayList<Book> loadInfoFromBooksFile(File file) {
-        ArrayList<Book> listOfBooks = new ArrayList<>();
+    // SALIDA: Retorna true si la operación fue exitosa, false si no.
+    public boolean loadInfoFromBooksFile() {
 
         // Se verifica si existe el archivo:
-        if (!(file.exists())) {
+        if (!(getBooksFile().exists())) {
             // Si no existe el archivo:
-            System.out.println("Error, no se encontró el archivo " + file.getName() + "\n");
+            System.out.println("Error, no se encontró el archivo " + getBooksFile().getName() + "\n");
         } else {
             // Si el archivo existe:
             try {
                 // Se lee el archivo:
-                BufferedReader inputFile = new BufferedReader(new FileReader(file));
+                BufferedReader inputFile = new BufferedReader(new FileReader(getBooksFile()));
                 String line; // Variable temporal para almacenar la línea del archivo.
 
                 // Si es un archivo de libros:
-                if (file.getName().contains("Books") == true) {
+                if (getBooksFile().getName().contains("Books") == true) {
 
                     // Se recorre todo el archivo línea por línea:
                     while ((line = inputFile.readLine()) != null) {
@@ -122,208 +177,230 @@ public class Library {
                         String edition = split[4].trim();
                         String editorial = split[5].trim();
                         int numPages = Integer.parseInt(split[6].trim());
-                        int ISBN = Integer.parseInt(split[7].trim());
+                        String ISBN = split[7].trim();
                         String availability = split[8].trim();
+                        String returnDate = split[9].trim();
                         
                         // Se configura la disponibilidad del libro:
-                        boolean borrowed = true;                         
-                        if(availability.equals("Disponible") == true) {
+                        boolean borrowed = true;
+                        if (availability.equals("Disponible") == true) {
                             borrowed = false;
-                        } 
-                        
+                        }
+
                         // Se crea el ID del libro:
                         ID ID = new ID();
                         ID.setID(arrayID);
 
                         // Se ingresa el libro a la lista de libros:
-                        listOfBooks.add(new Book(author, year, title, edition, editorial, numPages, ISBN, ID, borrowed));
-                    } 
+                        getBooksList().add(new Book(author, year, title, edition, editorial, numPages, ISBN, ID, borrowed, returnDate));
+                    }
                 }
                 inputFile.close(); // Se cierra el archivo.
+                return true;
             } catch (IOException fileError) {
                 // Si hubo un error al leer el archivo:
                 System.out.println("Error: " + fileError.getMessage());
             }
         }
-        return listOfBooks;
+        return false;
     }
 
-    
-    // Carga la información a un arreglo de tipo User (Client o Admin).
-    // ENTRADA: Archivo que contiene la información de un User.
-    // SALIDA: ArrayList de tipo User con la información correspondiente.
-    public ArrayList<User> loadInfoFromAUsersFile(File file) {
+    // Carga la información del archivo admins al ArrayList de admins.
+    // SALIDA: Retorna true si la operación fue exitosa, false si no.
+    public boolean loadInfoFromAdminsFile() {
+        // Se verifica si existe el archivo:
+        if (!(getAdminsFile().exists())) {
+            // Si no existe el archivo:
+            System.out.println("Error, no se encontró el archivo " + getAdminsFile().getName() + "\n");
+        } else {
+            try {
+                // Se lee el archivo:
+                BufferedReader inputFile = new BufferedReader(new FileReader(getAdminsFile()));
+                String line; // Variable temporal para almacenar la línea del archivo.
 
-        ArrayList<User> listOfUsers = new ArrayList<>();
+                // Se recorre todo el archivo línea por línea:
+                while ((line = inputFile.readLine()) != null) {
+
+                    // Se generan los tokens de los atributos del admin o superadmin:
+                    String[] split = line.split("\\|\\|"); // Utiliza || como separador.                        
+
+                    // Se quitan los espacios al inicio y al final de los tokens (por si hay) con String.trim()
+                    // También se hace parsing para cambiar el tipo de dato al del atributo correspondiente del libro.
+                    int num = Integer.parseInt(split[0].trim());
+                    char[] arrayID = (split[1].trim()).toCharArray();
+                    String name = split[2].trim();
+                    String lastname1 = split[3].trim();
+                    String lastname2 = split[4].trim();
+                    char[] arrayPassword = split[5].trim().toCharArray();
+                    String lastLogin = split[6].trim();
+
+                    // Se crea la contraseña:
+                    Password password = new Password();
+                    password.setPassword(arrayPassword);
+
+                    // Se crea el ID:
+                    ID ID = new ID();
+                    ID.setID(arrayID);
+
+                    // Se ingresa el Admin a la lista de usuarios.
+                    if (num == 0) {
+                        getAdminsList().add(new SuperAdmin(name, lastname1, lastname2, ID, num, password, lastLogin)); // Es SuperAdmin (root).
+                    } else {
+                        getAdminsList().add(new Admin(name, lastname1, lastname2, ID, num, password, lastLogin));
+                    }
+                }
+                inputFile.close(); // Se cierra el archivo.
+                return true;
+            } catch (IOException fileError) {
+                // Si hubo un error al leer el archivo:
+                System.out.println("Error: " + fileError.getMessage());
+            }
+        }
+        return false;
+    }
+    
+    // Carga la información del archivo clientes al ArrayList de clientes.
+    // SALIDA: Retorna true si la operación fue exitosa, false si no.
+    public boolean loadInfoFromClientsFile() {
 
         // Se verifica si existe el archivo:
-        if (!(file.exists())) {
+        if (!(getClientsFile().exists())) {
             // Si no existe el archivo:
-            System.out.println("Error, no se encontró el archivo " + file.getName() + "\n");
+            System.out.println("Error, no se encontró el archivo " + getClientsFile().getName() + "\n");
         } else {
 
             // Si el archivo existe:
             try {
                 // Se lee el archivo:
-                BufferedReader inputFile = new BufferedReader(new FileReader(file));
+                BufferedReader inputFile = new BufferedReader(new FileReader(getClientsFile()));
                 String line; // Variable temporal para almacenar la línea del archivo.
 
-                // Si es un archivo de clientes:
-                if (file.getName().contains("Clients") == true) {
+                // Se recorre todo el archivo línea por línea:
+                while ((line = inputFile.readLine()) != null) {
 
-                    // Se recorre todo el archivo línea por línea:
-                    while ((line = inputFile.readLine()) != null) {
+                    // Se generan los tokens de los atributos del cliente:
+                    String[] split = line.split("\\|\\|"); // Utiliza || como separador.                        
 
-                        // Se generan los tokens de los atributos del cliente:
-                        String[] split = line.split("\\|\\|"); // Utiliza || como separador.                        
+                    // Se quitan los espacios al inicio y al final de los tokens (por si hay) con String.trim()
+                    // También se hace parsing para cambiar el tipo de dato al del atributo correspondiente del cliente.
+                    int num = Integer.parseInt(split[0].trim());
+                    char[] arrayID = (split[1].trim()).toCharArray();
+                    String name = split[2].trim();
+                    String lastname1 = split[3].trim();
+                    String lastname2 = split[4].trim();
+                    char[] arrayPassword = split[5].trim().toCharArray();
+                    String lastLogin = split[6].trim();
+                    String books = split[7].trim();
 
-                        // Se quitan los espacios al inicio y al final de los tokens (por si hay) con String.trim()
-                        // También se hace parsing para cambiar el tipo de dato al del atributo correspondiente del cliente.
-                        int num = Integer.parseInt(split[0].trim());
-                        char[] arrayID = (split[1].trim()).toCharArray();
-                        String name = split[2].trim();
-                        String lastname1 = split[3].trim();
-                        String lastname2 = split[4].trim();
-                        char[] arrayPassword = split[5].trim().toCharArray();
-                        String lastLogin = split[6].trim();
-                        String books = split[7].trim();
+                    // Se crea la contraseña:
+                    Password password = new Password();
+                    password.setPassword(arrayPassword);
 
-                        // Se crea la contraseña:
-                        Password password = new Password();
-                        password.setPassword(arrayPassword);
+                    // Se crea el ID:
+                    ID ID = new ID();
+                    ID.setID(arrayID);
 
-                        // Se crea el ID:
-                        ID ID = new ID();
-                        ID.setID(arrayID);
-                        
-                        // Se crea la lista de libros:
-                        String[] splitBooks = books.split("$");
-                        ArrayList<String> listOfBooks = new ArrayList<>();
-                        
-                        for(int i = 0; i < splitBooks.length; i++) {
-                            listOfBooks.add(splitBooks[i]);
-                        }
-                        
-                        // Se ingresa el cliente a la lista de usuarios:
-                        listOfUsers.add(new Client(name, lastname1, lastname2, ID, num, password, lastLogin, listOfBooks));
+                    // Se crea la lista de libros:
+                    String[] splitBooks = books.split("$");
+                    ArrayList<String> listOfBooks = new ArrayList<>();
+
+                    for (int i = 0; i < splitBooks.length; i++) {
+                        listOfBooks.add(splitBooks[i]);
                     }
-                } // Si es un archivo de admins:
-                else if (file.getName().contains("Admins") == true) {
-                    // Se recorre todo el archivo línea por línea:
-                    while ((line = inputFile.readLine()) != null) {
 
-                        // Se generan los tokens de los atributos del admin o superadmin:
-                        String[] split = line.split("\\|\\|"); // Utiliza || como separador.                        
-
-                        // Se quitan los espacios al inicio y al final de los tokens (por si hay) con String.trim()
-                        // También se hace parsing para cambiar el tipo de dato al del atributo correspondiente del libro.
-                        int num = Integer.parseInt(split[0].trim());
-                        char[] arrayID = (split[1].trim()).toCharArray();
-                        String name = split[2].trim();
-                        String lastname1 = split[3].trim();
-                        String lastname2 = split[4].trim();
-                        char[] arrayPassword = split[5].trim().toCharArray();
-                        String lastLogin = split[6].trim();
-
-                        // Se crea la contraseña:
-                        Password password = new Password();
-                        password.setPassword(arrayPassword);
-
-                        // Se crea el ID:
-                        ID ID = new ID();
-                        ID.setID(arrayID);
-
-                        // Se ingresa el Admin a la lista de usuarios.
-                        if (num == 0) {
-                            listOfUsers.add(new SuperAdmin(name, lastname1, lastname2, ID, num, password, lastLogin)); // Es SuperAdmin (root).
-                        } else {
-                            listOfUsers.add(new Admin(name, lastname1, lastname2, ID, num, password, lastLogin));
-                        }
-                    }
+                    // Se ingresa el cliente a la lista de usuarios:
+                    getClientsList().add(new Client(name, lastname1, lastname2, ID, num, password, lastLogin, listOfBooks));
                 }
                 inputFile.close(); // Se cierra el archivo.
+                return true;
             } catch (IOException fileError) {
                 // Si hubo un error al leer el archivo:
                 System.out.println("Error: " + fileError.getMessage());
             }
         }
-        // Se retorna la lista de clientes (vacía si no contiene ningún cliente):
-        return listOfUsers;
+        return false;
     }
 
-    
-    // Actualiza el archivo de algún tipo de usuario (Client o Admin):
-    // ENTRADA: Un arreglo con la información ya actualizada.
+    // Actualiza el archivo de Admins.
     // SALIDA: Retorna true si la operación fue exitosa, false si no.
-    public boolean updateUsersFile(ArrayList<User> listOfUsers) {
-        try {
-            // Si es la lista de Clientes:
-            if (listOfUsers.get(0) instanceof Client) {
-
-                // Se prepara el fichero para ser sobreescrito:
-                BufferedWriter outputFile = new BufferedWriter(new FileWriter(getClientsFile()));
-
-                setNumberOfClients(listOfUsers.size()); // Se actualiza el número de clientes.
-
-                for (int i = 0; i < listOfUsers.size(); i++) {
-
-                    outputFile.write(listOfUsers.get(i).getUserNumber());  // N°. de cliente.
-                    outputFile.write("\\|\\|");                // Separador.
-                    outputFile.write(String.valueOf(listOfUsers.get(i).getUserID()));  // ID
-                    outputFile.write("\\|\\|");
-                    outputFile.write(listOfUsers.get(i).getName());    // Nombre
-                    outputFile.write("\\|\\|");
-                    outputFile.write(listOfUsers.get(i).getFirstLastName());   // Apellido paterno
-                    outputFile.write("\\|\\|");
-                    outputFile.write(listOfUsers.get(i).getSecondLastName()); // Apellido materno
-                    outputFile.write("\\|\\|");
-                    outputFile.write(String.valueOf(listOfUsers.get(i).getPassword()));  // Contraseña
-                    outputFile.write("\\|\\|");
-                    outputFile.write(listOfUsers.get(i).getLastLogin()); // Último acceso
-                    outputFile.write("\\|\\|");
-                    outputFile.write(((Client) listOfUsers.get(i)).getBookListElements()); // Listado de libros prestados actualmente.              
-                    outputFile.newLine();  // Nueva línea.
-                }
-                outputFile.close(); // Se cierra el fichero.
-            } // Si es la lista de Admins:
-            else if (listOfUsers.get(0) instanceof Admin) {
-
+    public boolean updateAdminsFile() {
+        if (!(getAdminsFile().exists())) {
+            // Si no existe el archivo:
+            System.out.println("Error, no se encontró el archivo " + getAdminsFile().getName() + "\n");
+        } else {
+            try {
                 // Se prepara el fichero para ser sobreescrito:
                 BufferedWriter outputFile = new BufferedWriter(new FileWriter(getAdminsFile()));
 
-                setNumberOfAdmins(listOfUsers.size()); // Se actualiza el número de admins.
+                for (int i = 0; i < getNumberOfAdmins(); i++) {
 
-                for (int i = 0; i < listOfUsers.size(); i++) {
-
-                    outputFile.write(listOfUsers.get(i).getUserNumber());  // N°. de admin.
+                    outputFile.write(getAdminsList().get(i).getUserNumber());  // N°. de admin.
                     outputFile.write("\\|\\|");                // Separador.
-                    outputFile.write(String.valueOf(listOfUsers.get(i).getUserID()));  // ID
+                    outputFile.write(String.valueOf(getAdminsList().get(i).getUserID()));  // ID
                     outputFile.write("\\|\\|");
-                    outputFile.write(listOfUsers.get(i).getName());    // Nombre
+                    outputFile.write(getAdminsList().get(i).getName());    // Nombre
                     outputFile.write("\\|\\|");
-                    outputFile.write(listOfUsers.get(i).getFirstLastName());   // Apellido paterno
+                    outputFile.write(getAdminsList().get(i).getFirstLastName());   // Apellido paterno
                     outputFile.write("\\|\\|");
-                    outputFile.write(listOfUsers.get(i).getSecondLastName()); // Apellido materno
+                    outputFile.write(getAdminsList().get(i).getSecondLastName()); // Apellido materno
                     outputFile.write("\\|\\|");
-                    outputFile.write(String.valueOf(listOfUsers.get(i).getPassword()));  // Contraseña
+                    outputFile.write(String.valueOf(getAdminsList().get(i).getUserPassword()));  // Contraseña
                     outputFile.write("\\|\\|");
-                    outputFile.write(listOfUsers.get(i).getLastLogin()); // Último acceso           
+                    outputFile.write(getAdminsList().get(i).getLastLogin()); // Último acceso           
                     outputFile.newLine();  // Nueva línea.
                 }
-                outputFile.close(); // Se cierra el fichero.
+                outputFile.close(); // Se cierra el fichero
+                return true;
+            } catch (IOException fileError) {
+                System.out.println("Han ocurrido problemas al actualizar el archivo de usuarios: " + fileError.getMessage());
             }
-            return true; // Se actualizó correctamente el archivo.
-        } catch (IOException fileError) {
-            System.out.println("Han ocurrido problemas al actualizar el archivo de usuarios: " + fileError.getMessage());
         }
         return false; // No se pudo actualizar el archivo.
     }
 
-    
-    // Actualiza un archivo de Book:
-    // ENTRADA: Un arreglo con la información ya actualizada.
+    // Actualiza el archivo de clientes.
     // SALIDA: Retorna true si la operación fue exitosa, false si no.
-    public boolean updateBooksFile(ArrayList<Book> listOfBooks) {
+    public boolean updateClientsFile() {
+        if (!(getClientsFile().exists())) {
+            // Si no existe el archivo:
+            System.out.println("Error, no se encontró el archivo " + getClientsFile().getName() + "\n");
+        } else {
+            try {
+
+                // Se prepara el fichero para ser sobreescrito:
+                BufferedWriter outputFile = new BufferedWriter(new FileWriter(getClientsFile()));
+
+                for (int i = 0; i < getNumberOfClients(); i++) {
+
+                    outputFile.write(getClientsList().get(i).getUserNumber());  // N°. de cliente.
+                    outputFile.write("\\|\\|");                // Separador.
+                    outputFile.write(String.valueOf(getClientsList().get(i).getUserID()));  // ID
+                    outputFile.write("\\|\\|");
+                    outputFile.write(getClientsList().get(i).getName());    // Nombre
+                    outputFile.write("\\|\\|");
+                    outputFile.write(getClientsList().get(i).getFirstLastName());   // Apellido paterno
+                    outputFile.write("\\|\\|");
+                    outputFile.write(getClientsList().get(i).getSecondLastName()); // Apellido materno
+                    outputFile.write("\\|\\|");
+                    outputFile.write(String.valueOf(getClientsList().get(i).getUserPassword()));  // Contraseña
+                    outputFile.write("\\|\\|");
+                    outputFile.write(getClientsList().get(i).getLastLogin()); // Último acceso
+                    outputFile.write("\\|\\|");
+                    outputFile.write(((Client) getClientsList().get(i)).getBookListElements()); // Listado de libros prestados actualmente.              
+                    outputFile.newLine();  // Nueva línea.
+                }
+                outputFile.close(); // Se cierra el fichero
+                return true;
+            } catch (IOException fileError) {
+                System.out.println("Han ocurrido problemas al actualizar el archivo de usuarios: " + fileError.getMessage());
+            }
+        }
+        return false; // No se pudo actualizar el archivo.
+    }
+
+    // Actualiza un archivo de Book.
+    // SALIDA: Retorna true si la operación fue exitosa, false si no.
+    public boolean updateBooksFile() {
         // Se verifica si existe el archivo:
         if (!(getBooksFile().exists())) {
             // Si no existe el archivo:
@@ -334,26 +411,24 @@ public class Library {
                 // Se prepara el fichero para ser sobreescrito:
                 BufferedWriter outputFile = new BufferedWriter(new FileWriter(getBooksFile()));
 
-                setNumberOfBooks(listOfBooks.size()); // Se actualiza el número de admins.
-
-                for (int i = 0; i < listOfBooks.size(); i++) {
-                    outputFile.write(String.valueOf(listOfBooks.get(i).getID()));  // ID
+                for (int i = 0; i < getBooksList().size(); i++) {
+                    outputFile.write(String.valueOf(getBooksList().get(i).getID()));  // ID
                     outputFile.write("\\|\\|");                                    // Separador.
-                    outputFile.write(listOfBooks.get(i).getAuthor()); // Autor
+                    outputFile.write(getBooksList().get(i).getAuthor()); // Autor
                     outputFile.write("\\|\\|");
-                    outputFile.write(listOfBooks.get(i).getYear()); // Año
+                    outputFile.write(getBooksList().get(i).getYear()); // Año
                     outputFile.write("\\|\\|");
-                    outputFile.write(listOfBooks.get(i).getTitle()); // Título
+                    outputFile.write(getBooksList().get(i).getTitle()); // Título
                     outputFile.write("\\|\\|");
-                    outputFile.write(listOfBooks.get(i).getEdition()); // Edición
+                    outputFile.write(getBooksList().get(i).getEdition()); // Edición
                     outputFile.write("\\|\\|");
-                    outputFile.write(listOfBooks.get(i).getEditorial()); // Editorial.
+                    outputFile.write(getBooksList().get(i).getEditorial()); // Editorial.
                     outputFile.write("\\|\\|");
-                    outputFile.write(listOfBooks.get(i).getNumPages()); // N°. de páginas.
+                    outputFile.write(getBooksList().get(i).getNumPages()); // N°. de páginas.
                     outputFile.write("\\|\\|");
-                    outputFile.write(listOfBooks.get(i).getISBN()); // ISBN
+                    outputFile.write(getBooksList().get(i).getISBN()); // ISBN
                     outputFile.write("\\|\\|");
-                    outputFile.write(listOfBooks.get(i).getAvailability()); // Disponibilidad
+                    outputFile.write(getBooksList().get(i).getAvailability()); // Disponibilidad
                     outputFile.write("\\|\\|");
                     outputFile.newLine();  // Nueva línea.
                 }
@@ -366,29 +441,28 @@ public class Library {
         return false; // No se pudo actualizar el archivo.
     }
 
-    
     // Busca una cadena dentro de una lista de libros y retorna una lista con los libros que coincidan
     // en Autor, ISBN o Título con la cadena ingresada, si no hay ninguno, retorna una lista vacía:
-    public ArrayList<Book> searchBook(ArrayList<Book> sourceOfBooks,String word) {
-        word.trim(); // Se eliminan los espacios al principio y al final de la palabra.
-        
+    public ArrayList<Book> searchBook(String word) {
+        word = word.trim(); // Se eliminan los espacios al principio y al final de la palabra.
+
         // Se crea la lista de libros vacía:
         ArrayList<Book> listOfBooks = new ArrayList<>();
-        
+
         // Se recorre la lista original de libros:
-        for(int i = 0; i < sourceOfBooks.size(); i++) {
-            if(sourceOfBooks.get(i).getAuthor().equals(word) == true) {
+        for (int i = 0; i < getBooksList().size(); i++) {
+            if (getBooksList().get(i).getAuthor().equals(word) == true) {
                 // Coinciden en autor:
-                listOfBooks.add(sourceOfBooks.get(i));
-            } else if(sourceOfBooks.get(i).getISBN() == Integer.parseInt(word)) {
+                listOfBooks.add(getBooksList().get(i));
+            } else if (getBooksList().get(i).getISBN().equals(word)) {
                 // Coinciden en ISBN:
-                listOfBooks.add(sourceOfBooks.get(i));
-            } else if(sourceOfBooks.get(i).getTitle().equals(word) == true) {
+                listOfBooks.add(getBooksList().get(i));
+            } else if (getBooksList().get(i).getTitle().equals(word) == true) {
                 // Coinciden en título:
-                listOfBooks.add(sourceOfBooks.get(i));
+                listOfBooks.add(getBooksList().get(i));
             }
         }
-        
+
         // Se retorna la lista de libros:
         return listOfBooks;
     }
