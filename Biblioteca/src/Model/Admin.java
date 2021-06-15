@@ -117,38 +117,30 @@ public class Admin extends User {
     }
 
     
-    // Permite regresar un libro:
-    public boolean returnABook(ArrayList<Client> listOfClients, Client client, ArrayList<Book> sourceOfBooks, Book book) {
-        if (book == null || sourceOfBooks.isEmpty() == true || !(sourceOfBooks.contains(book))) {
+    // Regresa un libro prestado por un cliente:
+    public boolean returnABook(ArrayList<User> clientsList, ArrayList<Book> booksList, Client client, Book book) {
+        if(clientsList.isEmpty() || booksList.isEmpty() || !(clientsList.contains(client)) || !(booksList.contains(book))) {
             return false;
         }
-
-        int bookIndex = sourceOfBooks.indexOf(book); // Se obtiene el índice del libro.
-        sourceOfBooks.get(bookIndex).setBorrowed(false); // Se cambia diponibilidad del libro por no prestado.
-
-        int clientIndex = listOfClients.indexOf(client); // Se obtiene el índice del cliente.
-
-        // Se quita el libro de la cuenta del cliente:
-        for (int i = 0; i < client.getBookList().size(); i++) {
-            if (client.getBookList().get(i).contains(String.valueOf(book.getID().getCharCode()))) {
-                client.getBookList().remove(i);
+        
+        for(int i = 0; i < booksList.size(); i++) {
+            if(booksList.get(i).getID().compareID(book.getID().getCharCode())) {
+                ((Client) clientsList.get(clientsList.indexOf(client))).getBookList().remove(book);
+                booksList.get(i).setBorrowed(false);
                 break;
             }
         }
-
-        // Se reemplaza el cliente por el actualizado:
-        listOfClients.set(clientIndex, client);
-
+        
         return true;
     }
-
+    
     
     // Métodos concretos:    
     // Verifica que el password del Admin sea correcto:
     @Override
     public boolean authenticate(char[] password) {
         if (password.length == 12) {
-            return super.getPassword().compare(password);
+            return super.getUserPassword().compare(password);
         }
         System.out.println("ERROR! Tamaño de contraseña no válido.");
         return false;
@@ -158,6 +150,10 @@ public class Admin extends User {
     // Retorna la indentificación del admin:
     @Override
     public String identity() {
-        return "ADMN-" + getUserID();
+        return "User: ADMN-" + String.valueOf(super.getUserID().getCharCode()) +
+               "\nPassword: " + String.valueOf(super.getUserPassword().getPassword()) +
+               "\nName: " + super.getName() +
+               "\nLastname: " + super.getFirstLastName() + ' ' + super.getSecondLastName() +
+               "\nLast login: " + super.getLastLogin();
     }
 }

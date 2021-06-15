@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author edgar
@@ -42,7 +44,7 @@ public abstract class User implements Profile {
         return userID;
     }
     
-    protected Password getPassword(){
+    protected Password getUserPassword(){
         return password;
     }
 
@@ -83,6 +85,15 @@ public abstract class User implements Profile {
         this.lastLogin = lastLogin;
     }
     
+    // Inicia sesión de usuario:
+    public boolean login(ArrayList<User> usersList) {
+        
+        for(int i = 0; i < usersList.size(); i++) {
+            
+        }
+        
+        return true;
+    }
     
     // Cambia el nombre completo de un usuario:
     public void rename(String name, String firstLastName, String secondLastName) {

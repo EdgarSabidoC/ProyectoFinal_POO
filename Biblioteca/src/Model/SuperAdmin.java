@@ -56,7 +56,7 @@ public final class SuperAdmin extends Admin {
     @Override
     public boolean authenticate(char[] password) {
         if(password.length == 15) {
-            return super.getPassword().compare(password);
+            return super.getUserPassword().compare(password);
         } 
         System.out.println("ERROR! Tamaño de contraseña no válido.");
         return false;

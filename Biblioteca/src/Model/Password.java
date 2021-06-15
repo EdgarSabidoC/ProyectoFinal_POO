@@ -15,6 +15,7 @@ public class Password {
     
     public Password(int length) {
         this.length = length;
+        generatePassword();
     }
     
     // Getters:
