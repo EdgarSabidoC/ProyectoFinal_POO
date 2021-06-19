@@ -1,12 +1,13 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  *
  * @author edgar
  */
-public class Book {
+public class Book implements Serializable {
     
     private String author;
     private int year;

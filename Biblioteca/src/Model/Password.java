@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.Arrays;
 
@@ -7,7 +8,7 @@ import java.util.Arrays;
  *
  * @author edgar
  */
-public class Password {
+public class Password implements Serializable{
     private int length;
     private char[] password;
     
@@ -37,6 +38,12 @@ public class Password {
         setLength(getPassword().length);
     }
 
+    // Crea un password a partir de un String:
+    public void createPasswordFromString(String str) {
+        setPassword(str.toCharArray());
+    }
+    
+    
     // Genera una contraseña aleatoria:
     private void generatePassword() {
         // String constante con los chars para generar la cadena aleatoria:

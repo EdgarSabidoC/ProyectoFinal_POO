@@ -115,25 +115,6 @@ public class Admin extends User {
         
         return true;
     }
-
-    
-    // Regresa un libro prestado por un cliente:
-    public boolean returnABook(ArrayList<User> clientsList, ArrayList<Book> booksList, Client client, Book book) {
-        if(clientsList.isEmpty() || booksList.isEmpty() || !(clientsList.contains(client)) || !(booksList.contains(book))) {
-            return false;
-        }
-        
-        for(int i = 0; i < booksList.size(); i++) {
-            if(booksList.get(i).getID().compareID(book.getID().getCharCode())) {
-                ((Client) clientsList.get(clientsList.indexOf(client))).getBookList().remove(book);
-                booksList.get(i).setBorrowed(false);
-                break;
-            }
-        }
-        
-        return true;
-    }
-    
     
     // Métodos concretos:    
     // Verifica que el password del Admin sea correcto:

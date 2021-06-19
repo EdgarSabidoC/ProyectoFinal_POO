@@ -69,6 +69,9 @@ public class Client extends User {
     @Override
     public String identity() {
         return "CLNT-" + String.valueOf(super.getUserID().getCharCode()) + 
-               "\nElments: " + getBookList();
+               "\nNombre: " + super.getName() +
+                "\nApellidos: " + super.getFirstLastName() + ' ' + super.getSecondLastName() +
+                "\nLibros: " + getBookList() +
+                "\nÚltimo acceso: " + super.getLastLogin();
     }
 }

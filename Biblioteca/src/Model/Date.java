@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -9,7 +10,7 @@ import java.time.format.DateTimeFormatter;
  *
  * @author Carlos Antonio Ruiz
  */
-public class Date {
+public class Date implements Serializable {
     private LocalDate date;
     private LocalTime time;
     private LocalDateTime dateTime;

@@ -9,12 +9,29 @@ import java.util.ArrayList;
 public final class SuperAdmin extends Admin {
     
     // Constructor:
-    public SuperAdmin(String name, String firstLastName, String secondLastName, ID userID, 
-                      int userNumber, Password rootPassword, String lastLogin) {
-        
-        super(name, firstLastName, secondLastName, userID, userNumber, rootPassword, lastLogin);
+    public SuperAdmin(String name, String firstLastName, String secondLastName,
+                      int userNumber, String lastLogin) {
+        super(name, firstLastName, secondLastName, null, userNumber, null, lastLogin);
+        generateID(); // Se genera el ID.
+        generatePassword(); // Se genera la constraseña.
+    }    
+    
+    // Genera el ID del superAdmin:
+    private void generateID() {
+        ID id = new ID();
+        char[] idChars = "5uP3R4dm1NrO07".toCharArray();
+        id.setID(idChars);
+        super.setUserID(id);
     }
-
+    
+    
+    // Genera la contraseña del SuperAdmin:
+    private void generatePassword() {
+        Password password = new Password();
+        password.createPasswordFromString("xR0074dM1nT0x00");
+        super.setPassword(password);
+    }
+    
     // Añade un usuario a un ArrayList de usuarios.
     // ENTRADA: ArrayList de tipo User y un objeto de tipo User.
     // SALIDA: Retorna true si se efectuó correctamente la operación y false si no.
@@ -65,6 +82,8 @@ public final class SuperAdmin extends Admin {
     // Retorna la identifiación del superadmin:
     @Override
     public String identity() {
-        return "ROOT-" + super.getUserID();
+        return "ROOT-" + String.valueOf(super.getUserID().getCharCode()) +
+                "\nName: " + super.getName() +
+                "\nPassword: " + String.valueOf(super.getUserPassword().getPassword());
     }
 }

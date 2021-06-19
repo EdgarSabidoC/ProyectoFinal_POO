@@ -1,12 +1,13 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author edgar
  */
-public abstract class User implements Profile {
+public abstract class User implements Profile, Serializable {
     private String name;
     private String firstLastName;
     private String secondLastName;

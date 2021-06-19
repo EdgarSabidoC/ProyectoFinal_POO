@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Random;
@@ -8,7 +9,7 @@ import java.util.Random;
  *
  * @author edgar
  */
-public class ID {
+public class ID implements Serializable {
     private String mode;
     private int length;
     private char[] charCode;
