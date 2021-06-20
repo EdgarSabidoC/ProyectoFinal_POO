@@ -9,12 +9,20 @@ import java.util.Random;
  *
  * @author edgar
  */
+
+// MODES: _base38 & _base64, _base64 es el más seguro.
+// El tamaño no puede ser menor o igual a 0.
+// Si no se le pasa el modo y/o el tamaño, se toma por defecto
+// _base64 y un tamaño de 9 chars.
 public class ID implements Serializable {
     private String mode;
     private int length;
     private char[] charCode;
     
-    public ID(){}
+    public ID(){
+        this.mode = "_base64";
+        this.length = 9;
+    }
     
     public ID(String mode, int length) {
         this.mode = mode;
@@ -27,7 +35,7 @@ public class ID implements Serializable {
         return charCode;
     }
     
-    protected String getMode() {
+    public String getMode() {
         return mode;
     }
 
@@ -36,30 +44,43 @@ public class ID implements Serializable {
     }
     
     // Setters:
-    public void setMode(String mode) {
+    protected void setMode(String mode) {
         this.mode = mode;
     }
 
-    public void setLength(int length) {
+    protected void setLength(int length) {
         this.length = length;
     }
 
-    public void setID(char[] charCode) {
+    protected void setID(char[] charCode) {
         this.charCode = charCode;
         setLength(charCode.length);
         setMode("");
     }
    
-    // Compara dos charCodes:
+    // Compara dos charCodes.
+    // SALIDA: Retorna true si la operación fue exitosa, false si no.
     public boolean compareID(char[] charCodeID) {
         return Arrays.equals(getCharCode(), charCodeID);
     }
 
-    // Genera un ID aleatorio.
-    // SALIDA: Una cadena aleatoria. 
+    // Genera un ID aleatorio. En caso de no proporcionar un modo y/o un tamaño,
+    // se utiliza por defecto _base64 y un tamaño de 9 chars.
+    // SALIDA: Una cadena pseudoaleatoria. 
     // Retorna null si el número de usuario es mayor a 9999
     // o si es menor a 0.
     public char[] generateID() {
+        
+        // Si no tiene un modo, se usa por defecto: _base64 
+        if(getMode() == null || getMode().isEmpty()) {
+            setMode("_base64");
+        }
+        
+        // Si no se especificó un tamaño, se usa por defecto: 9
+        if(getLength() == 0){
+            setLength(9);
+        }
+        
         char[] _base64chars = "0123456789ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz".toCharArray();
         
         Random _random = new Random();

@@ -7,11 +7,11 @@ import java.util.ArrayList;
  * @author edgar
  */
 public class Client extends User {
-    private ArrayList<String> bookList;
+    private ArrayList<Book> bookList;
         
     // Constructor:
     public Client(String name, String firstLastName, String secondLastName, ID userID, 
-                  int userNumber, Password clientPassword, String lastLogin, ArrayList<String> bookList) {
+                  int userNumber, Password clientPassword, String lastLogin, ArrayList<Book> bookList) {
         
         super(name, firstLastName, secondLastName, userID, userNumber, clientPassword, lastLogin);
         this.bookList = bookList;
@@ -19,26 +19,12 @@ public class Client extends User {
     
     
     // Getters:
-    public ArrayList<String> getBookList() {
+    public ArrayList<Book> getBookList() {
         return bookList;
     }
     
-    // Retorna un string con todos los elementos de la lista de libros
-    // separados por '$'
-    public String getBookListElements() {
-        int i;
-        String str = "";
-        for(i = 0; i < getBookList().size()-1; i ++) {
-            str += getBookList().get(i)+ "$";
-        }
-        str += getBookList().get(i);
-        
-        return str;
-    }
-    
-    
     // Setters:
-    protected void setBookList(ArrayList<String> bookList) {
+    protected void setBookList(ArrayList<Book> bookList) {
         this.bookList = bookList;
     }
     
@@ -61,17 +47,17 @@ public class Client extends User {
         if(password.length == 9) {
             return super.getUserPassword().compare(password);
         } 
-        System.out.println("ERROR! Tamaño de contraseña no válido.");
         return false;
     }
 
     // Retorna el número de indentificación del cliente:
     @Override
     public String identity() {
-        return "CLNT-" + String.valueOf(super.getUserID().getCharCode()) + 
-               "\nNombre: " + super.getName() +
-                "\nApellidos: " + super.getFirstLastName() + ' ' + super.getSecondLastName() +
-                "\nLibros: " + getBookList() +
-                "\nÚltimo acceso: " + super.getLastLogin();
+        return  "CLNT-" + String.format("%05d", super.getUserNumber()) 
+              + "\nID: " + String.valueOf(super.getUserID().getCharCode())  
+              + "\nNombre: " + super.getName() 
+              + "\nApellidos: " + super.getFirstLastName() + ' ' + super.getSecondLastName() 
+              + "\nÚltimo acceso: " + super.getLastLogin()
+              + "\nLibros prestados: " + getBookList();
     }
 }

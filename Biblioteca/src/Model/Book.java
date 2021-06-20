@@ -155,7 +155,7 @@ public class Book implements Serializable {
                "\nTítulo: " + getTitle() +
                "\nEdición: " + getEdition() + 
                "\nEditorial: " + getEditorial() +
-               "\nPag: " + getNumPages() +
+               "\nPág: " + getNumPages() +
                "\nISBN: " + getISBN() +
                "\nDisponibilidad: " + getAvailability() +
                "\nFecha de devolución: " + getReturnDate();

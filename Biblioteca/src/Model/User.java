@@ -1,7 +1,6 @@
 package Model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  *
@@ -29,33 +28,34 @@ public abstract class User implements Profile, Serializable {
     
     
     // Getters:
-    protected String getName() {
+    public String getName() {
         return name;
     }
 
-    protected String getFirstLastName() {
+    public String getFirstLastName() {
         return firstLastName;
     }
 
-    protected String getSecondLastName() {
+    public String getSecondLastName() {
         return secondLastName;
     }
 
-    protected ID getUserID() {
+    public ID getUserID() {
         return userID;
     }
     
     protected Password getUserPassword(){
         return password;
     }
+    
+    public int getUserNumber() {
+        return userNumber;
+    }
 
     public String getLastLogin() {
         return lastLogin;
     }
     
-    protected int getUserNumber() {
-        return userNumber;
-    }
     
     // Setters:
     protected void setName(String name) {
@@ -81,19 +81,9 @@ public abstract class User implements Profile, Serializable {
     protected void setPassword(Password password) {
         this.password = password;
     }
-    
-    protected void setLastLogin(String lastLogin) {
+
+    public void setLastLogin(String lastLogin) {
         this.lastLogin = lastLogin;
-    }
-    
-    // Inicia sesión de usuario:
-    public boolean login(ArrayList<User> usersList) {
-        
-        for(int i = 0; i < usersList.size(); i++) {
-            
-        }
-        
-        return true;
     }
     
     // Cambia el nombre completo de un usuario:

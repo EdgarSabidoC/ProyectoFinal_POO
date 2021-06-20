@@ -1,7 +1,5 @@
 package Model;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,7 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-
 
 /**
  *
@@ -103,16 +100,17 @@ public class Library {
         this.booksFile = booksFile;
     }
 
-    // Encripta un objeto y lo escribe en un archivo.
-    // ENTRADA: Un objeto Serializable, una clave de tipo SecretKey y el archivo.
-    private void objectEncoderToFile(Serializable object, File file) {
+    // Escribe un objeto en un archivo.
+    // ENTRADA: Un objeto Serializable y el archivo.
+    private void objectToFile(Serializable object, File file) {
         try {
-            // Se encripta out1:
             ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(file));
 
             // Se escribe la lista en el archivo binario:
             output.writeObject(object);
+
             output.close();
+
         } catch (FileNotFoundException ex) {
             System.out.println(ex.getMessage());
         } catch (IOException ex) {
@@ -121,7 +119,7 @@ public class Library {
     }
 
     // Decodifica un objeto dentro de un archivo y lo retorna.
-    // ENTRADA: Archivo File.
+    // ENTRADA: Un archivo.
     // SALIDA: Objeto Serializable.
     private Serializable getObjectFromFile(File file) {
 
@@ -130,19 +128,18 @@ public class Library {
 
         try {
             ObjectInputStream output = new ObjectInputStream(new FileInputStream(file));
-            
+
             // Se obtiene el objeto:
             object = (Serializable) output.readObject();
-            
-            // Se cierra el fichero:
+
             output.close();
 
         } catch (IOException e2) {
             System.out.println(e2.getMessage());
         } catch (ClassNotFoundException e3) {
             System.out.println(e3.getMessage());
-        } 
-          
+        }
+
         return object;
     }
 
@@ -153,7 +150,7 @@ public class Library {
         // Se verifica si existe el archivo:
         if (!(getBooksFile().exists())) {
             // Si no existe el archivo:
-            System.out.println("Cargando el archivo: " + getBooksFile().getName() + "\n");
+            System.out.println("Creando el archivo: " + getBooksFile().getName() + "...\n");
             try {
                 getBooksFile().createNewFile();
             } catch (IOException ex) {
@@ -161,7 +158,8 @@ public class Library {
             }
         } else {
             // Si existe el archivo.
-            // Desencripta y carga la lista de libros:
+            // Carga la lista de libros:
+            System.out.println("Cargando el archivo: " + getBooksFile().getName() + "...\n");
             setBooksList((ArrayList<Book>) getObjectFromFile(getBooksFile()));
         }
         return false;
@@ -173,7 +171,7 @@ public class Library {
         // Se verifica si existe el archivo:
         if (!(getAdminsFile().exists())) {
             // Si no existe el archivo, se crea:
-            System.out.println("Creando el archivo: " + getAdminsFile().getName() + "\n");
+            System.out.println("Creando el archivo: " + getAdminsFile().getName() + "...\n");
             try {
                 getAdminsFile().createNewFile();
             } catch (IOException ex) {
@@ -181,7 +179,8 @@ public class Library {
             }
         } else {
             // Si existe el archivo.
-            // Desencripta y carga la lista de admins:
+            // Carga la lista de admins:
+            System.out.println("Cargando el archivo: " + getAdminsFile().getName() + "...\n");
             setAdminsList((ArrayList<User>) getObjectFromFile(getAdminsFile()));
         }
         return false;
@@ -193,7 +192,7 @@ public class Library {
         // Se verifica si existe el archivo:
         if (!(getClientsFile().exists())) {
             // Si no existe el archivo, se crea:
-            System.out.println("Creando el archivo: " + getClientsFile().getName() + "\n");
+            System.out.println("Creando el archivo: " + getClientsFile().getName() + "...\n");
             try {
                 getClientsFile().createNewFile();
             } catch (IOException ex) {
@@ -202,6 +201,7 @@ public class Library {
         } else {
             // Si existe el archivo.
             // Desencripta y carga la lista de clientes:
+            System.out.println("Cargando el archivo: " + getClientsFile().getName() + "...\n");
             setClientsList((ArrayList<User>) getObjectFromFile(getClientsFile()));
             return true;
         }
@@ -215,7 +215,7 @@ public class Library {
             // Si no existe el archivo:
             System.out.println("Error, no se encontró el archivo " + getAdminsFile().getName() + "\n");
         } else {
-            objectEncoderToFile(getAdminsList(), getAdminsFile());
+            objectToFile(getAdminsList(), getAdminsFile());
             return true;
         }
         return false; // No se pudo actualizar el archivo.
@@ -228,7 +228,7 @@ public class Library {
             // Si no existe el archivo:
             System.out.println("Error, no se encontró el archivo " + getClientsFile().getName() + "\n");
         } else {
-            objectEncoderToFile(getClientsList(), getClientsFile());
+            objectToFile(getClientsList(), getClientsFile());
             return true;
         }
         return false; // No se pudo actualizar el archivo.
@@ -242,7 +242,7 @@ public class Library {
             // Si no existe el archivo:
             System.out.println("Error, no se encontró el archivo " + getBooksFile().getName() + "\n");
         } else {
-            objectEncoderToFile(getBooksList(), getBooksFile());
+            objectToFile(getBooksList(), getBooksFile());
         }
         return false; // No se pudo actualizar el archivo.
     }
@@ -251,11 +251,11 @@ public class Library {
     // SALIDA: Retorna true si la operación fue exitosa, false si no.
     public boolean loadInfoFromFiles() {
         boolean clientsFile, adminsFile, booksFile;
-        
+
         clientsFile = loadInfoFromClientsFile();
         adminsFile = loadInfoFromAdminsFile();
         booksFile = loadInfoFromBooksFile();
-        
+
         if (clientsFile == false || adminsFile == false || booksFile == false) {
             return false;
         }
@@ -269,7 +269,7 @@ public class Library {
         if (updateClientsFile() == false || updateAdminsFile() == false || updateBooksFile() == false) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -290,7 +290,7 @@ public class Library {
 
         // Se elimina el libro de la colección del cliente:
         int clientIndex = getClientsList().indexOf(client);
-        ((Client) getClientsList().get(clientIndex)).removeBook(book);
+        ((Client) getClientsList().get(clientIndex)).getBookList().remove(book);//removeBook(book);
 
         return true;
     }
@@ -311,30 +311,34 @@ public class Library {
         getBooksList().get(getBooksList().indexOf(book)).setBorrowed(true);
 
         // Se añade el libro a la colección del cliente:
-        ((Client) getClientsList().get(getClientsList().indexOf(client))).getBookList().add(String.valueOf(book.getID().getCharCode()));
+        ((Client) getClientsList().get(getClientsList().indexOf(client))).getBookList().add(book);
 
         return true;
     }
 
     // Busca una cadena dentro de una lista de libros y retorna una lista con los libros que coincidan
     // en Autor, ISBN o Título con la cadena ingresada, si no hay ninguno, retorna una lista vacía:
-    public ArrayList<Book> searchBook(String word) {
-        word = word.trim(); // Se eliminan los espacios al principio y al final de la palabra.
+    public ArrayList<Book> searchBook(String... data) {
 
         // Se crea la lista de libros vacía:
-        ArrayList<Book> listOfBooks = new ArrayList<>();
+        ArrayList<Book> listOfBooks = new ArrayList<>(); // Lista de coincidencias.
 
         // Se recorre la lista original de libros:
         for (int i = 0; i < getBooksList().size(); i++) {
-            if (getBooksList().get(i).getAuthor().equals(word) == true) {
-                // Coinciden en autor:
-                listOfBooks.add(getBooksList().get(i));
-            } else if (getBooksList().get(i).getISBN().equals(word)) {
-                // Coinciden en ISBN:
-                listOfBooks.add(getBooksList().get(i));
-            } else if (getBooksList().get(i).getTitle().equals(word) == true) {
-                // Coinciden en título:
-                listOfBooks.add(getBooksList().get(i));
+            for (int j = 0; j < data.length; i++) {
+                if (getBooksList().get(i).getAuthor().equals(data[j]) == true) {
+                    // Coinciden en autor:
+                    listOfBooks.add(getBooksList().get(i)); // Se añade a la lista de coincidencias.
+                    break;
+                } else if (getBooksList().get(i).getISBN().equals(data[j])) {
+                    // Coinciden en ISBN:
+                    listOfBooks.add(getBooksList().get(i)); // Se añade a la lista de coincidencias.
+                    break;
+                } else if (getBooksList().get(i).getTitle().equals(data[j]) == true) {
+                    // Coinciden en título:
+                    listOfBooks.add(getBooksList().get(i)); // Se añade a la lista de coincidencias.
+                    break;
+                }
             }
         }
 
