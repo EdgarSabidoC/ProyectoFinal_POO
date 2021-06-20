@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.Arrays;
 
@@ -7,11 +8,16 @@ import java.util.Arrays;
  *
  * @author edgar
  */
-public class Password {
+
+// Si no se le proporciona un tamaño al password al ser instanciado
+// se toma por defecto un tamaño de 10 chars.
+public class Password implements Serializable{
     private int length;
     private char[] password;
     
-    public Password(){}
+    public Password(){
+        this.length = 10;
+    }
     
     public Password(int length) {
         this.length = length;
@@ -28,7 +34,7 @@ public class Password {
     }
 
     // Setters:    
-    public void setLength(int length) {
+    protected void setLength(int length) {
         this.length = length;
     }
     
@@ -37,8 +43,13 @@ public class Password {
         setLength(getPassword().length);
     }
 
+    // Crea un password a partir de un String:
+    protected void createPasswordFromString(String str) {
+        setPassword(str.toCharArray());
+    }
+    
     // Genera una contraseña aleatoria:
-    private void generatePassword() {
+    private boolean generatePassword() {
         // String constante con los chars para generar la cadena aleatoria:
         final String chars = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ$%<>¡!¿?#-_{}[]()/\\abcdefghijklmnñopqrstuvwxyz0123456789";
  
@@ -53,26 +64,56 @@ public class Password {
             sb.append(chars.charAt(randomIndex));
         }
         
-        // Se asigna el password:
-        setPassword(sb.toString().toCharArray()); 
+        // La nueva contraseña se asigna si la cadena no es vacía:
+        if(!(sb.isEmpty())) {
+            // Se asigna el password:
+            setPassword(sb.toString().toCharArray()); 
+            return true;
+        } else {
+            return false;
+        }
     }
     
-    // Modifica el password y su tamaño:
+    // Crea un nuevo password (si no se especifica tamaño toma 10 por defecto):
     public boolean createNewPassword() {
-        if(length >= 9){
-            generatePassword();
-            return true;
+        if(getLength() >= 9){
+            return generatePassword();
         }
         return false; // Hubo un error al generar el password.
+    }
+    
+    // Retorna el hash del password:
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(getPassword());
+    }
+
+    // Verifica que todos los atributos de ambos objetos sean iguales:
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Password other = (Password) obj;
+        if (this.length != other.length) {
+            return false;
+        }
+        if (!Arrays.equals(this.password, other.password)) {
+            return false;
+        }
+        return true;
     }
     
     // Compara dos passwords y retorna true si los dos passwords son iguales.
     // ENTRADA: Arreglo de chars.
     // SALIDA: true si los passwords son iguales, false si no.
     public boolean compare(char[] password) {
-        if(Arrays.equals(getPassword(), password) == false) {
-            System.out.println("ERROR! Contraseña incorrecta.");
-        }
-        return true;
+        return Arrays.equals(getPassword(), password);
     }
 }

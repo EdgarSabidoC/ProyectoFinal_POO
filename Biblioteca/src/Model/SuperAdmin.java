@@ -9,19 +9,36 @@ import java.util.ArrayList;
 public final class SuperAdmin extends Admin {
     
     // Constructor:
-    public SuperAdmin(String name, String firstLastName, String secondLastName, ID userID, 
-                      int userNumber, Password rootPassword, String lastLogin) {
-        
-        super(name, firstLastName, secondLastName, userID, userNumber, rootPassword, lastLogin);
+    public SuperAdmin(String name, String firstLastName, String secondLastName,
+                      int userNumber, String lastLogin) {
+        super(name, firstLastName, secondLastName, null, userNumber, null, lastLogin);
+        generateID(); // Se genera el ID.
+        generatePassword(); // Se genera la constraseña.
+    }    
+    
+    // Genera el ID del superAdmin:
+    private void generateID() {
+        ID id = new ID();
+        char[] idChars = "5uP3R4dm1NrO07".toCharArray();
+        id.setID(idChars);
+        super.setUserID(id);
     }
-
+    
+    
+    // Genera la contraseña del SuperAdmin:
+    private void generatePassword() {
+        Password password = new Password();
+        password.createPasswordFromString("xR0074dM1nT0x00");
+        super.setPassword(password);
+    }
+    
     // Añade un usuario a un ArrayList de usuarios.
     // ENTRADA: ArrayList de tipo User y un objeto de tipo User.
     // SALIDA: Retorna true si se efectuó correctamente la operación y false si no.
     public boolean addUserToList(ArrayList<User> usersList, User user){
         
-        // Si la lista está vacía o ya contiene al usuario:
-        if(usersList.isEmpty() || usersList.contains(user)) {
+        // Si la lista es nula o ya contiene al usuario:
+        if(usersList == null || !(searchUserInList(usersList, String.valueOf(user.getUserID().getCharCode())).isEmpty())) {
             return false;
         }
         
@@ -36,8 +53,10 @@ public final class SuperAdmin extends Admin {
     // SALIDA: Retorna true si se efectuó correctamente la operación y false si no.
     public boolean deleteUserInList(ArrayList<User> usersList, User user) {
         
-        // Si la lista está vacía o es el superadmin:
-        if(usersList.isEmpty() == true || user instanceof SuperAdmin) {
+        // Si la lista es nula, está vacía, no contiene al usuario o es un superadmin:
+        if(usersList == null || usersList.isEmpty() 
+           || searchUserInList(usersList, String.valueOf(user.getUserID().getCharCode())).isEmpty() 
+           || user instanceof SuperAdmin) {
             return false;
         }
         
@@ -55,16 +74,21 @@ public final class SuperAdmin extends Admin {
     // Verifica que el password del superAdmin(root) sea correcto:
     @Override
     public boolean authenticate(char[] password) {
-        if(password.length == 15) {
+        if(password == null) {
+            return false;
+        } else if(password.length == 15) {
             return super.getUserPassword().compare(password);
-        } 
-        System.out.println("ERROR! Tamaño de contraseña no válido.");
+        }
         return false;
     }
 
     // Retorna la identifiación del superadmin:
     @Override
     public String identity() {
-        return "ROOT-" + super.getUserID();
+        return "ROOT-" + String.format("%05d", super.getUserNumber()) 
+             + "\nID: "+ String.valueOf(super.getUserID().getCharCode()) 
+             + "\nName: " + super.getName()  
+             + "\nPassword: " + String.valueOf(super.getUserPassword().getPassword())
+             + "\nÚltimo acceso: " + super.getLastLogin();
     }
 }

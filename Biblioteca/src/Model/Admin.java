@@ -7,153 +7,139 @@ import java.util.ArrayList;
  * @author edgar
  */
 public class Admin extends User {
-    
+
     // Constructor:
     public Admin(String name, String firstLastName, String secondLastName, ID userID,
         int userNumber, Password adminPassword, String lastLogin) {
         super(name, firstLastName, secondLastName, userID, userNumber, adminPassword, lastLogin);
     }
-    
-    
+
     // Busca un usuario en una lista de usuarios.
     // ENTRADA: ArrayList de tipo User y un arreglo de Strings con los datos del usuario.
     // SALIDA: ArrayList de tipo User.
-    public ArrayList<User> searchUserInList(ArrayList<User> usersList, String[] data) {
-        ArrayList<User> usersFound = new ArrayList<>();
-        // data[0] = nombre
-        // data[1] = apellido1
-        // data[2] = apellido2
-        // data[3] = ID
-        for(int i = 0; i < usersList.size(); i++) {
-            
-            if(usersList.get(i).getUserID().compareID(data[3].toCharArray())) {
-                // Coincide el ID:
-                usersFound.add(usersList.get(i)); // Se añadde el usuario a la lista de coincidencias.
-            } else if (usersList.get(i).getName().equals(data[0]) &&
-                       usersList.get(i).getFirstLastName().equals(data[1]) &&
-                       usersList.get(i).getSecondLastName().equals(data[2])) {
-                // Coincide el nombre completo:
-                usersFound.add(usersList.get(i)); // Se añadde el usuario a la lista de coincidencias.
-            }           
-        } 
-    
+    public ArrayList<User> searchUserInList(ArrayList<User> usersList, String ... data) {
+        
+        ArrayList<User> usersFound = new ArrayList<>(); // Lista de coincidencias.
+        
+        for (int i = 0; i < usersList.size(); i++) {
+            for (int j = 0; j < data.length; j++) {
+                if (usersList.get(i).getUserID().compareID(data[j].toCharArray())) {
+                    // Coincide el ID de usuario:
+                    usersFound.add(usersList.get(i)); // Se añadde el usuario a la lista de coincidencias.
+                    break;
+                } else if (usersList.get(i).getName().equals(data[j])) {
+                    if (j + 1 < data.length && usersList.get(i).getFirstLastName().equals(data[j + 1])) {
+
+                        if (j + 2 < data.length && usersList.get(i).getSecondLastName().equals(data[j + 2])) {
+                            // Coincide el nombre completo de usuario (nombre y apellidos):
+                            usersFound.add(usersList.get(i)); // Se añadde el usuario a la lista de coincidencias.
+                            break;
+                        }
+                    }
+                } else if (data[j].matches("-?\\d+") && usersList.get(i).getUserNumber() == Integer.parseInt(data[j])) {
+                    // Coincide el número de usuario:
+                    usersFound.add(usersList.get(i)); // Se añadde el usuario a la lista de coincidencias.
+                    break;
+                }
+            }
+        }
+
         return usersFound;
     }
-
     
     // Añade un cliente a un ArrayList de usuarios.
     // ENTRADA: ArrayList de tipo User y un objeto de tipo Client.
     // SALIDA: Retorna true si se efectuó correctamente la operación y false si no.
-    public boolean addClientToList(ArrayList<User> usersList, Client client){
+    public boolean addClientToList(ArrayList<User> usersList, Client client) {
         
-        // Si la lista está vacía o ya contiene al usuario:
-        if(usersList.isEmpty() || usersList.contains(client)) {
+        // Si la lista es nula o ya contiene al usuario:
+        if (usersList == null 
+            || !(searchUserInList(usersList, String.valueOf(client.getUserID().getCharCode())).isEmpty())) {
             return false;
         }
-        
+
         // Se agrega el usuario a la lista:
         usersList.add(client);
-        
+
         return true;
     }
-    
-    
+
     // Añade un libro a un ArrayList de libros.
     // ENTRADA: ArrayList de tipo Book, un objeto de tipo Book.
     // SALIDA: Retorna true si se efectuó correctamente la operación y false si no.
     public boolean addBookToList(ArrayList<Book> booksList, Book book) {
-        
-        // Si la lista está vacía o no contiene el libro:
-        if(booksList.contains(book)) {
+
+        // Si la lista es nula o ya contiene el libro:
+        if (booksList == null || booksList.contains(book) == true) {
             return false;
         }
-        
+
         // Se agrega el libro a la lista:
         booksList.add(book);
-        
+
         return true;
     }
-    
-    
+
     // Elimina un cliente de un ArrayList de usuarios:
     // ENTRADA: Arraylist de tipo User y un objeto de tipo Client.
     // SALIDA: Retorna true si se efectuó correctamente la operación y false si no.
     public boolean deleteClientInList(ArrayList<User> usersList, Client client) {
-        
-        // Si la lista está vacía:
-        if(usersList.isEmpty() == true) {
+
+        // Si la lista es nula, está vacía o no contiene al usuario:
+        if (usersList == null || usersList.isEmpty() 
+            || searchUserInList(usersList, String.valueOf(client.getUserID().getCharCode())).isEmpty()) {
             return false;
         }
-        
+
         // Se busca el usuario:
-        for(int i = 0; i < usersList.size(); i++) {
+        for (int i = 0; i < usersList.size(); i++) {
             if (usersList.get(i).getUserID().compareID(client.getUserID().getCharCode())) {
                 usersList.remove(i); // Se elimina el usuario si hay una coincidencia.
             }
         }
-        
+
         return true;
     }
 
-    
     // Elimina un Book de un ArrayList de libros.
     // ENTRADA: ArrayList de tipo Book, un objeto de tipo Book.
     // SALIDA: Retorna true si se efectuó correctamente la operación y false si no.
     public boolean deleteBookInList(ArrayList<Book> booksList, Book book) {
-        
-        // Si la lista está vacía o no contiene el libro:
-        if(!(booksList.isEmpty()) || !(booksList.contains(book))) {
+
+        // Si la lista es nula, está vacía o no contiene el libro:
+        if (booksList == null || booksList.isEmpty() || !(booksList.contains(book))) {
             return false;
         }
-        
+
         // Se busca el libro en la lista:
-        for(int i = 0; i < booksList.size(); i++) {
+        for (int i = 0; i < booksList.size(); i++) {
             if (booksList.get(i).getID().compareID(book.getID().getCharCode())) {
                 booksList.remove(i); // Se elimina el libro si hay una coincidencia.
             }
         }
-        
+
         return true;
     }
 
-    
-    // Regresa un libro prestado por un cliente:
-    public boolean returnABook(ArrayList<User> clientsList, ArrayList<Book> booksList, Client client, Book book) {
-        if(clientsList.isEmpty() || booksList.isEmpty() || !(clientsList.contains(client)) || !(booksList.contains(book))) {
-            return false;
-        }
-        
-        for(int i = 0; i < booksList.size(); i++) {
-            if(booksList.get(i).getID().compareID(book.getID().getCharCode())) {
-                ((Client) clientsList.get(clientsList.indexOf(client))).getBookList().remove(book);
-                booksList.get(i).setBorrowed(false);
-                break;
-            }
-        }
-        
-        return true;
-    }
-    
-    
     // Métodos concretos:    
     // Verifica que el password del Admin sea correcto:
     @Override
     public boolean authenticate(char[] password) {
-        if (password.length == 12) {
+        if(password == null) {
+            return false;
+        } else if (password.length == 12) {
             return super.getUserPassword().compare(password);
         }
-        System.out.println("ERROR! Tamaño de contraseña no válido.");
         return false;
     }
 
-    
     // Retorna la indentificación del admin:
     @Override
     public String identity() {
-        return "User: ADMN-" + String.valueOf(super.getUserID().getCharCode()) +
-               "\nPassword: " + String.valueOf(super.getUserPassword().getPassword()) +
-               "\nName: " + super.getName() +
-               "\nLastname: " + super.getFirstLastName() + ' ' + super.getSecondLastName() +
-               "\nLast login: " + super.getLastLogin();
+        return "ADMN-" + String.format("%05d", super.getUserNumber())
+            + "\nID: " + String.valueOf(super.getUserID().getCharCode())
+            + "\nNombre: " + super.getName()
+            + "\nApellidos: " + super.getFirstLastName() + ' ' + super.getSecondLastName()
+            + "\nÚltimo acceso: " + super.getLastLogin();
     }
 }

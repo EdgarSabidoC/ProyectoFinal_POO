@@ -1,12 +1,13 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  *
  * @author edgar
  */
-public class Book {
+public class Book implements Serializable {
     
     private String author;
     private int year;
@@ -154,7 +155,7 @@ public class Book {
                "\nTítulo: " + getTitle() +
                "\nEdición: " + getEdition() + 
                "\nEditorial: " + getEditorial() +
-               "\nPag: " + getNumPages() +
+               "\nPág: " + getNumPages() +
                "\nISBN: " + getISBN() +
                "\nDisponibilidad: " + getAvailability() +
                "\nFecha de devolución: " + getReturnDate();
