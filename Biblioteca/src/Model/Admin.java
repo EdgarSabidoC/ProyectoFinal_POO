@@ -1,6 +1,8 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -76,7 +78,15 @@ public class Admin extends User {
 
         // Se agrega el libro a la lista:
         booksList.add(book);
-
+        
+        // Se ordena la lista de libros por año:
+         Collections.sort(booksList, new Comparator<Book>() {
+            @Override 
+            public int compare(Book book1, Book book2) {
+                return book1.getYear()-book2.getYear();
+            }
+        });
+        
         return true;
     }
 

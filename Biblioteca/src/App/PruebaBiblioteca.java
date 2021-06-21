@@ -5,8 +5,6 @@ import Model.Library;
 import java.io.File;
 import java.util.ArrayList;
 
-
-
 /**
  *
  * @author edgar sabido cortes
@@ -28,15 +26,15 @@ public class PruebaBiblioteca {
         File adminsDB = new File("Admins.ldb2");
         File clientsDB = new File("Clients.ldb2");
         File booksDB = new File("Books.ldb2");
-        biblioteca = new Library(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), adminsDB, clientsDB, booksDB);
+        biblioteca = new Library(new ArrayList(), new ArrayList(), new ArrayList<>(), adminsDB, clientsDB, booksDB); //new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), adminsDB, clientsDB, booksDB);
         biblioteca.loadInfoFromFiles();
         SuperAdmin root = (SuperAdmin) biblioteca.getAdminsList().get(0);
             
         // MODIFICAR CÓDIGO A PARTIR DE AQUÍ:
         
         // Estos ya están en los archivos:
-        /*// Libros:
-        root.addBookToList(biblioteca.getBooksList(), new Book("José María García López", 2013, "El corazón de la piedra", "Primera Edición",
+        // Libros:
+        /*root.addBookToList(biblioteca.getBooksList(), new Book("José María García López", 2013, "El corazón de la piedra", "Primera Edición",
                                                                "Nocturna", 560, "978-84-939750-7-4", new ID("_base64", 10), false, "N/A"));
         
         root.addBookToList(biblioteca.getBooksList(), new Book("José María García López", 2013, "El corazón de la piedra", "Primera Edición",
@@ -44,6 +42,13 @@ public class PruebaBiblioteca {
         
         root.addBookToList(biblioteca.getBooksList(), new Book("José María García López", 2013, "El corazón de la piedra", "Primera Edición",
                                                                "Nocturna", 560, "978-84-939750-7-4", new ID("_base64", 10), false, "N/A"));
+      
+        root.addBookToList(biblioteca.getBooksList(), new Book("Carlos Fuentes", 1996, "Aura", "Primera Edición",
+                                                               "Alianza Editorial SA", 62, "978-84-206462-6-8", new ID("_base64", 10), false, "N/A"));
+        
+        root.addBookToList(biblioteca.getBooksList(), new Book("Carlos Fuentes", 1996, "Aura", "Primera Edición",
+                                                               "Alianza Editorial SA", 62, "978-84-206462-6-8", new ID("_base64", 10), false, "N/A"));
+        
         
         // Clientes:
         root.addUserToList(biblioteca.getClientsList(), new Client("Carlos Antonio", "Ruíz", "Domínguez", new ID("_base64", 10), 1, new Password(9),
@@ -57,6 +62,7 @@ public class PruebaBiblioteca {
         // Admin:
         root.addUserToList(biblioteca.getAdminsList(), new Admin("Edgar", "Sabido", "Cortes", new ID("_base64", 10), 
                                                   1, new Password(12), new Date().getDateAndTime()));
+        
         */
         
         Client cliente = (Client) biblioteca.getClientsList().get(0);
@@ -107,7 +113,9 @@ public class PruebaBiblioteca {
         for(Book book : listaB) {
             System.out.println("\n" + book.toString());
         }
-
+        
+        
+        
         // NO MODIFICAR (Actualiza la información de los archivos):
         biblioteca.updateInfoInFiles();
         
