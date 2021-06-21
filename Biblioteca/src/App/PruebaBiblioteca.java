@@ -26,7 +26,7 @@ public class PruebaBiblioteca {
         File adminsDB = new File("Admins.ldb2");
         File clientsDB = new File("Clients.ldb2");
         File booksDB = new File("Books.ldb2");
-        biblioteca = new Library(new ArrayList(), new ArrayList(), new ArrayList<>(), adminsDB, clientsDB, booksDB); //new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), adminsDB, clientsDB, booksDB);
+        biblioteca = new Library(new ArrayList(), new ArrayList(), new ArrayList<>(), adminsDB, clientsDB, booksDB);
         biblioteca.loadInfoFromFiles();
         SuperAdmin root = (SuperAdmin) biblioteca.getAdminsList().get(0);
             
