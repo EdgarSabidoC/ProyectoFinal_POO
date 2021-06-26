@@ -15,7 +15,7 @@ public class Admin extends User {
         int userNumber, Password adminPassword, String lastLogin) {
         super(name, firstLastName, secondLastName, userID, userNumber, adminPassword, lastLogin);
     }
-
+    
     // Busca un usuario en una lista de usuarios.
     // ENTRADA: ArrayList de tipo User y un arreglo de Strings con los datos del usuario.
     // SALIDA: ArrayList de tipo User.

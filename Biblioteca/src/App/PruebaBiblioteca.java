@@ -10,8 +10,7 @@ import java.util.ArrayList;
  * @author edgar sabido cortes
  */
 public class PruebaBiblioteca {
-    // Ya se cargó previamente el SuperAdmin (Root):
-    //private static final SuperAdmin root = new SuperAdmin("Root", "Super", "Admin", 0, new Date().getDateAndTime());
+    
     public static Library biblioteca;
     
     /**
@@ -19,17 +18,18 @@ public class PruebaBiblioteca {
      */
     public static void main(String[] args) {
         // NO MODIFICAR LO QUE ESTÁ AQUÍ:
-
-        //ArrayList<User> listaAdmins = new ArrayList<>(); 
-        //listaAdmins.add(root);
         
         File adminsDB = new File("Admins.ldb2");
         File clientsDB = new File("Clients.ldb2");
         File booksDB = new File("Books.ldb2");
         biblioteca = new Library(new ArrayList(), new ArrayList(), new ArrayList<>(), adminsDB, clientsDB, booksDB);
         biblioteca.loadInfoFromFiles();
+        
+        // Ya se cargó previamente el SuperAdmin (Root):
         SuperAdmin root = (SuperAdmin) biblioteca.getAdminsList().get(0);
-            
+        
+        
+        
         // MODIFICAR CÓDIGO A PARTIR DE AQUÍ:
         
         // Estos ya están en los archivos:
@@ -56,14 +56,11 @@ public class PruebaBiblioteca {
         root.addUserToList(biblioteca.getClientsList(), new Client("Alfredo", "Cota", "Armenta", new ID("_base64", 10), 2, new Password(9),
             new Date().getDateAndTime(), new ArrayList<>()));
         
-        // Admin root:
-        System.out.println(listaAdmins.get(0).identity());
-        
         // Admin:
         root.addUserToList(biblioteca.getAdminsList(), new Admin("Edgar", "Sabido", "Cortes", new ID("_base64", 10), 
                                                   1, new Password(12), new Date().getDateAndTime()));
-        
         */
+        
         
         Client cliente = (Client) biblioteca.getClientsList().get(0);
         Book libro1 = biblioteca.getBooksList().get(0);
@@ -114,6 +111,16 @@ public class PruebaBiblioteca {
             System.out.println("\n" + book.toString());
         }
         
+        System.out.println("\n\n\nAdmins:\n");
+        
+        // Se imprimen todos los admins:
+        for(User user : biblioteca.getAdminsList()) {
+            if(user instanceof Admin && !(user instanceof SuperAdmin)) {
+                System.out.println(((Admin) user).identity() + "\n");
+            } else {
+                System.out.println(((SuperAdmin) user).identity() + "\n");
+            }
+        }
         
         
         // NO MODIFICAR (Actualiza la información de los archivos):
