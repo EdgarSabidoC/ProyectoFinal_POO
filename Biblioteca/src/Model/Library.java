@@ -173,7 +173,14 @@ public class Library {
             // Si no existe el archivo, se crea:
             System.out.println("Creando el archivo: " + getAdminsFile().getName() + "...\n");
             try {
+                
+                // Se crea el nuevo archivo:
                 getAdminsFile().createNewFile();
+                
+                // Se crea el usuario root:  
+                ArrayList<User> adminList = new ArrayList<>();
+                adminList.add(new SuperAdmin("Root", "Super", "Admin", 0, new Date().getDateAndTime()));
+                setAdminsList(adminList); // Se ingresa el usuario root a la lista.
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -194,15 +201,18 @@ public class Library {
             // Si no existe el archivo, se crea:
             System.out.println("Creando el archivo: " + getClientsFile().getName() + "...\n");
             try {
+                // Se crea el archivo nuevo:
                 getClientsFile().createNewFile();
+                
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
         } else {
             // Si existe el archivo.
-            // Desencripta y carga la lista de clientes:
+            // Carga la lista de clientes:
             System.out.println("Cargando el archivo: " + getClientsFile().getName() + "...\n");
             setClientsList((ArrayList<User>) getObjectFromFile(getClientsFile()));
+            
             return true;
         }
         return false;
