@@ -283,49 +283,6 @@ public class Library {
         return true;
     }
 
-    // Devuelve un libro:
-    // SALIDA: Retorna true si la operación fue exitosa, false si no.
-    public boolean returnABook(Member client, Book book) {
-
-        if (!(getBooksList().contains(book)) || !(getMembersList().contains(client))) {
-            // Si en las listas no se encuentra el libro o el miembro:
-            return false;
-        }
-
-        // Se cambia la fecha de devolución a N/A:
-        getBooksList().get(getBooksList().indexOf(book)).setReturnDate(null);
-
-        // Se cambia el estado de prestado del libro:
-        getBooksList().get(getBooksList().indexOf(book)).setBorrowed(false);
-
-        // Se elimina el libro de la colección del miembro:
-        int clientIndex = getMembersList().indexOf(client);
-        ((Member) getMembersList().get(clientIndex)).getBookList().remove(book);//removeBook(book);
-
-        return true;
-    }
-
-    // Reserva un libro.
-    // SALIDA: Retorna true si la operación fue exitosa, false si no.
-    public boolean bookABook(Member client, Book book) {
-
-        if (!(getBooksList().contains(book)) || !(getMembersList().contains(client))) {
-            // Si en las listas no se encuentra el libro o el miembro:
-            return false;
-        }
-
-        // Se agrega la fecha de devolución al libro:
-        getBooksList().get(getBooksList().indexOf(book)).setReturnDate(new Date());
-
-        // Se cambia el estado de prestado del libro:
-        getBooksList().get(getBooksList().indexOf(book)).setBorrowed(true);
-
-        // Se añade el libro a la colección del miembro:
-        ((Member) getMembersList().get(getMembersList().indexOf(client))).getBookList().add(book);
-
-        return true;
-    }
-
     // Busca una cadena dentro de una lista de libros y retorna una lista con los libros que coincidan
     // en Autor, ISBN o Título con la cadena ingresada, si no hay ninguno, retorna una lista vacía:
     public ArrayList<Book> searchBook(String... data) {

@@ -23,11 +23,49 @@ public class Member extends User {
         return bookList;
     }
     
+    public String getBooksID() {
+        
+        // Si la lista es null o está vacía:
+        if(getBookList() == null || getBookList().isEmpty()){
+            return "[]";
+        }
+        
+        String str = "[";
+        int i;
+
+        for(i = 0; i < getBookList().size()-1; i++) {
+            str += String.valueOf(getBookList().get(i).getID().getCharCode()) + ", ";
+        }
+        str += String.valueOf(getBookList().get(i).getID().getCharCode());
+        return str + "]";
+    }
+    
     // Setters:
     protected void setBookList(ArrayList<Book> bookList) {
         this.bookList = bookList;
     }
     
+    // Reserva un libro.
+    // ENTRADA: Lista de libros y libro.
+    // SALIDA: Retorna true si la operación fue exitosa, false si no.
+    public boolean bookABook(ArrayList<Book> booksList, Book book) {
+
+        if (!(booksList.contains(book))) {
+            // Si en las listas no se encuentra el libro:
+            return false;
+        }
+
+        // Se agrega la fecha de devolución al libro:
+        booksList.get(booksList.indexOf(book)).setReturnDate(new Date());
+
+        // Se cambia el estado de prestado del libro:
+        booksList.get(booksList.indexOf(book)).setBorrowed(true);
+
+        // Se añade el libro a la colección del miembro:
+        getBookList().add(book);
+
+        return true;
+    }
     
     // Elimina un libro de la lista de libros:
     public void removeBook(Book book) {
@@ -38,9 +76,9 @@ public class Member extends User {
             }
         }
     }
-    
-    
+       
     // Métodos concretos:
+    
     // Verifica que el password del cliente sea correcto:
     @Override
     public boolean authenticate(char[] password) {
@@ -58,6 +96,6 @@ public class Member extends User {
               + "\nNombre: " + super.getName() 
               + "\nApellidos: " + super.getFirstLastName() + ' ' + super.getSecondLastName() 
               + "\nÚltimo acceso: " + super.getLastLogin().getDateAndTime()
-              + "\nLibros prestados: " + getBookList();
+              + "\nLibros prestados: " + getBooksID();
     }
 }

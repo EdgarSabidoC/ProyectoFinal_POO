@@ -16,6 +16,29 @@ public class Admin extends User {
         super(name, firstLastName, secondLastName, userID, userNumber, adminPassword, lastLogin);
     }
     
+    // Devuelve un libro:
+    // ENTRADA: Lista de miembros, lista de libros, miembro y libro.
+    // SALIDA: Retorna true si la operación fue exitosa, false si no.
+    public boolean returnABook(ArrayList<User> membersList, ArrayList<Book> booksList, Member member, Book book) {
+
+        if (!(booksList.contains(book)) || !(membersList.contains(member))) {
+            // Si en las listas no se encuentra el libro o el miembro:
+            return false;
+        }
+
+        // Se cambia la fecha de devolución a N/A:
+        booksList.get(booksList.indexOf(book)).setReturnDate(null);
+
+        // Se cambia el estado de prestado del libro:
+        booksList.get(booksList.indexOf(book)).setBorrowed(false);
+
+        // Se elimina el libro de la colección del miembro:
+        int memberIndex = membersList.indexOf(member);
+        ((Member) membersList.get(memberIndex)).getBookList().remove(book);//removeBook(book);
+
+        return true;
+    }
+    
     // Busca un usuario en una lista de usuarios.
     // ENTRADA: ArrayList de tipo User y un arreglo de Strings con los datos del usuario.
     // SALIDA: ArrayList de tipo User.

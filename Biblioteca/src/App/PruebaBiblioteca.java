@@ -61,7 +61,7 @@ public class PruebaBiblioteca {
                                                   1, new Password(12), new Date()));
         */
         
-        
+        Admin admin = (Admin) biblioteca.getAdminsList().get(1);
         Member miembro = (Member) biblioteca.getMembersList().get(0);
         Book libro1 = biblioteca.getBooksList().get(0);
         
@@ -69,14 +69,19 @@ public class PruebaBiblioteca {
         System.out.println("\n"+ biblioteca.getBooksList().get(0).toString());
 
         // Se presta un libro:
-        biblioteca.bookABook(miembro, libro1);
+        miembro.bookABook(biblioteca.getBooksList(), libro1);
         System.out.println("\n\nLibro después de ser prestado: \n");
         System.out.println("\n"+ biblioteca.getBooksList().get(0).toString());
+        System.out.println("\n\nCLIENTE: ");
+        System.out.println(biblioteca.getMembersList().get(0).identity());
         
         // Se regresa el libro:
-        biblioteca.returnABook(miembro, libro1);
+        admin.returnABook(biblioteca.getMembersList(), biblioteca.getBooksList(), miembro, libro1);
         System.out.println("\n\nLibro después de ser regresado: \n");
         System.out.println("\n"+biblioteca.getBooksList().get(0).toString());
+        System.out.println("\n\nCLIENTE: ");
+        System.out.println(biblioteca.getMembersList().get(0).identity());
+        
         
         // Se busca un miembro por su nombre:
         System.out.println("\n\n\nCLIENTES: ");
