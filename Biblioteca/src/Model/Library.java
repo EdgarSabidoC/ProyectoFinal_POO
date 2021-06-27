@@ -17,9 +17,9 @@ import java.util.ArrayList;
 public class Library {
 
     private ArrayList<Book> booksList;
-    private ArrayList<User> clientsList;
+    private ArrayList<User> membersList;
     private ArrayList<User> adminsList;
-    private File clientsFile;
+    private File membersFile;
     private File adminsFile;
     private File booksFile;
 
@@ -27,20 +27,20 @@ public class Library {
     public Library() {
     }
 
-    public Library(ArrayList<User> adminsList, ArrayList<User> clientsList,
-        ArrayList<Book> booksList, File adminsFile, File clientsFile,
+    public Library(ArrayList<User> adminsList, ArrayList<User> membersList,
+        ArrayList<Book> booksList, File adminsFile, File membersFile,
         File booksFile) {
         this.booksList = booksList;
-        this.clientsList = clientsList;
+        this.membersList = membersList;
         this.adminsList = adminsList;
-        this.clientsFile = clientsFile;
+        this.membersFile = membersFile;
         this.adminsFile = adminsFile;
         this.booksFile = booksFile;
     }
 
     // Getters:
-    public File getClientsFile() {
-        return clientsFile;
+    public File getMembersFile() {
+        return membersFile;
     }
 
     public File getAdminsFile() {
@@ -55,16 +55,16 @@ public class Library {
         return booksList;
     }
 
-    public ArrayList<User> getClientsList() {
-        return clientsList;
+    public ArrayList<User> getMembersList() {
+        return membersList;
     }
 
     public ArrayList<User> getAdminsList() {
         return adminsList;
     }
 
-    public int getNumberOfClients() {
-        return getClientsList().size();
+    public int getNumberOfMembers() {
+        return getMembersList().size();
     }
 
     public int getNumberOfAdmins() {
@@ -80,16 +80,16 @@ public class Library {
         this.booksList = booksList;
     }
 
-    public void setClientsList(ArrayList<User> clientsList) {
-        this.clientsList = clientsList;
+    public void setMembersList(ArrayList<User> membersList) {
+        this.membersList = membersList;
     }
 
     public void setAdminsList(ArrayList<User> adminsList) {
         this.adminsList = adminsList;
     }
 
-    public void setClientsFile(File clientsFile) {
-        this.clientsFile = clientsFile;
+    public void setMembersFile(File membersFile) {
+        this.membersFile = membersFile;
     }
 
     public void setAdminsFile(File adminsFile) {
@@ -193,25 +193,25 @@ public class Library {
         return false;
     }
 
-    // Carga la información del archivo clientes al ArrayList de clientes.
+    // Carga la información del archivo miembros al ArrayList de miembros.
     // SALIDA: Retorna true si la operación fue exitosa, false si no.
-    private boolean loadInfoFromClientsFile() {
+    private boolean loadInfoFromMembersFile() {
         // Se verifica si existe el archivo:
-        if (!(getClientsFile().exists())) {
+        if (!(getMembersFile().exists())) {
             // Si no existe el archivo, se crea:
-            System.out.println("Creando el archivo: " + getClientsFile().getName() + "...\n");
+            System.out.println("Creando el archivo: " + getMembersFile().getName() + "...\n");
             try {
                 // Se crea el archivo nuevo:
-                getClientsFile().createNewFile();
+                getMembersFile().createNewFile();
                 
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
         } else {
             // Si existe el archivo.
-            // Carga la lista de clientes:
-            System.out.println("Cargando el archivo: " + getClientsFile().getName() + "...\n");
-            setClientsList((ArrayList<User>) getObjectFromFile(getClientsFile()));
+            // Carga la lista de miembros:
+            System.out.println("Cargando el archivo: " + getMembersFile().getName() + "...\n");
+            setMembersList((ArrayList<User>) getObjectFromFile(getMembersFile()));
             
             return true;
         }
@@ -231,14 +231,14 @@ public class Library {
         return false; // No se pudo actualizar el archivo.
     }
 
-    // Actualiza el archivo de clientes.
+    // Actualiza el archivo de miembros.
     // SALIDA: Retorna true si la operación fue exitosa, false si no.
-    private boolean updateClientsFile() {
-        if (!(getClientsFile().exists())) {
+    private boolean updateMembersFile() {
+        if (!(getMembersFile().exists())) {
             // Si no existe el archivo:
-            System.out.println("Error, no se encontró el archivo " + getClientsFile().getName() + "\n");
+            System.out.println("Error, no se encontró el archivo " + getMembersFile().getName() + "\n");
         } else {
-            objectToFile(getClientsList(), getClientsFile());
+            objectToFile(getMembersList(), getMembersFile());
             return true;
         }
         return false; // No se pudo actualizar el archivo.
@@ -260,13 +260,13 @@ public class Library {
     // Carga la información de los archivos a los ArrayList.
     // SALIDA: Retorna true si la operación fue exitosa, false si no.
     public boolean loadInfoFromFiles() {
-        boolean clientsFile, adminsFile, booksFile;
+        boolean membersFile, adminsFile, booksFile;
 
-        clientsFile = loadInfoFromClientsFile();
+        membersFile = loadInfoFromMembersFile();
         adminsFile = loadInfoFromAdminsFile();
         booksFile = loadInfoFromBooksFile();
 
-        if (clientsFile == false || adminsFile == false || booksFile == false) {
+        if (membersFile == false || adminsFile == false || booksFile == false) {
             return false;
         }
 
@@ -276,7 +276,7 @@ public class Library {
     // Actualiza la información de los archivos desde los ArrayList.
     // SALIDA: Retorna true si la operación fue exitosa, false si no.
     public boolean updateInfoInFiles() {
-        if (updateClientsFile() == false || updateAdminsFile() == false || updateBooksFile() == false) {
+        if (updateMembersFile() == false || updateAdminsFile() == false || updateBooksFile() == false) {
             return false;
         }
 
@@ -285,10 +285,10 @@ public class Library {
 
     // Devuelve un libro:
     // SALIDA: Retorna true si la operación fue exitosa, false si no.
-    public boolean returnABook(Client client, Book book) {
+    public boolean returnABook(Member client, Book book) {
 
-        if (!(getBooksList().contains(book)) || !(getClientsList().contains(client))) {
-            // Si en las listas no se encuentra el libro o el cliente:
+        if (!(getBooksList().contains(book)) || !(getMembersList().contains(client))) {
+            // Si en las listas no se encuentra el libro o el miembro:
             return false;
         }
 
@@ -298,19 +298,19 @@ public class Library {
         // Se cambia el estado de prestado del libro:
         getBooksList().get(getBooksList().indexOf(book)).setBorrowed(false);
 
-        // Se elimina el libro de la colección del cliente:
-        int clientIndex = getClientsList().indexOf(client);
-        ((Client) getClientsList().get(clientIndex)).getBookList().remove(book);//removeBook(book);
+        // Se elimina el libro de la colección del miembro:
+        int clientIndex = getMembersList().indexOf(client);
+        ((Member) getMembersList().get(clientIndex)).getBookList().remove(book);//removeBook(book);
 
         return true;
     }
 
     // Reserva un libro.
     // SALIDA: Retorna true si la operación fue exitosa, false si no.
-    public boolean bookABook(Client client, Book book) {
+    public boolean bookABook(Member client, Book book) {
 
-        if (!(getBooksList().contains(book)) || !(getClientsList().contains(client))) {
-            // Si en las listas no se encuentra el libro o el cliente:
+        if (!(getBooksList().contains(book)) || !(getMembersList().contains(client))) {
+            // Si en las listas no se encuentra el libro o el miembro:
             return false;
         }
 
@@ -320,8 +320,8 @@ public class Library {
         // Se cambia el estado de prestado del libro:
         getBooksList().get(getBooksList().indexOf(book)).setBorrowed(true);
 
-        // Se añade el libro a la colección del cliente:
-        ((Client) getClientsList().get(getClientsList().indexOf(client))).getBookList().add(book);
+        // Se añade el libro a la colección del miembro:
+        ((Member) getMembersList().get(getMembersList().indexOf(client))).getBookList().add(book);
 
         return true;
     }

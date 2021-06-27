@@ -49,19 +49,19 @@ public class Admin extends User {
         return usersFound;
     }
     
-    // Añade un cliente a un ArrayList de usuarios.
-    // ENTRADA: ArrayList de tipo User y un objeto de tipo Client.
+    // Añade a un miembro a un ArrayList de usuarios.
+    // ENTRADA: ArrayList de tipo User y un objeto de tipo Member.
     // SALIDA: Retorna true si se efectuó correctamente la operación y false si no.
-    public boolean addClientToList(ArrayList<User> usersList, Client client) {
+    public boolean addMemberToList(ArrayList<User> usersList, Member member) {
         
         // Si la lista es nula o ya contiene al usuario:
         if (usersList == null 
-            || !(searchUserInList(usersList, String.valueOf(client.getUserID().getCharCode())).isEmpty())) {
+            || !(searchUserInList(usersList, String.valueOf(member.getUserID().getCharCode())).isEmpty())) {
             return false;
         }
 
         // Se agrega el usuario a la lista:
-        usersList.add(client);
+        usersList.add(member);
 
         return true;
     }
@@ -90,20 +90,20 @@ public class Admin extends User {
         return true;
     }
 
-    // Elimina un cliente de un ArrayList de usuarios:
-    // ENTRADA: Arraylist de tipo User y un objeto de tipo Client.
+    // Elimina a un miembro de un ArrayList de usuarios:
+    // ENTRADA: Arraylist de tipo User y un objeto de tipo Member.
     // SALIDA: Retorna true si se efectuó correctamente la operación y false si no.
-    public boolean deleteClientInList(ArrayList<User> usersList, Client client) {
+    public boolean deleteMemberInList(ArrayList<User> usersList, Member member) {
 
         // Si la lista es nula, está vacía o no contiene al usuario:
         if (usersList == null || usersList.isEmpty() 
-            || searchUserInList(usersList, String.valueOf(client.getUserID().getCharCode())).isEmpty()) {
+            || searchUserInList(usersList, String.valueOf(member.getUserID().getCharCode())).isEmpty()) {
             return false;
         }
 
         // Se busca el usuario:
         for (int i = 0; i < usersList.size(); i++) {
-            if (usersList.get(i).getUserID().compareID(client.getUserID().getCharCode())) {
+            if (usersList.get(i).getUserID().compareID(member.getUserID().getCharCode())) {
                 usersList.remove(i); // Se elimina el usuario si hay una coincidencia.
             }
         }

@@ -62,7 +62,7 @@ public class PruebaBiblioteca {
         */
         
         
-        Client cliente = (Client) biblioteca.getClientsList().get(0);
+        Member cliente = (Member) biblioteca.getClientsList().get(0);
         Book libro1 = biblioteca.getBooksList().get(0);
         
         System.out.println("\n\nLibro antes de ser prestado: \n");
@@ -83,14 +83,14 @@ public class PruebaBiblioteca {
         String[] clientData1 = {"Carlos Antonio", "Ruíz", "Domínguez"};
         ArrayList<User> listC1 = root.searchUserInList(biblioteca.getClientsList(), clientData1);
         for(User user : listC1) {
-            System.out.println("\n" + ((Client)user).identity());
+            System.out.println("\n" + ((Member)user).identity());
         }
         
         // Se busca un cliente por su número de usuario:
         String[] clientData2 = {"2"};
         ArrayList<User> listC2 = root.searchUserInList(biblioteca.getClientsList(), clientData2);
         for(User user : listC2) {
-            System.out.println("\n" + ((Client)user).identity());
+            System.out.println("\n" + ((Member)user).identity());
         }
             
         // Se busca un admin por su ID de usuario:
