@@ -18,11 +18,11 @@ public class Book implements Serializable {
     private String ISBN;
     private boolean borrowed;    
     private ID ID;
-    private String returnDate;
+    private Date returnDate;
     
     // Constructor:
     public Book(String author, int year, String title, String edition, String editorial, 
-                int numPages, String ISBN, ID ID, boolean borrowed, String returnDate) {
+                int numPages, String ISBN, ID ID, boolean borrowed, Date returnDate) {
         this.author = author;
         this.year = year;
         this.title = title;
@@ -83,7 +83,7 @@ public class Book implements Serializable {
         return availability;
     }
 
-    public String getReturnDate() {
+    public Date getReturnDate() {
         return returnDate;
     }
 
@@ -133,7 +133,7 @@ public class Book implements Serializable {
         }
     }
 
-    public void setReturnDate(String returnDate) {
+    public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
     }
 
@@ -150,6 +150,13 @@ public class Book implements Serializable {
     
     @Override
     public String toString() {
+        String date = "";
+        if(getReturnDate() == null) {
+            date = "N/A";
+        } else {
+            date = getReturnDate().getDateAfterSevenS();
+        }    
+        
         return "ID: " + String.valueOf(getID().getCharCode()) + 
                "\nAutor: "+ getAuthor() + 
                "\nAño: " + getYear() + 
@@ -159,6 +166,6 @@ public class Book implements Serializable {
                "\nPág: " + getNumPages() +
                "\nISBN: " + getISBN() +
                "\nDisponibilidad: " + getAvailability() +
-               "\nFecha de devolución: " + getReturnDate();
+               "\nFecha de devolución: " + date;
     }
 }

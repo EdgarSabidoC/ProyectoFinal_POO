@@ -12,7 +12,7 @@ public class Admin extends User {
 
     // Constructor:
     public Admin(String name, String firstLastName, String secondLastName, ID userID,
-        int userNumber, Password adminPassword, String lastLogin) {
+        int userNumber, Password adminPassword, Date lastLogin) {
         super(name, firstLastName, secondLastName, userID, userNumber, adminPassword, lastLogin);
     }
     
@@ -150,6 +150,6 @@ public class Admin extends User {
             + "\nID: " + String.valueOf(super.getUserID().getCharCode())
             + "\nNombre: " + super.getName()
             + "\nApellidos: " + super.getFirstLastName() + ' ' + super.getSecondLastName()
-            + "\nÚltimo acceso: " + super.getLastLogin();
+            + "\nÚltimo acceso: " + super.getLastLogin().getDateAndTime();
     }
 }

@@ -35,30 +35,30 @@ public class PruebaBiblioteca {
         // Estos ya están en los archivos:
         // Libros:
         /*root.addBookToList(biblioteca.getBooksList(), new Book("José María García López", 2013, "El corazón de la piedra", "Primera Edición",
-                                                               "Nocturna", 560, "978-84-939750-7-4", new ID("_base64", 10), false, "N/A"));
+                                                               "Nocturna", 560, "978-84-939750-7-4", new ID("_base64", 10), false, null));
         
         root.addBookToList(biblioteca.getBooksList(), new Book("José María García López", 2013, "El corazón de la piedra", "Primera Edición",
-                                                               "Nocturna", 560, "978-84-939750-7-4", new ID("_base64", 10), false, "N/A"));
+                                                               "Nocturna", 560, "978-84-939750-7-4", new ID("_base64", 10), false, null));
         
         root.addBookToList(biblioteca.getBooksList(), new Book("José María García López", 2013, "El corazón de la piedra", "Primera Edición",
-                                                               "Nocturna", 560, "978-84-939750-7-4", new ID("_base64", 10), false, "N/A"));
+                                                               "Nocturna", 560, "978-84-939750-7-4", new ID("_base64", 10), false, null));
       
         root.addBookToList(biblioteca.getBooksList(), new Book("Carlos Fuentes", 1996, "Aura", "Primera Edición",
-                                                               "Alianza Editorial SA", 62, "978-84-206462-6-8", new ID("_base64", 10), false, "N/A"));
+                                                               "Alianza Editorial SA", 62, "978-84-206462-6-8", new ID("_base64", 10), false, null));
         
         root.addBookToList(biblioteca.getBooksList(), new Book("Carlos Fuentes", 1996, "Aura", "Primera Edición",
-                                                               "Alianza Editorial SA", 62, "978-84-206462-6-8", new ID("_base64", 10), false, "N/A"));
+                                                               "Alianza Editorial SA", 62, "978-84-206462-6-8", new ID("_base64", 10), false, null));
         
         
         // Miembros:
         root.addUserToList(biblioteca.getMembersList(), new Member("Carlos Antonio", "Ruíz", "Domínguez", new ID("_base64", 10), 1, new Password(9),
-                                        new Date().getDateAndTime(), new ArrayList<>()));
+                                        new Date(), new ArrayList<>()));
         root.addUserToList(biblioteca.getMembersList(), new Member("Alfredo", "Cota", "Armenta", new ID("_base64", 10), 2, new Password(9),
-            new Date().getDateAndTime(), new ArrayList<>()));
+            new Date(), new ArrayList<>()));
         
         // Admin:
         root.addUserToList(biblioteca.getAdminsList(), new Admin("Edgar", "Sabido", "Cortes", new ID("_base64", 10), 
-                                                  1, new Password(12), new Date().getDateAndTime()));
+                                                  1, new Password(12), new Date()));
         */
         
         
