@@ -179,7 +179,7 @@ public class Library {
                 
                 // Se crea el usuario root:  
                 ArrayList<User> adminList = new ArrayList<>();
-                adminList.add(new SuperAdmin("Root", "Super", "Admin", 0, new Date().getDateAndTime()));
+                adminList.add(new SuperAdmin("Root", "Super", "Admin", 0, new Date()));
                 setAdminsList(adminList); // Se ingresa el usuario root a la lista.
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
@@ -293,7 +293,7 @@ public class Library {
         }
 
         // Se cambia la fecha de devolución a N/A:
-        getBooksList().get(getBooksList().indexOf(book)).setReturnDate("N/A");
+        getBooksList().get(getBooksList().indexOf(book)).setReturnDate(null);
 
         // Se cambia el estado de prestado del libro:
         getBooksList().get(getBooksList().indexOf(book)).setBorrowed(false);
@@ -315,7 +315,7 @@ public class Library {
         }
 
         // Se agrega la fecha de devolución al libro:
-        getBooksList().get(getBooksList().indexOf(book)).setReturnDate(new Date().getDateAfterSevenS());
+        getBooksList().get(getBooksList().indexOf(book)).setReturnDate(new Date());
 
         // Se cambia el estado de prestado del libro:
         getBooksList().get(getBooksList().indexOf(book)).setBorrowed(true);

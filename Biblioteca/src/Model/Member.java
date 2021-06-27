@@ -11,7 +11,7 @@ public class Member extends User {
         
     // Constructor:
     public Member(String name, String firstLastName, String secondLastName, ID userID, 
-                  int userNumber, Password clientPassword, String lastLogin, ArrayList<Book> bookList) {
+                  int userNumber, Password clientPassword, Date lastLogin, ArrayList<Book> bookList) {
         
         super(name, firstLastName, secondLastName, userID, userNumber, clientPassword, lastLogin);
         this.bookList = bookList;
@@ -57,7 +57,7 @@ public class Member extends User {
               + "\nID: " + String.valueOf(super.getUserID().getCharCode())  
               + "\nNombre: " + super.getName() 
               + "\nApellidos: " + super.getFirstLastName() + ' ' + super.getSecondLastName() 
-              + "\nÚltimo acceso: " + super.getLastLogin()
+              + "\nÚltimo acceso: " + super.getLastLogin().getDateAndTime()
               + "\nLibros prestados: " + getBookList();
     }
 }
