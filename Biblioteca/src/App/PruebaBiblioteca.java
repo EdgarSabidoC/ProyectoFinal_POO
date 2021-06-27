@@ -61,6 +61,7 @@ public class PruebaBiblioteca {
                                                   1, new Password(12), new Date()));
         */
         
+        
         Admin admin = (Admin) biblioteca.getAdminsList().get(1);
         Member miembro = (Member) biblioteca.getMembersList().get(0);
         Book libro1 = biblioteca.getBooksList().get(0);
@@ -92,7 +93,7 @@ public class PruebaBiblioteca {
         }
         
         // Se busca un miembro por su número de usuario:
-        String[] memberData2 = {"2"};
+        String[] memberData2 = {"0000002"};
         ArrayList<User> listC2 = root.searchUserInList(biblioteca.getMembersList(), memberData2);
         for(User user : listC2) {
             System.out.println("\n" + ((Member)user).identity());

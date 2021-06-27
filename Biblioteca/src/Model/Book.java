@@ -150,22 +150,36 @@ public class Book implements Serializable {
     
     @Override
     public String toString() {
-        String date = "";
+        String date;
         if(getReturnDate() == null) {
             date = "N/A";
         } else {
             date = getReturnDate().getDateAfterSevenS();
         }    
         
-        return "ID: " + String.valueOf(getID().getCharCode()) + 
-               "\nAutor: "+ getAuthor() + 
-               "\nAño: " + getYear() + 
-               "\nTítulo: " + getTitle() +
-               "\nEdición: " + getEdition() + 
-               "\nEditorial: " + getEditorial() +
-               "\nPág: " + getNumPages() +
-               "\nISBN: " + getISBN() +
-               "\nDisponibilidad: " + getAvailability() +
-               "\nFecha de devolución: " + date;
+        StringBuilder str = new StringBuilder();
+        
+        str.append("ID: "); 
+        str.append(String.valueOf(getID().getCharCode()));
+        str.append("\nAutor: ");
+        str.append(getAuthor());
+        str.append("\nAño: ");
+        str.append(getYear());
+        str.append("\nTítulo: ");
+        str.append(getTitle());
+        str.append("\nEdición: ");
+        str.append(getEdition()); 
+        str.append("\nEditorial: ");
+        str.append(getEditorial());
+        str.append("\nPág: ");
+        str.append(getNumPages());
+        str.append("\nISBN: ");
+        str.append(getISBN());
+        str.append("\nDisponibilidad: ");
+        str.append(getAvailability());
+        str.append("\nFecha de devolución: ");
+        str.append(date);
+        
+        return str.toString();
     }
 }

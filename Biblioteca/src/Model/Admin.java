@@ -61,9 +61,9 @@ public class Admin extends User {
                             break;
                         }
                     }
-                } else if (data[j].matches("-?\\d+") && usersList.get(i).getUserNumber() == Integer.parseInt(data[j])) {
+                } else if (data[j].matches("[0-9]+") && usersList.get(i).getUserNumber() == Integer.parseInt(data[j])) {
                     // Coincide el número de usuario:
-                    usersFound.add(usersList.get(i)); // Se añadde el usuario a la lista de coincidencias.
+                    usersFound.add(usersList.get(i)); // Se añade el usuario a la lista de coincidencias.
                     break;
                 }
             }
@@ -169,10 +169,21 @@ public class Admin extends User {
     // Retorna la indentificación del admin:
     @Override
     public String identity() {
-        return "ADMN-" + String.format("%05d", super.getUserNumber())
-            + "\nID: " + String.valueOf(super.getUserID().getCharCode())
-            + "\nNombre: " + super.getName()
-            + "\nApellidos: " + super.getFirstLastName() + ' ' + super.getSecondLastName()
-            + "\nÚltimo acceso: " + super.getLastLogin().getDateAndTime();
+        StringBuilder str = new StringBuilder();
+        
+        str.append("ADMN-"); 
+        str.append(String.format("%05d", super.getUserNumber()));
+        str.append("\nID: "); 
+        str.append(String.valueOf(super.getUserID().getCharCode()));
+        str.append("\nNombre: ");
+        str.append(super.getName());
+        str.append("\nApellidos: ");
+        str.append(super.getFirstLastName());
+        str.append(' '); 
+        str.append(super.getSecondLastName());
+        str.append("\nÚltimo acceso: ");
+        str.append(super.getLastLogin().getDateAndTime());
+        
+        return str.toString();
     }
 }

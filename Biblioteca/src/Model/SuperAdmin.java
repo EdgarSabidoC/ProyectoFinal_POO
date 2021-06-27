@@ -85,10 +85,19 @@ public final class SuperAdmin extends Admin {
     // Retorna la identifiación del superadmin:
     @Override
     public String identity() {
-        return "ROOT-" + String.format("%05d", super.getUserNumber()) 
-             + "\nID: "+ String.valueOf(super.getUserID().getCharCode()) 
-             + "\nName: " + super.getName()  
-             + "\nPassword: " + String.valueOf(super.getUserPassword().getPassword())
-             + "\nÚltimo acceso: " + super.getLastLogin().getDateAndTime();
+        StringBuilder str = new StringBuilder();
+        
+        str.append("ROOT-");
+        str.append(String.format("%05d", super.getUserNumber()));
+        str.append("\nID: ");
+        str.append(String.valueOf(super.getUserID().getCharCode()));
+        str.append("\nName: ");
+        str.append(super.getName());
+        str.append("\nPassword: ");
+        str.append(String.valueOf(super.getUserPassword().getPassword()));
+        str.append("\nÚltimo acceso: "); 
+        str.append(super.getLastLogin().getDateAndTime());
+        
+        return str.toString();
     }
 }
