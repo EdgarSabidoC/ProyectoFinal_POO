@@ -20,9 +20,9 @@ public class PruebaBiblioteca {
         // NO MODIFICAR LO QUE ESTÁ AQUÍ:
         
         File adminsDB = new File("Admins.ldb2");
-        File clientsDB = new File("Clients.ldb2");
+        File membersDB = new File("Members.ldb2");
         File booksDB = new File("Books.ldb2");
-        biblioteca = new Library(new ArrayList(), new ArrayList(), new ArrayList<>(), adminsDB, clientsDB, booksDB);
+        biblioteca = new Library(new ArrayList(), new ArrayList(), new ArrayList<>(), adminsDB, membersDB, booksDB);
         biblioteca.loadInfoFromFiles();
         
         // Ya se cargó previamente el SuperAdmin (Root):
@@ -50,10 +50,10 @@ public class PruebaBiblioteca {
                                                                "Alianza Editorial SA", 62, "978-84-206462-6-8", new ID("_base64", 10), false, "N/A"));
         
         
-        // Clientes:
-        root.addUserToList(biblioteca.getClientsList(), new Client("Carlos Antonio", "Ruíz", "Domínguez", new ID("_base64", 10), 1, new Password(9),
+        // Miembros:
+        root.addUserToList(biblioteca.getMembersList(), new Member("Carlos Antonio", "Ruíz", "Domínguez", new ID("_base64", 10), 1, new Password(9),
                                         new Date().getDateAndTime(), new ArrayList<>()));
-        root.addUserToList(biblioteca.getClientsList(), new Client("Alfredo", "Cota", "Armenta", new ID("_base64", 10), 2, new Password(9),
+        root.addUserToList(biblioteca.getMembersList(), new Member("Alfredo", "Cota", "Armenta", new ID("_base64", 10), 2, new Password(9),
             new Date().getDateAndTime(), new ArrayList<>()));
         
         // Admin:
@@ -62,33 +62,33 @@ public class PruebaBiblioteca {
         */
         
         
-        Member cliente = (Member) biblioteca.getClientsList().get(0);
+        Member miembro = (Member) biblioteca.getMembersList().get(0);
         Book libro1 = biblioteca.getBooksList().get(0);
         
         System.out.println("\n\nLibro antes de ser prestado: \n");
         System.out.println("\n"+ biblioteca.getBooksList().get(0).toString());
 
         // Se presta un libro:
-        biblioteca.bookABook(cliente, libro1);
+        biblioteca.bookABook(miembro, libro1);
         System.out.println("\n\nLibro después de ser prestado: \n");
         System.out.println("\n"+ biblioteca.getBooksList().get(0).toString());
         
         // Se regresa el libro:
-        biblioteca.returnABook(cliente, libro1);
+        biblioteca.returnABook(miembro, libro1);
         System.out.println("\n\nLibro después de ser regresado: \n");
         System.out.println("\n"+biblioteca.getBooksList().get(0).toString());
         
-        // Se busca un cliente por su nombre:
+        // Se busca un miembro por su nombre:
         System.out.println("\n\n\nCLIENTES: ");
-        String[] clientData1 = {"Carlos Antonio", "Ruíz", "Domínguez"};
-        ArrayList<User> listC1 = root.searchUserInList(biblioteca.getClientsList(), clientData1);
+        String[] memberData1 = {"Carlos Antonio", "Ruíz", "Domínguez"};
+        ArrayList<User> listC1 = root.searchUserInList(biblioteca.getMembersList(), memberData1);
         for(User user : listC1) {
             System.out.println("\n" + ((Member)user).identity());
         }
         
-        // Se busca un cliente por su número de usuario:
-        String[] clientData2 = {"2"};
-        ArrayList<User> listC2 = root.searchUserInList(biblioteca.getClientsList(), clientData2);
+        // Se busca un miembro por su número de usuario:
+        String[] memberData2 = {"2"};
+        ArrayList<User> listC2 = root.searchUserInList(biblioteca.getMembersList(), memberData2);
         for(User user : listC2) {
             System.out.println("\n" + ((Member)user).identity());
         }
