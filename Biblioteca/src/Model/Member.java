@@ -6,11 +6,11 @@ import java.util.ArrayList;
  *
  * @author edgar
  */
-public class Client extends User {
+public class Member extends User {
     private ArrayList<Book> bookList;
         
     // Constructor:
-    public Client(String name, String firstLastName, String secondLastName, ID userID, 
+    public Member(String name, String firstLastName, String secondLastName, ID userID, 
                   int userNumber, Password clientPassword, String lastLogin, ArrayList<Book> bookList) {
         
         super(name, firstLastName, secondLastName, userID, userNumber, clientPassword, lastLogin);
