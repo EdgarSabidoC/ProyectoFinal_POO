@@ -30,14 +30,17 @@ public class Member extends User {
             return "[]";
         }
         
-        String str = "[";
+        StringBuilder str = new StringBuilder();
+        str.append('[');
         int i;
 
         for(i = 0; i < getBookList().size()-1; i++) {
-            str += String.valueOf(getBookList().get(i).getID().getCharCode()) + ", ";
+            str.append(String.valueOf(getBookList().get(i).getID().getCharCode()));
+            str.append(',');
         }
-        str += String.valueOf(getBookList().get(i).getID().getCharCode());
-        return str + "]";
+        str.append(String.valueOf(getBookList().get(i).getID().getCharCode()));
+        str.append(']');
+        return str.toString();
     }
     
     // Setters:
@@ -91,11 +94,23 @@ public class Member extends User {
     // Retorna el número de indentificación del cliente:
     @Override
     public String identity() {
-        return  "CLNT-" + String.format("%05d", super.getUserNumber()) 
-              + "\nID: " + String.valueOf(super.getUserID().getCharCode())  
-              + "\nNombre: " + super.getName() 
-              + "\nApellidos: " + super.getFirstLastName() + ' ' + super.getSecondLastName() 
-              + "\nÚltimo acceso: " + super.getLastLogin().getDateAndTime()
-              + "\nLibros prestados: " + getBooksID();
+        StringBuilder str = new StringBuilder();
+        
+        str.append("CLNT-");
+        str.append(String.format("%07d", super.getUserNumber()));
+        str.append("\nID: ");
+        str.append(String.valueOf(super.getUserID().getCharCode()));  
+        str.append("\nNombre: ");
+        str.append(super.getName());
+        str.append("\nApellidos: ");
+        str.append(super.getFirstLastName());
+        str.append(' ');
+        str.append(super.getSecondLastName());
+        str.append("\nÚltimo acceso: ");
+        str.append(super.getLastLogin().getDateAndTime());
+        str.append("\nLibros prestados: ");
+        str.append(getBooksID());
+        
+        return str.toString();
     }
 }
