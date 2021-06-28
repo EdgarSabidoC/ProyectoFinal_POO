@@ -12,9 +12,9 @@ public class Member extends User {
         
     // Constructor:
     public Member(String name, String firstLastName, String secondLastName, ID userID, 
-                  int userNumber, Password memberPassword, Date lastLogin, ArrayList<Book> bookList) {
+                  Password memberPassword, Date lastLogin, ArrayList<Book> bookList) {
         
-        super(name, firstLastName, secondLastName, userID, userNumber, memberPassword, lastLogin);
+        super(name, firstLastName, secondLastName, userID, memberPassword, lastLogin);
         this.bookList = bookList;
     }
     
@@ -97,8 +97,7 @@ public class Member extends User {
     public String identity() {
         StringBuilder str = new StringBuilder();
         
-        str.append("CLNT-");
-        str.append(String.format("%07d", super.getUserNumber()));
+        str.append("CLNT");
         str.append("\nID: ");
         str.append(String.valueOf(super.getUserID().getCharCode()));  
         str.append("\nNombre: ");

@@ -12,9 +12,9 @@ import java.util.Comparator;
 public class Admin extends User {
 
     // Constructor:
-    public Admin(String name, String firstLastName, String secondLastName, ID userID,
-        int userNumber, Password adminPassword, Date lastLogin) {
-        super(name, firstLastName, secondLastName, userID, userNumber, adminPassword, lastLogin);
+    public Admin(String name, String firstLastName, String secondLastName, ID userID, 
+                 Password adminPassword, Date lastLogin) {
+        super(name, firstLastName, secondLastName, userID, adminPassword, lastLogin);
     }
     
     // Devuelve un libro:
@@ -62,10 +62,6 @@ public class Admin extends User {
                             break;
                         }
                     }
-                } else if (data[j].matches("[0-9]+") && usersList.get(i).getUserNumber() == Integer.parseInt(data[j])) {
-                    // Coincide el número de usuario:
-                    usersFound.add(usersList.get(i)); // Se añade el usuario a la lista de coincidencias.
-                    break;
                 }
             }
         }
@@ -172,8 +168,7 @@ public class Admin extends User {
     public String identity() {
         StringBuilder str = new StringBuilder();
         
-        str.append("ADMN-"); 
-        str.append(String.format("%05d", super.getUserNumber()));
+        str.append("ADMN"); 
         str.append("\nID: "); 
         str.append(String.valueOf(super.getUserID().getCharCode()));
         str.append("\nNombre: ");

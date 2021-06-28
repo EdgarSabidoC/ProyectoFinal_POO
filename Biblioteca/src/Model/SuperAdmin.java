@@ -11,8 +11,8 @@ public final class SuperAdmin extends Admin {
     
     // Constructor:
     public SuperAdmin(String name, String firstLastName, String secondLastName,
-                      int userNumber, Date lastLogin) {
-        super(name, firstLastName, secondLastName, null, userNumber, null, lastLogin);
+                      Date lastLogin) {
+        super(name, firstLastName, secondLastName, null, null, lastLogin);
         generateID(); // Se genera el ID.
         generatePassword(); // Se genera la constraseña.
     }    
@@ -88,8 +88,7 @@ public final class SuperAdmin extends Admin {
     public String identity() {
         StringBuilder str = new StringBuilder();
         
-        str.append("ROOT-");
-        str.append(String.format("%05d", super.getUserNumber()));
+        str.append("ROOT");
         str.append("\nID: ");
         str.append(String.valueOf(super.getUserID().getCharCode()));
         str.append("\nName: ");

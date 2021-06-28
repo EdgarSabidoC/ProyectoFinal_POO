@@ -180,7 +180,7 @@ public class Library {
                 
                 // Se crea el usuario root:  
                 ArrayList<User> adminList = new ArrayList<>();
-                adminList.add(new SuperAdmin("Root", "Super", "Admin", 0, new Date()));
+                adminList.add(new SuperAdmin("Root", "Super", "Admin", new Date()));
                 setAdminsList(adminList); // Se ingresa el usuario root a la lista.
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
