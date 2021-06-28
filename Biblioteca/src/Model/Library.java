@@ -293,17 +293,17 @@ public class Library {
 
         // Se recorre la lista original de libros:
         for (int i = 0; i < getBooksList().size(); i++) {
-            for (int j = 0; j < data.length; i++) {
-                if (getBooksList().get(i).getAuthor().equals(data[j]) == true) {
-                    // Coinciden en autor:
+            for (int j = 0; j < data.length; j++) {
+                if (getBooksList().get(i).getAuthor().contains(data[j]) == true) {
+                    // Coincide alguna palabra con el nombre del autor:
                     listOfBooks.add(getBooksList().get(i)); // Se añade a la lista de coincidencias.
                     break;
                 } else if (getBooksList().get(i).getISBN().equals(data[j])) {
-                    // Coinciden en ISBN:
+                    // Coincide en ISBN:
                     listOfBooks.add(getBooksList().get(i)); // Se añade a la lista de coincidencias.
                     break;
-                } else if (getBooksList().get(i).getTitle().equals(data[j]) == true) {
-                    // Coinciden en título:
+                } else if (getBooksList().get(i).getTitle().contains(data[j]) == true) {
+                    // Coincide alguna palabra con el título:
                     listOfBooks.add(getBooksList().get(i)); // Se añade a la lista de coincidencias.
                     break;
                 }
