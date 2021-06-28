@@ -52,14 +52,14 @@ public class PruebaBiblioteca {
         
         
         // Miembros:
-        root.addUserToList(biblioteca.getMembersList(), new Member("Carlos Antonio", "Ruíz", "Domínguez", new ID("_base64", 10), 1, new Password(9),
+        root.addUserToList(biblioteca.getMembersList(), new Member("Carlos Antonio", "Ruíz", "Domínguez", new ID("_base64", 10), new Password(9),
                                         new Date(), new ArrayList<>()));
-        root.addUserToList(biblioteca.getMembersList(), new Member("Alfredo", "Cota", "Armenta", new ID("_base64", 10), 2, new Password(9),
+        root.addUserToList(biblioteca.getMembersList(), new Member("Alfredo", "Cota", "Armenta", new ID("_base64", 10), new Password(9),
             new Date(), new ArrayList<>()));
         
         // Admin:
         root.addUserToList(biblioteca.getAdminsList(), new Admin("Edgar", "Sabido", "Cortes", new ID("_base64", 10), 
-                                                  1, new Password(12), new Date()));
+                                                       new Password(12), new Date()));
         */
         
         

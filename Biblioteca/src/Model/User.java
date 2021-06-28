@@ -12,17 +12,15 @@ public abstract class User implements Profile, Serializable {
     private String firstLastName;
     private String secondLastName;
     private ID userID;
-    private int userNumber;
     private Password password;
     private Date lastLogin;
     
     // Constructor:
-    public User(String name, String firstLastName, String secondLastName, ID userID, int userNumber, Password password, Date lastLogin) {
+    public User(String name, String firstLastName, String secondLastName, ID userID, Password password, Date lastLogin) {
         this.name = name;
         this.firstLastName = firstLastName;
         this.secondLastName = secondLastName;
         this.userID = userID;
-        this.userNumber = userNumber;
         this.password = password;
         this.lastLogin = lastLogin;
     }
@@ -49,9 +47,6 @@ public abstract class User implements Profile, Serializable {
         return password;
     }
     
-    public int getUserNumber() {
-        return userNumber;
-    }
 
     public Date getLastLogin() {
         return lastLogin;
@@ -73,10 +68,6 @@ public abstract class User implements Profile, Serializable {
 
     protected void setUserID(ID userID) {
         this.userID = userID;
-    }
-
-    protected void setUserNumber(int userNumber) {
-        this.userNumber = userNumber;
     }
     
     protected void setPassword(Password password) {
