@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 /**
  *
- * @author edgar
+ * @author Edgar Sabido Cortés, Carlos Antonio Ruíz Domínguez, Luis Alfredo Cota Armenta.
+ * 
  */
 public final class SuperAdmin extends Admin {
     
@@ -71,7 +72,7 @@ public final class SuperAdmin extends Admin {
     }
     
     // Métodos concretos:
-    // Verifica que el password del superAdmin(root) sea correcto:
+    // Verifica que el password del SuperAdmin (root) sea correcto:
     @Override
     public boolean authenticate(char[] password) {
         if(password == null) {
@@ -82,7 +83,7 @@ public final class SuperAdmin extends Admin {
         return false;
     }
 
-    // Retorna la identifiación del superadmin:
+    // Retorna la identifiación del SuperAdmin (root):
     @Override
     public String identity() {
         StringBuilder str = new StringBuilder();

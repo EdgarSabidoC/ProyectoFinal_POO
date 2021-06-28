@@ -8,13 +8,15 @@ import java.time.format.DateTimeFormatter;
 
 /**
  *
- * @author Carlos Antonio Ruiz
+ * @author Edgar Sabido Cortés, Carlos Antonio Ruíz Domínguez, Luis Alfredo Cota Armenta.
+ * 
  */
 public class Date implements Serializable {
     private LocalDate date;
     private LocalTime time;
     private LocalDateTime dateTime;
-
+    
+    // Constructores:
     public Date() {
        setDate(LocalDate.now());
        setTime(LocalTime.now());
@@ -26,12 +28,15 @@ public class Date implements Serializable {
             
             setDate(LocalDate.now());
             setTime(LocalTime.now());
-            setDateTime(LocalDateTime.of(this.date.getYear(), this.date.getMonth(), this.date.getDayOfMonth(), this.time.getHour(), this.time.getMinute(), this.time.getSecond()));
+            setDateTime(LocalDateTime.of(this.date.getYear(), this.date.getMonth(), 
+                                            this.date.getDayOfMonth(), this.time.getHour(), 
+                                            this.time.getMinute(), this.time.getSecond()));
             return;
         }
         setDate(LocalDate.of(year, month, day));
         setTime(LocalTime.now());
-        setDateTime(LocalDateTime.of(year, month, day, this.time.getHour(), this.time.getMinute(), this.time.getSecond()));
+        setDateTime(LocalDateTime.of(year, month, day, this.time.getHour(), this.time.getMinute(), 
+                                     this.time.getSecond()));
     }
     
     public Date(int day, int month, int year, int hour, int minute, int second) {
@@ -39,14 +44,16 @@ public class Date implements Serializable {
             
             setDate(LocalDate.now());
             setTime(LocalTime.now());
-            setDateTime(LocalDateTime.of(this.date.getYear(), this.date.getMonth(), this.date.getDayOfMonth(), this.time.getHour(), this.time.getMinute(), this.time.getSecond()));
+            setDateTime(LocalDateTime.of(this.date.getYear(), this.date.getMonth(), this.date.getDayOfMonth(), 
+                                         this.time.getHour(), this.time.getMinute(), this.time.getSecond()));
             
             return;
         }
         if(!isTime(hour, minute, second)) {
             setDate(LocalDate.now());
             setTime(LocalTime.now());
-            setDateTime(LocalDateTime.of(this.date.getYear(), this.date.getMonth(), this.date.getDayOfMonth(), this.time.getHour(), this.time.getMinute(), this.time.getSecond()));
+            setDateTime(LocalDateTime.of(this.date.getYear(), this.date.getMonth(), this.date.getDayOfMonth(), 
+                                         this.time.getHour(), this.time.getMinute(), this.time.getSecond()));
             
             return;
         }
@@ -179,7 +186,8 @@ public class Date implements Serializable {
     }
     
     private int daysOfMonth(int month, int year){
-        if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+        if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 
+           || month == 10 || month == 12) {
             return 31;
         }
         else if((month == 2) && isLeapYear(year)) {

@@ -6,7 +6,8 @@ import java.util.Arrays;
 
 /**
  *
- * @author edgar
+ * @author Edgar Sabido Cortés, Carlos Antonio Ruíz Domínguez, Luis Alfredo Cota Armenta.
+ * 
  */
 
 // Si no se le proporciona un tamaño al password al ser instanciado
