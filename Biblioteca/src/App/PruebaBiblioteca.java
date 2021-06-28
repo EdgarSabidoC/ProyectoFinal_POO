@@ -87,14 +87,14 @@ public class PruebaBiblioteca {
         
         // Se busca un miembro por su nombre:
         System.out.println("\n\n\nCLIENTES: ");
-        String[] memberData1 = {"Carlos Antonio", "Ruíz", "Domínguez"};
+        String[] memberData1 = {"Carlos Antonio"};
         ArrayList<User> listC1 = root.searchUserInList(biblioteca.getMembersList(), memberData1);
         for(User user : listC1) {
             System.out.println("\n" + ((Member)user).identity());
         }
         
-        // Se busca un miembro por su número de usuario:
-        String[] memberData2 = {"0000002"};
+        // Se busca un miembro por su ID:
+        String memberData2 = "21cEvEQO3v";
         ArrayList<User> listC2 = root.searchUserInList(biblioteca.getMembersList(), memberData2);
         for(User user : listC2) {
             System.out.println("\n" + ((Member)user).identity());
@@ -102,7 +102,7 @@ public class PruebaBiblioteca {
             
         // Se busca un admin por su ID de usuario:
         System.out.println("\n\n\nADMIN:\n");
-        String[] adminData = {String.valueOf(biblioteca.getAdminsList().get(1).getUserID().getCharCode())};
+        String adminData = String.valueOf(biblioteca.getAdminsList().get(1).getUserID().getCharCode());
         ArrayList<User> listA = root.searchUserInList(biblioteca.getAdminsList(), adminData);
         
         for(User user : listA) {
@@ -129,6 +129,13 @@ public class PruebaBiblioteca {
             }
         }
         
+        
+        // Se busca un libro por ID:
+        String bookData = "21dA1SOQDC";
+        ArrayList<Book> listB = biblioteca.searchBook(bookData);
+        for(Book book : listB) {
+            System.out.println("\n" + book.toString());
+        }
         
         // NO MODIFICAR (Actualiza la información de los archivos):
         biblioteca.updateInfoInFiles();

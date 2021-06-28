@@ -293,6 +293,7 @@ public class Library {
 
         // Se recorre la lista original de libros:
         for (int i = 0; i < getBooksList().size(); i++) {
+            // Se recorren los Strings ingresados:
             for (int j = 0; j < data.length; j++) {
                 if (getBooksList().get(i).getAuthor().contains(data[j]) == true) {
                     // Coincide alguna palabra con el nombre del autor:
@@ -304,6 +305,10 @@ public class Library {
                     break;
                 } else if (getBooksList().get(i).getTitle().contains(data[j]) == true) {
                     // Coincide alguna palabra con el título:
+                    listOfBooks.add(getBooksList().get(i)); // Se añade a la lista de coincidencias.
+                    break;
+                } else if(getBooksList().get(i).getID().compareID(data[j].toCharArray())){
+                    // Coincide el ID del libro:
                     listOfBooks.add(getBooksList().get(i)); // Se añade a la lista de coincidencias.
                     break;
                 }
