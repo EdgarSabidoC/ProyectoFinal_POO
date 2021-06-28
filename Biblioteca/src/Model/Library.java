@@ -12,7 +12,8 @@ import java.util.ArrayList;
 
 /**
  *
- * @author edgar
+ * @author Edgar Sabido Cortés, Carlos Antonio Ruíz Domínguez, Luis Alfredo Cota Armenta.
+ * 
  */
 public class Library {
 
@@ -231,7 +232,7 @@ public class Library {
         return false; // No se pudo actualizar el archivo.
     }
 
-    // Actualiza el archivo de miembros.
+    // Actualiza el archivo de Members.
     // SALIDA: Retorna true si la operación fue exitosa, false si no.
     private boolean updateMembersFile() {
         if (!(getMembersFile().exists())) {
@@ -309,7 +310,6 @@ public class Library {
             }
         }
 
-        // Se retorna la lista de libros:
         return listOfBooks;
     }
 }

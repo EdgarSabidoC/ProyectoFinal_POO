@@ -4,16 +4,17 @@ import java.util.ArrayList;
 
 /**
  *
- * @author edgar
+ * @author Edgar Sabido Cortés, Carlos Antonio Ruíz Domínguez, Luis Alfredo Cota Armenta.
+ * 
  */
 public class Member extends User {
     private ArrayList<Book> bookList;
         
     // Constructor:
     public Member(String name, String firstLastName, String secondLastName, ID userID, 
-                  int userNumber, Password clientPassword, Date lastLogin, ArrayList<Book> bookList) {
+                  int userNumber, Password memberPassword, Date lastLogin, ArrayList<Book> bookList) {
         
-        super(name, firstLastName, secondLastName, userID, userNumber, clientPassword, lastLogin);
+        super(name, firstLastName, secondLastName, userID, userNumber, memberPassword, lastLogin);
         this.bookList = bookList;
     }
     
@@ -82,7 +83,7 @@ public class Member extends User {
        
     // Métodos concretos:
     
-    // Verifica que el password del cliente sea correcto:
+    // Verifica que el password del miembro sea correcto:
     @Override
     public boolean authenticate(char[] password) {
         if(password.length == 9) {
@@ -91,7 +92,7 @@ public class Member extends User {
         return false;
     }
 
-    // Retorna el número de indentificación del cliente:
+    // Retorna la indentificación del miembro:
     @Override
     public String identity() {
         StringBuilder str = new StringBuilder();

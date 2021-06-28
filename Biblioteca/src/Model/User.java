@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 /**
  *
- * @author edgar
+ * @author Edgar Sabido Cortés, Carlos Antonio Ruíz Domínguez, Luis Alfredo Cota Armenta.
+ * 
  */
 public abstract class User implements Profile, Serializable {
     private String name;

@@ -7,7 +7,8 @@ import java.util.Random;
 
 /**
  *
- * @author edgar
+ * @author Edgar Sabido Cortés, Carlos Antonio Ruíz Domínguez, Luis Alfredo Cota Armenta.
+ * 
  */
 
 // MODES: _base38 & _base64, _base64 es el más seguro.
@@ -81,12 +82,14 @@ public class ID implements Serializable {
             setLength(9);
         }
         
+        // Arreglo de chars:
         char[] _base64chars = "0123456789ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz".toCharArray();
         
         Random _random = new Random();
         
         StringBuilder sb = null;
         
+        // Se genera el arreglo de chars pseudoaleatoriamente en base al modo seleccionado:
         switch(getMode()) {
             case "_base64":
                 sb = new StringBuilder(length-2);
@@ -107,9 +110,11 @@ public class ID implements Serializable {
         char[] ID = null;
         
         if(sb != null) {
+            // Si la cadena es null:
             ID = (LocalDate.now().getYear()%100 + sb.toString()).toCharArray();   
         }       
         
+        // Se configura el ID:
         setID(ID);
         
         return ID;

@@ -6,7 +6,8 @@ import java.util.Comparator;
 
 /**
  *
- * @author edgar
+ * @author Edgar Sabido Cortés, Carlos Antonio Ruíz Domínguez, Luis Alfredo Cota Armenta.
+ * 
  */
 public class Admin extends User {
 
@@ -22,7 +23,7 @@ public class Admin extends User {
     public boolean returnABook(ArrayList<User> membersList, ArrayList<Book> booksList, Member member, Book book) {
 
         if (!(booksList.contains(book)) || !(membersList.contains(member))) {
-            // Si en las listas no se encuentra el libro o el miembro:
+            // Si en las listas no se encuentra el libro o al miembro:
             return false;
         }
 
@@ -77,13 +78,13 @@ public class Admin extends User {
     // SALIDA: Retorna true si se efectuó correctamente la operación y false si no.
     public boolean addMemberToList(ArrayList<User> usersList, Member member) {
         
-        // Si la lista es nula o ya contiene al usuario:
+        // Si la lista es nula o ya contiene al miembro:
         if (usersList == null 
             || !(searchUserInList(usersList, String.valueOf(member.getUserID().getCharCode())).isEmpty())) {
             return false;
         }
 
-        // Se agrega el usuario a la lista:
+        // Se agrega al miembro a la lista:
         usersList.add(member);
 
         return true;
@@ -118,16 +119,16 @@ public class Admin extends User {
     // SALIDA: Retorna true si se efectuó correctamente la operación y false si no.
     public boolean deleteMemberInList(ArrayList<User> usersList, Member member) {
 
-        // Si la lista es nula, está vacía o no contiene al usuario:
+        // Si la lista es nula, está vacía o no contiene al miembro:
         if (usersList == null || usersList.isEmpty() 
             || searchUserInList(usersList, String.valueOf(member.getUserID().getCharCode())).isEmpty()) {
             return false;
         }
 
-        // Se busca el usuario:
+        // Se busca al miembro:
         for (int i = 0; i < usersList.size(); i++) {
             if (usersList.get(i).getUserID().compareID(member.getUserID().getCharCode())) {
-                usersList.remove(i); // Se elimina el usuario si hay una coincidencia.
+                usersList.remove(i); // Se elimina al miembro si hay una coincidencia.
             }
         }
 
