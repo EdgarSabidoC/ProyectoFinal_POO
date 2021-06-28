@@ -47,22 +47,29 @@ public class Admin extends User {
         
         ArrayList<User> usersFound = new ArrayList<>(); // Lista de coincidencias.
         
+        // Se recorre la lista de usuarios ingresado (Admins o Members):
         for (int i = 0; i < usersList.size(); i++) {
+            // Se recorren los Strings ingresados:
             for (int j = 0; j < data.length; j++) {
                 if (usersList.get(i).getUserID().compareID(data[j].toCharArray())) {
                     // Coincide el ID de usuario:
                     usersFound.add(usersList.get(i)); // Se añadde el usuario a la lista de coincidencias.
                     break;
-                } else if (usersList.get(i).getName().equals(data[j])) {
-                    if (j + 1 < data.length && usersList.get(i).getFirstLastName().equals(data[j + 1])) {
-
-                        if (j + 2 < data.length && usersList.get(i).getSecondLastName().equals(data[j + 2])) {
+                } else if (usersList.get(i).getName().contains(data[j])) {
+                    if (usersList.get(i).getFirstLastName().contains(data[j])) {
+                        if (usersList.get(i).getSecondLastName().contains(data[j])) {
                             // Coincide el nombre completo de usuario (nombre y apellidos):
                             usersFound.add(usersList.get(i)); // Se añadde el usuario a la lista de coincidencias.
                             break;
                         }
+                        // Coincide el nombre y primer apellido del usuario:
+                        usersFound.add(usersList.get(i)); // Se añadde el usuario a la lista de coincidencias.
+                        break;
                     }
-                }
+                    // Coincide el nombre del usuario:
+                    usersFound.add(usersList.get(i)); // Se añadde el usuario a la lista de coincidencias.
+                    break;
+                } 
             }
         }
 
