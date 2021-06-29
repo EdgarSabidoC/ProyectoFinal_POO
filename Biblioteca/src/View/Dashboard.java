@@ -3,7 +3,7 @@ package View;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import Model.*;
-import View.ButtonColumn;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -11,73 +11,76 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Carlos Antonio Ruiz
+ * @author Edgar Sabido Cortés, Carlos Antonio Ruíz Domínguez, Luis Alfredo Cota Armenta.
+ *
  */
 public final class Dashboard extends javax.swing.JFrame {
+
     public static Library biblioteca;
     public static SuperAdmin root;
     public static User usuario;
-    
+
     public TBList bookTable = new TBList();
     public ArrayList<Book> bookArray;
-    
+    public ArrayList<User> userArray;
+
     public Dashboard() {
         //Se inician los componentes internos.
         initComponents();
-        
+
         //Se establece la posición del frame al centro de la pantalla.
         setLocationRelativeTo(null);
-        
+
         //Se carga el icono del programa.
         iconFrame();
-        
+
         //Se carga en el menu de inicio el nombre del usuario.
         HomeName();
-        
+
         //Se ocultan opciones del menu según el tipo de usuario que haya ingresado.
-        if(usuario instanceof Member) {
+        if (usuario instanceof Member) {
             //Se elimina la capacidad de ingresar a pestañas solo para adminsitradores y superadmin.
             PanelMenu.remove(btnSearchUsers);
             PanelMenu.remove(btnManageUsers);
             PanelMenu.remove(btnManageBooks);
-            
+
             PanelFormMenu.remove(btnBookReturn);
-        } else if (usuario instanceof Admin &&!(usuario instanceof SuperAdmin)){
+        } else if (usuario instanceof Admin && !(usuario instanceof SuperAdmin)) {
             //Se elimina la capacidad de ingresar a pestañas solo para usuarios y superadmin.
             PanelFormMenu.remove(btnBookIssue);
             PanelFormMenu.remove(btnUserBook);
-            
+
             UserManage.remove(btnAdminAdd);
-            
+
             //Se modifica el texto de los menus.
             jblUserID.setText("ID DEL ADMINISTRADOR");
         } else {
             //Se elimina la capacidad de ingresar a pestañas solo para usuarios.
             PanelFormMenu.remove(btnBookIssue);
             PanelFormMenu.remove(btnUserBook);
-            
+
             //Se modifica el texto de los menus.
             jblUserID.setText("ID DEL ADMINISTRADOR");
         }
-        
+
         //Placeholders:
         TextPrompt txtSearchBookPlaceholder = new TextPrompt("Buscar Libro", this.txtBookSearch);
         TextPrompt txtUserSearchPlaceholder = new TextPrompt("Buscar usuario", this.txtUserSearch);
-        
-        
+
         //Color de transparencia de los placeholders:
         txtSearchBookPlaceholder.changeAlpha(0.75f);
         txtUserSearchPlaceholder.changeAlpha(0.75f);
-        
+
         //Estilo de letra de los placeholders:
         txtSearchBookPlaceholder.changeStyle(Font.PLAIN);
         txtUserSearchPlaceholder.changeStyle(Font.PLAIN);
-        
+
         //Errores
         jblRelastname1Error.setVisible(false);
         jblRelastname2Error.setVisible(false);
@@ -85,83 +88,262 @@ public final class Dashboard extends javax.swing.JFrame {
         jblSearchError.setVisible(false);
         jblUserSearchError.setVisible(false);
     }
-    
+
     //Metodo que carga una imagen y la establece como el icono del programa.
     public void iconFrame() {
         URL url = getClass().getResource("/Images/iconFrame.png");
         ImageIcon iconFrame = new ImageIcon(url);
         setIconImage(iconFrame.getImage());
     }
-    
-    public void initTableBookReturn(JTable table) { 
-        bookTable.initTablaListaLibrosDevolver(table);
+
+    public void initTableBookReturn(JTable table, ArrayList<Book> BookReturn) {
+        bookArray = BookReturn;
+        bookTable.initTableBookReturn(table, BookReturn);
         ButtonColumn buttonColumn = new ButtonColumn(table, returnbook, 9);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
     }
-    
+
     public void initTableBookList(JTable table) {
-        bookTable.initTablaListaLibros(table);
+        bookTable.initTableBookList(table, biblioteca.getBooksList());
     }
-    
+
+    public void initTableBookManage(JTable table) {
+        bookTable.initTableBookManage(table, biblioteca.getBooksList());
+        ButtonColumn buttonColumn = new ButtonColumn(table, bookremove, 10);
+        buttonColumn.setMnemonic(KeyEvent.VK_D);
+    }
+
     public void initTableBookSearch(JTable table, ArrayList<Book> BookSearh) {
-        bookTable.initTablaListaLibrosBuscar(table, BookSearh);
+        bookTable.initTableBookSearch(table, BookSearh);
     }
-    
+
     public void initTableUserBook(JTable table, ArrayList<Book> UserBook) {
-        bookTable.initTablaListaLibrosPrestados(table, UserBook);
+        bookTable.initTableBookIssued(table, UserBook);
     }
-    
+
     public void initTableBookIssue(JTable table, ArrayList<Book> BookIssue) {
         bookArray = BookIssue;
-        bookTable.initTablaListaLibrosPedir(table, BookIssue);
+        bookTable.initTableBookIssue(table, BookIssue);
         ButtonColumn buttonColumn = new ButtonColumn(table, bookissue, 8);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
     }
-    
+
+    public void initTableUserSearch(JTable table, ArrayList<User> UserSearch) {
+        bookTable.initTableUserSearch(table, UserSearch);
+    }
+
+    public void initTableUserManage(JTable table, ArrayList<User> UserManage) {
+        userArray = UserManage;
+        if (usuario instanceof Admin && !(usuario instanceof SuperAdmin)) {
+            bookTable.initTableUserManage(table, UserManage);
+            ButtonColumn buttonColumn1 = new ButtonColumn(table, userremove, 5);
+            buttonColumn1.setMnemonic(KeyEvent.VK_D);
+
+        } else {
+            bookTable.initTableUserManageRoot(table, UserManage);
+            ButtonColumn buttonColumn1 = new ButtonColumn(table, userremoveroot, 5);
+            buttonColumn1.setMnemonic(KeyEvent.VK_D);
+
+            ButtonColumn buttonColumn2 = new ButtonColumn(table, userpassword, 6);
+            buttonColumn2.setMnemonic(KeyEvent.VK_D);
+        }
+    }
+
     //Metodo que carga en el menu de inicio el nombre del usuario.
     public void HomeName() {
         jblWelcomeUser.setText(usuario.getName().toUpperCase());
     }
-    
+
     //Metodo que limpia el contenido del panel del contenido previamente cargado
     private void cleanPanel() {
         PanelForm.removeAll();
         PanelForm.repaint();
         PanelForm.revalidate();
     }
-    
+
     //Metodo que imprime en el panel el contenido agregado.
     private void printPanel() {
         PanelForm.repaint();
         PanelForm.revalidate();
     }
-    
+
+    private ArrayList<User> userSearchListTable() {
+        ArrayList<User> UserList = new ArrayList<>();
+        if (usuario instanceof Admin && !(usuario instanceof SuperAdmin)) {
+            for (int i = 0; i < biblioteca.getNumberOfMembers(); i++) {
+                UserList.add(biblioteca.getMembersList().get(i));
+            }
+        } else {
+            for (int i = 0; i < biblioteca.getNumberOfMembers(); i++) {
+                UserList.add(biblioteca.getMembersList().get(i));
+            }
+            for (int i = 1; i < biblioteca.getNumberOfAdmins(); i++) {
+                UserList.add(biblioteca.getAdminsList().get(i));
+            }
+        }
+        return UserList;
+    }
+
+    Action userremoveroot = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JTable table = (JTable) e.getSource();
+            int modelRow = Integer.valueOf(e.getActionCommand());
+
+            SuperAdmin admin = (SuperAdmin) usuario;
+
+            User user = null;
+            User usertemp = userArray.get(modelRow);
+
+            if (usertemp instanceof Member) {
+                for (int i = 0; i < biblioteca.getMembersList().size(); i++) {
+                    if (usertemp.getUserID().compareID(biblioteca.getMembersList().get(i).getUserID().getCharCode())) {
+                        user = biblioteca.getMembersList().get(i);
+                    }
+                }
+
+                if (((Member) user).getBookList().isEmpty()) {
+                    admin.deleteUserInList(biblioteca.getMembersList(), user);
+                    userArray.remove(modelRow);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se puede borrar el usuario ya que aún tiene libros prestados");
+                    return;
+                }
+
+            } else if (usertemp instanceof Admin) {
+                for (int i = 0; i < biblioteca.getAdminsList().size(); i++) {
+                    if (usertemp.getUserID().compareID(biblioteca.getAdminsList().get(i).getUserID().getCharCode())) {
+                        user = biblioteca.getAdminsList().get(i);
+                    }
+                }
+
+                admin.deleteUserInList(biblioteca.getAdminsList(), user);
+                userArray.remove(modelRow);
+            }
+
+            ((DefaultTableModel) table.getModel()).removeRow(modelRow);
+            biblioteca.updateInfoInFiles();
+        }
+
+    };
+
+    Action userremove = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JTable table = (JTable) e.getSource();
+            int modelRow = Integer.valueOf(e.getActionCommand());
+
+            Admin admin = (Admin) usuario;
+
+            Member user = null;
+            User usertemp = userArray.get(modelRow);
+
+            for (int i = 0; i < biblioteca.getMembersList().size(); i++) {
+                if (usertemp.getUserID().compareID(biblioteca.getMembersList().get(i).getUserID().getCharCode())) {
+                    user = (Member) biblioteca.getMembersList().get(i);
+                }
+            }
+
+            if (((Member) user).getBookList().isEmpty()) {
+                admin.deleteMemberInList(biblioteca.getMembersList(), user);
+                userArray.remove(modelRow);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se puede borrar el usuario ya que aún tiene libros prestados");
+                return;
+            }
+
+            ((DefaultTableModel) table.getModel()).removeRow(modelRow);
+            biblioteca.updateInfoInFiles();
+        }
+
+    };
+
+    Action userpassword = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JTable table = (JTable) e.getSource();
+            int modelRow = Integer.valueOf(e.getActionCommand());
+            User usertemp = userArray.get(modelRow);
+            JOptionPane.showMessageDialog(null, String.valueOf(usertemp.getUserPassword().getPasswordCode()));
+
+        }
+
+    };
+
+    Action bookremove = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JTable table = (JTable) e.getSource();
+            int modelRow = Integer.valueOf(e.getActionCommand());
+
+            Admin admin = (Admin) usuario;
+
+            Book book = biblioteca.getBooksList().get(modelRow);
+
+            if (!book.isBorrowed()) {
+                admin.deleteBookInList(biblioteca.getBooksList(), book);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se puede borrar el libro ya que esta prestado");
+                return;
+            }
+
+            ((DefaultTableModel) table.getModel()).removeRow(modelRow);
+            biblioteca.updateInfoInFiles();
+        }
+    };
     //Accion que permite devolver un libro.
     Action returnbook = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JTable table = (JTable)e.getSource();
-            int modelRow = Integer.valueOf( e.getActionCommand() );
-            ((DefaultTableModel)table.getModel()).removeRow(modelRow);
+            JTable table = (JTable) e.getSource();
+            int modelRow = Integer.valueOf(e.getActionCommand());
+            ((DefaultTableModel) table.getModel()).removeRow(modelRow);
+
+            Admin AdminReturn = (Admin) usuario;
+
+            Book book = null;
+            for (int i = 0; i < biblioteca.getBooksList().size(); i++) {
+                if (bookArray.get(modelRow).getID().compareID(biblioteca.getBooksList().get(i).getID().getCharCode())) {
+                    book = biblioteca.getBooksList().get(i);
+                }
+            }
+
+            //Encontrar miembro
+            Member membertemp = null;
+            Member member = null;
+            for (int i = 0; i < biblioteca.getMembersList().size(); i++) {
+                membertemp = (Member) biblioteca.getMembersList().get(i);
+                for (int j = 0; j < membertemp.getBookList().size(); j++) {
+                    if (book.getID().compareID(membertemp.getBookList().get(j).getID().getCharCode())) {
+                        member = (Member) biblioteca.getMembersList().get(i);
+                    }
+                }
+            }
+
+            AdminReturn.returnABook(biblioteca.getMembersList(), biblioteca.getBooksList(), member, book);
+
+            bookArray.remove(modelRow);
+            biblioteca.updateInfoInFiles();
         }
-        
+
     };
-    
-    
+
     Action bookissue = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JTable table = (JTable)e.getSource();
-            int modelRow = Integer.valueOf( e.getActionCommand() );
-            ((DefaultTableModel)table.getModel()).removeRow(modelRow);
+            JTable table = (JTable) e.getSource();
+            int modelRow = Integer.valueOf(e.getActionCommand());
+            ((DefaultTableModel) table.getModel()).removeRow(modelRow);
 
             Member UserIssue = (Member) usuario;
             UserIssue.bookABook(biblioteca.getBooksList(), bookArray.get(modelRow));
             bookArray.remove(modelRow);
+
+            biblioteca.updateInfoInFiles();
         }
-        
+
     };
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -189,13 +371,16 @@ public final class Dashboard extends javax.swing.JFrame {
         User = new javax.swing.JPanel();
         txtName = new javax.swing.JTextField();
         jblUser = new javax.swing.JLabel();
+        cbxShowPassword = new javax.swing.JCheckBox();
         txtLastNames = new javax.swing.JTextField();
         jblLastNames = new javax.swing.JLabel();
         txtUserID = new javax.swing.JTextField();
         jblUserID = new javax.swing.JLabel();
+        jblPassword = new javax.swing.JLabel();
         txtLastLogin = new javax.swing.JTextField();
         jblLastLogin = new javax.swing.JLabel();
         jblName = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
         BookList = new javax.swing.JPanel();
         jblBookList = new javax.swing.JLabel();
         scrollBookList = new javax.swing.JScrollPane();
@@ -493,6 +678,16 @@ public final class Dashboard extends javax.swing.JFrame {
         jblUser.setOpaque(true);
         User.add(jblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 270, 30));
 
+        cbxShowPassword.setBackground(new java.awt.Color(255, 255, 255));
+        cbxShowPassword.setForeground(new java.awt.Color(0, 38, 78));
+        cbxShowPassword.setText("Mostrar contraseña");
+        cbxShowPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxShowPasswordActionPerformed(evt);
+            }
+        });
+        User.add(cbxShowPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, -1, -1));
+
         txtLastNames.setEditable(false);
         txtLastNames.setBackground(new java.awt.Color(166, 184, 204));
         txtLastNames.setForeground(new java.awt.Color(0, 0, 0));
@@ -511,6 +706,10 @@ public final class Dashboard extends javax.swing.JFrame {
         jblUserID.setText("ID DEL USUARIO:");
         User.add(jblUserID, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 510, 30));
 
+        jblPassword.setForeground(new java.awt.Color(0, 0, 0));
+        jblPassword.setText("CONTRASEÑA");
+        User.add(jblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 510, 30));
+
         txtLastLogin.setEditable(false);
         txtLastLogin.setBackground(new java.awt.Color(166, 184, 204));
         txtLastLogin.setForeground(new java.awt.Color(0, 0, 0));
@@ -523,6 +722,16 @@ public final class Dashboard extends javax.swing.JFrame {
         jblName.setForeground(new java.awt.Color(0, 0, 0));
         jblName.setText("NOMBRE:");
         User.add(jblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 510, 30));
+
+        txtPassword.setEditable(false);
+        txtPassword.setBackground(new java.awt.Color(166, 184, 204));
+        txtPassword.setForeground(new java.awt.Color(0, 0, 0));
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordActionPerformed(evt);
+            }
+        });
+        User.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 510, 30));
 
         PanelForm.add(User, "card3");
 
@@ -605,6 +814,11 @@ public final class Dashboard extends javax.swing.JFrame {
         txtBookSearch.setBackground(new java.awt.Color(166, 184, 204));
         txtBookSearch.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txtBookSearch.setForeground(new java.awt.Color(0, 0, 0));
+        txtBookSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBookSearchKeyReleased(evt);
+            }
+        });
         BookSearch.add(txtBookSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 400, 40));
 
         tableBookSearch.setBackground(new java.awt.Color(166, 184, 204));
@@ -650,7 +864,7 @@ public final class Dashboard extends javax.swing.JFrame {
         jblBookSearch.setOpaque(true);
         BookSearch.add(jblBookSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 270, 30));
 
-        jblSearchError.setForeground(new java.awt.Color(0, 0, 0));
+        jblSearchError.setForeground(new java.awt.Color(255, 0, 51));
         BookSearch.add(jblSearchError, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 400, 20));
 
         PanelForm.add(BookSearch, "card6");
@@ -838,13 +1052,13 @@ public final class Dashboard extends javax.swing.JFrame {
         Configuration.setBackground(new java.awt.Color(255, 255, 255));
         Configuration.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jblRelastname2Error.setForeground(new java.awt.Color(0, 0, 0));
+        jblRelastname2Error.setForeground(new java.awt.Color(255, 0, 51));
         Configuration.add(jblRelastname2Error, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 510, 20));
 
-        jblRenameError1.setForeground(new java.awt.Color(0, 0, 0));
+        jblRenameError1.setForeground(new java.awt.Color(255, 0, 51));
         Configuration.add(jblRenameError1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 510, 20));
 
-        jblRelastname1Error.setForeground(new java.awt.Color(0, 0, 0));
+        jblRelastname1Error.setForeground(new java.awt.Color(255, 0, 51));
         Configuration.add(jblRelastname1Error, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 510, 20));
 
         btnRename.setForeground(new java.awt.Color(255, 255, 255));
@@ -868,6 +1082,11 @@ public final class Dashboard extends javax.swing.JFrame {
 
         txtLastName1.setBackground(new java.awt.Color(166, 184, 204));
         txtLastName1.setForeground(new java.awt.Color(0, 0, 0));
+        txtLastName1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtLastName1KeyReleased(evt);
+            }
+        });
         Configuration.add(txtLastName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 510, 30));
 
         jblUserConfig.setBackground(new java.awt.Color(0, 38, 78));
@@ -880,6 +1099,11 @@ public final class Dashboard extends javax.swing.JFrame {
 
         txtNameChange.setBackground(new java.awt.Color(166, 184, 204));
         txtNameChange.setForeground(new java.awt.Color(0, 0, 0));
+        txtNameChange.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNameChangeKeyReleased(evt);
+            }
+        });
         Configuration.add(txtNameChange, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 510, 30));
 
         jblNameChange.setForeground(new java.awt.Color(0, 0, 0));
@@ -888,6 +1112,11 @@ public final class Dashboard extends javax.swing.JFrame {
 
         txtLastName2.setBackground(new java.awt.Color(166, 184, 204));
         txtLastName2.setForeground(new java.awt.Color(0, 0, 0));
+        txtLastName2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtLastName2KeyReleased(evt);
+            }
+        });
         Configuration.add(txtLastName2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 510, 30));
 
         jblLastName2.setForeground(new java.awt.Color(0, 0, 0));
@@ -944,6 +1173,11 @@ public final class Dashboard extends javax.swing.JFrame {
         txtUserSearch.setBackground(new java.awt.Color(166, 184, 204));
         txtUserSearch.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txtUserSearch.setForeground(new java.awt.Color(0, 0, 0));
+        txtUserSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUserSearchKeyReleased(evt);
+            }
+        });
         UserSearch.add(txtUserSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 400, 40));
 
         btnUserSearch.setForeground(new java.awt.Color(255, 255, 255));
@@ -954,9 +1188,14 @@ public final class Dashboard extends javax.swing.JFrame {
         btnUserSearch.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnUserSearch.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/btn1.png"))); // NOI18N
         btnUserSearch.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/btn1_Rollover.png"))); // NOI18N
+        btnUserSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUserSearchActionPerformed(evt);
+            }
+        });
         UserSearch.add(btnUserSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 140, 110, 40));
 
-        jblUserSearchError.setForeground(new java.awt.Color(0, 0, 0));
+        jblUserSearchError.setForeground(new java.awt.Color(255, 0, 51));
         UserSearch.add(jblUserSearchError, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 400, 20));
 
         PanelForm.add(UserSearch, "card9");
@@ -1121,29 +1360,29 @@ public final class Dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
-        
+
         //Se carga en el menu de inicio el nombre del usuario.
         HomeName();
-        
+
         //Se remueven la información cargada del panel.
         cleanPanel();
-        
+
         //Se imprime en el panel el menu Home.
         PanelForm.add(Home);
         printPanel();
-        
+
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
         //Se carga la información del usuario
         txtName.setText(usuario.getName());
-        txtLastNames.setText(usuario.getFirstLastName() + " " + usuario.getSecondLastName() );
+        txtLastNames.setText(usuario.getFirstLastName() + " " + usuario.getSecondLastName());
         txtUserID.setText(String.valueOf(usuario.getUserID().getCharCode()));
-        txtLastLogin.setText(usuario.getLastLogin().getDateS());
-        
+        txtLastLogin.setText("Fecha: " + usuario.getLastLogin().getDateS() + " Hora: " + usuario.getLastLogin().getTimeS());
+        txtPassword.setText(String.valueOf(usuario.getUserPassword().getPasswordCode()));
         //Se remueven la información cargada del panel.
         cleanPanel();
-        
+
         //Se imprime en el panel el menu User.
         PanelForm.add(User);
         printPanel();
@@ -1152,10 +1391,10 @@ public final class Dashboard extends javax.swing.JFrame {
     private void btnBookListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookListActionPerformed
         //Se cargan los datos de la tabla.
         initTableBookList(tableBookList);
-        
+
         //Se remueven la información cargada del panel.
         cleanPanel();
-        
+
         //Se imprime en el panel el menu BookList.
         PanelForm.add(BookList);
         printPanel();
@@ -1163,30 +1402,41 @@ public final class Dashboard extends javax.swing.JFrame {
 
     private void btnBookIssueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookIssueActionPerformed
         ArrayList<Book> BookIssueUser = new ArrayList<>();
-        for(Book book: biblioteca.getBooksList()) {
-            BookIssueUser.add(book);
+        for (int i = 0; i < biblioteca.getBooksList().size(); i++) {
+            BookIssueUser.add(biblioteca.getBooksList().get(i));
         }
-        
-        for(int i = 0; i < BookIssueUser.size(); i++) {
-            if(BookIssueUser.get(i).isBorrowed()) {
+
+        for (int i = (BookIssueUser.size() - 1); i >= 0; i--) {
+            if (BookIssueUser.get(i).isBorrowed()) {
                 BookIssueUser.remove(i);
             }
         }
         initTableBookIssue(tableBookIssue, BookIssueUser);
-        
+
         //Se remueven la información cargada del panel.
         cleanPanel();
-        
+
         //Se imprime en el panel el menu BookIssue.
         PanelForm.add(BookIssue);
         printPanel();
     }//GEN-LAST:event_btnBookIssueActionPerformed
-        
+
     private void btnBookReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookReturnActionPerformed
-        initTableBookReturn(tableBookReturn);
-        
+        ArrayList<Book> BookReturnAdmin = new ArrayList<>();
+        for (int i = 0; i < biblioteca.getBooksList().size(); i++) {
+            BookReturnAdmin.add(biblioteca.getBooksList().get(i));
+        }
+
+        for (int i = (BookReturnAdmin.size() - 1); i >= 0; i--) {
+            if (!BookReturnAdmin.get(i).isBorrowed()) {
+                BookReturnAdmin.remove(i);
+            }
+        }
+
+        initTableBookReturn(tableBookReturn, BookReturnAdmin);
+
         //Se remueven la información cargada del panel.
-        cleanPanel();    
+        cleanPanel();
         //Se imprime en el panel el menu BookReturn.
         PanelForm.add(BookReturn);
         printPanel();
@@ -1195,25 +1445,30 @@ public final class Dashboard extends javax.swing.JFrame {
     private void btnConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfigActionPerformed
         //Se remueven la información cargada del panel.
         cleanPanel();
-        
+
         //Se imprime en el panel el menu Configuration.
         PanelForm.add(Configuration);
         printPanel();
     }//GEN-LAST:event_btnConfigActionPerformed
 
     private void btnManageBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageBooksActionPerformed
+        //Se cargan los datos de la tabla.
+        initTableBookManage(tableBookManage);
+
         //Se remueven la información cargada del panel.
         cleanPanel();
-        
+
         //Se imprime en el panel el menu BookManage.
         PanelForm.add(BookManage);
         printPanel();
     }//GEN-LAST:event_btnManageBooksActionPerformed
 
     private void btnManageUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageUsersActionPerformed
+        initTableUserManage(tableUserManage, userSearchListTable());
+
         //Se remueven la información cargada del panel.
         cleanPanel();
-        
+
         //Se imprime en el panel el menu UserManage.
         PanelForm.add(UserManage);
         printPanel();
@@ -1228,19 +1483,21 @@ public final class Dashboard extends javax.swing.JFrame {
     private void btnBookSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookSearchActionPerformed
         //Se cargan los datos de la tabla.
         initTableBookList(tableBookSearch);
-        
+
         //Se remueven la información cargada del panel.
         cleanPanel();
-        
+
         //Se imprime en el panel el menu BookSearch.
         PanelForm.add(BookSearch);
         printPanel();
     }//GEN-LAST:event_btnBookSearchActionPerformed
 
     private void btnSearchUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchUsersActionPerformed
+        //Se cargan los datos de la tabla.
+        initTableUserSearch(tableUserSearch, userSearchListTable());
         //Se remueven la información cargada del panel.
         cleanPanel();
-        
+
         //Se imprime en el panel el menu BookList.
         PanelForm.add(UserSearch);
         printPanel();
@@ -1259,36 +1516,154 @@ public final class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBookAddActionPerformed
 
     private void btnRenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenameActionPerformed
-        String name;
-        String firstLastName;
-        String secondLastName;
+        if (!(this.txtNameChange.getText().isEmpty())
+            && !(this.txtLastName1.getText().isEmpty())
+            && !(this.txtLastName2.getText().isEmpty())) {
+
+            String name;
+            String firstLastName;
+            String secondLastName;
+
+            name = txtNameChange.getText();
+            firstLastName = txtLastName1.getText();
+            secondLastName = txtLastName2.getText();
+
+            usuario.rename(name, firstLastName, secondLastName);
+            biblioteca.updateInfoInFiles();
+        }
         
-        name = txtNameChange.getText();
-        firstLastName = txtLastName1.getText();
-        secondLastName = txtLastName2.getText();
+        if(this.txtNameChange.getText().isEmpty()) {
+            this.txtNameChange.setBackground(Color.PINK);
+            this.jblRenameError1.setText("*Campo obligatorio");
+            this.jblRenameError1.setVisible(true);
+        }
         
-        usuario.rename(name, firstLastName, secondLastName);
-        biblioteca.updateInfoInFiles();
+        if(this.txtLastName1.getText().isEmpty()) {
+            this.txtLastName1.setBackground(Color.PINK);
+            this.jblRelastname1Error.setText("*Campo obligatorio");
+            this.jblRelastname1Error.setVisible(true);
+        }
+        
+        if(this.txtLastName2.getText().isEmpty()) {
+            this.txtLastName2.setBackground(Color.PINK);
+            this.jblRelastname2Error.setText("*Campo obligatorio");
+            this.jblRelastname2Error.setVisible(true);
+        }
     }//GEN-LAST:event_btnRenameActionPerformed
 
     private void btnUserBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserBookActionPerformed
         Member UserArray = (Member) usuario;
         ArrayList<Book> UserBookArray = UserArray.getBookList();
         initTableUserBook(tableUserBook, UserBookArray);
-        
-        
+
         //Se remueven la información cargada del panel.
         cleanPanel();
-        
+
         //Se imprime en el panel el menu BookList.
         PanelForm.add(UserBook);
         printPanel();
     }//GEN-LAST:event_btnUserBookActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        ArrayList<Book> BookSearh = biblioteca.searchBook(txtBookSearch.getText());
-        initTableBookSearch(tableBookSearch, BookSearh);
+        if(!(this.txtBookSearch.getText().isEmpty())) {
+            // Si el campo no está vacío:
+            ArrayList<Book> BookSearh = biblioteca.searchBook(txtBookSearch.getText());
+            initTableBookSearch(tableBookSearch, BookSearh);
+        } 
+        
+        if(this.txtBookSearch.getText().isEmpty()) {
+            // Si el campo está vacío:
+            this.jblSearchError.setText("*Campo obligatorio");
+            this.txtBookSearch.setBackground(Color.PINK);
+            this.jblSearchError.setVisible(true);
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnUserSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserSearchActionPerformed
+         if(!(this.txtUserSearch.getText().isEmpty())) {
+            // Si el campo no está vacío:
+            ArrayList<User> UserSearh = ((Admin) usuario).searchUserInList(userSearchListTable(), txtUserSearch.getText());
+            initTableUserSearch(tableUserSearch, UserSearh);
+        }
+         
+        if(this.txtUserSearch.getText().isEmpty()) {
+            // Si el campo está vacío:
+            this.jblUserSearchError.setText("*Campo obligatorio");
+            this.txtUserSearch.setBackground(Color.PINK);
+            this.jblUserSearchError.setVisible(true);
+        }
+    }//GEN-LAST:event_btnUserSearchActionPerformed
+
+    private void cbxShowPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxShowPasswordActionPerformed
+        if (cbxShowPassword.isSelected()) {
+            this.txtPassword.setEchoChar((char) 0);
+        } else {
+            this.txtPassword.setEchoChar('*');
+        }
+    }//GEN-LAST:event_cbxShowPasswordActionPerformed
+
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordActionPerformed
+
+    private void txtNameChangeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameChangeKeyReleased
+        // Char leído al presionar la tecla:
+        Character c = evt.getKeyChar();
+
+        if (c >= KeyEvent.VK_0 && c <= KeyEvent.VK_9) {
+            // Si se ingresan letras:
+            new Validate().isValidStringWithoutDigits(this.txtNameChange, this.jblRenameError1);
+
+        } else if (this.txtNameChange.getText().isEmpty() || new Validate().isValidStringWithoutDigits(this.txtNameChange, this.jblRenameError1)) {
+            // Si el campo de texto está vacío o puede ser convertido a número:
+            this.jblRenameError1.setVisible(false);
+            this.txtNameChange.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_txtNameChangeKeyReleased
+
+    private void txtLastName1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLastName1KeyReleased
+        // Char leído al presionar la tecla:
+        Character c = evt.getKeyChar();
+
+        if (c >= KeyEvent.VK_0 && c <= KeyEvent.VK_9) {
+            // Si se ingresan letras:
+            new Validate().isValidStringWithoutDigits(this.txtLastName1, this.jblRelastname1Error);
+
+        } else if (this.txtLastName1.getText().isEmpty() || new Validate().isValidStringWithoutDigits(this.txtLastName1, this.jblRelastname1Error)) {
+            // Si el campo de texto está vacío o puede ser convertido a número:
+            this.jblRelastname1Error.setVisible(false);
+            this.txtLastName1.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_txtLastName1KeyReleased
+
+    private void txtLastName2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLastName2KeyReleased
+        // Char leído al presionar la tecla:
+        Character c = evt.getKeyChar();
+
+        if (c >= KeyEvent.VK_0 && c <= KeyEvent.VK_9) {
+            // Si se ingresan letras:
+            new Validate().isValidStringWithoutDigits(this.txtLastName2, this.jblRelastname2Error);
+
+        } else if (this.txtLastName2.getText().isEmpty() || new Validate().isValidStringWithoutDigits(this.txtLastName2, this.jblRelastname2Error)) {
+            // Si el campo de texto está vacío o puede ser convertido a número:
+            this.jblRelastname2Error.setVisible(false);
+            this.txtLastName2.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_txtLastName2KeyReleased
+
+    private void txtBookSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBookSearchKeyReleased
+        if(this.jblSearchError.isVisible()) {
+            this.jblSearchError.setVisible(false);
+            this.txtBookSearch.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_txtBookSearchKeyReleased
+
+    private void txtUserSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserSearchKeyReleased
+        if(this.jblUserSearchError.isVisible()) {
+            this.jblUserSearchError.setVisible(false);
+            this.txtUserSearch.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_txtUserSearchKeyReleased
 
     /**
      * @param args the command line arguments
@@ -1300,12 +1675,11 @@ public final class Dashboard extends javax.swing.JFrame {
         biblioteca = new Library(new ArrayList(), new ArrayList(), new ArrayList<>(), adminsDB, membersDB, booksDB);
         biblioteca.loadInfoFromFiles();
         root = (SuperAdmin) biblioteca.getAdminsList().get(0);
-        
+
         //usuario = (Member) biblioteca.getMembersList().get(0);
-        //usuario = (Admin) biblioteca.getAdminsList().get(1);
-        usuario = root;
-        
-        
+        usuario = (Admin) biblioteca.getAdminsList().get(1);
+        //usuario = root;
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -1348,6 +1722,7 @@ public final class Dashboard extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnUserAdd;
     private javax.swing.JButton btnUserBook;
     private javax.swing.JToggleButton btnUserSearch;
+    private javax.swing.JCheckBox cbxShowPassword;
     private javax.swing.JLabel jblBookIssue;
     private javax.swing.JLabel jblBookList;
     private javax.swing.JLabel jblBookManage;
@@ -1360,6 +1735,7 @@ public final class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jblLastNames;
     private javax.swing.JLabel jblName;
     private javax.swing.JLabel jblNameChange;
+    private javax.swing.JLabel jblPassword;
     private javax.swing.JLabel jblRelastname1Error;
     private javax.swing.JLabel jblRelastname2Error;
     private javax.swing.JLabel jblRenameError1;
@@ -1396,6 +1772,7 @@ public final class Dashboard extends javax.swing.JFrame {
     private javax.swing.JTextField txtLastNames;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtNameChange;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUserID;
     private javax.swing.JTextField txtUserSearch;
     // End of variables declaration//GEN-END:variables

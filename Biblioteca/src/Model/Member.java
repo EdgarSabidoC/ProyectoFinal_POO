@@ -74,7 +74,7 @@ public class Member extends User {
     // Elimina un libro de la lista de libros:
     public void removeBook(Book book) {
         for(int i = 0; i < getBookList().size(); i++) {
-            if(getBookList().get(i).equals(String.valueOf(book.getID().getCharCode()))) {
+            if(getBookList().get(i).getID().compareID(book.getID().getCharCode())) {
                 getBookList().remove(i);
                 break;
             }

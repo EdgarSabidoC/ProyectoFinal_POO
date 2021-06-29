@@ -63,7 +63,7 @@ public final class SuperAdmin extends Admin {
         
         // Se busca el usuario:
         for(int i = 0; i < usersList.size(); i++) {
-            if (usersList.get(i).getUserID().equals(user.getUserID().getCharCode()) == true) {
+            if (usersList.get(i).getUserID().compareID((user.getUserID().getCharCode())) == true) {
                 usersList.remove(i); // Se elimina el usuario si hay una coincidencia.
             }
         }
@@ -94,7 +94,7 @@ public final class SuperAdmin extends Admin {
         str.append("\nName: ");
         str.append(super.getName());
         str.append("\nPassword: ");
-        str.append(String.valueOf(super.getUserPassword().getPassword()));
+        str.append(String.valueOf(super.getUserPassword().getPasswordCode()));
         str.append("\nÚltimo acceso: "); 
         str.append(super.getLastLogin().getDateAndTime());
         

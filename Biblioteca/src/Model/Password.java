@@ -30,7 +30,7 @@ public class Password implements Serializable{
         return length;
     }
 
-    protected char[] getPassword() {
+    public char[] getPasswordCode() {
         return password;
     }
 
@@ -41,7 +41,7 @@ public class Password implements Serializable{
     
     protected void setPassword(char[] password){
         this.password = password;
-        setLength(getPassword().length);
+        setLength(getPasswordCode().length);
     }
 
     // Crea un password a partir de un String:
@@ -86,7 +86,7 @@ public class Password implements Serializable{
     // Retorna el hash del password:
     @Override
     public int hashCode() {
-        return Arrays.hashCode(getPassword());
+        return Arrays.hashCode(getPasswordCode());
     }
 
     // Verifica que todos los atributos de ambos objetos sean iguales:
@@ -115,6 +115,6 @@ public class Password implements Serializable{
     // ENTRADA: Arreglo de chars.
     // SALIDA: true si los passwords son iguales, false si no.
     public boolean compare(char[] password) {
-        return Arrays.equals(getPassword(), password);
+        return Arrays.equals(getPasswordCode(), password);
     }
 }
