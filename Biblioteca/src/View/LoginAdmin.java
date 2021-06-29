@@ -1,9 +1,13 @@
 package View;
 
+import App.PruebaBiblioteca;
+import Model.Admin;
+import Model.SuperAdmin;
 import java.awt.Color;
 import java.awt.Font;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -187,21 +191,14 @@ public class LoginAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginAdminActionPerformed
 
     //Metodo que ingresa al dashboard a traves de un administrador ingresado.
+    int cont = 1;
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-
         if (!(this.txtAdminName.getText().isEmpty()) && !(this.txtPassword.getText().isEmpty())) {            
-            
-            Dashboard dash = new Dashboard();
-            dash.setVisible(true);
-            this.dispose();
-            
-            
-            
-            /* ESTO SE DEBE DE REALIZAR PARA INICIAR SESIÓN CON EL ADMIN:
+
             SuperAdmin root = (SuperAdmin) PruebaBiblioteca.biblioteca.getAdminsList().get(0);
 
             Admin admin = null;
-            if (new Validate().isValidID(PruebaBiblioteca.biblioteca.getMembersList(), this.txtAdminName.getText().toCharArray())) {
+            if (new Validate().isValidID(PruebaBiblioteca.biblioteca.getAdminsList(), this.txtAdminName.getText().toCharArray())) {
                 admin = ((Admin) root.searchUserInList(PruebaBiblioteca.biblioteca.getAdminsList(), this.txtAdminName.getText()).get(0));
             }
 
@@ -229,7 +226,7 @@ public class LoginAdmin extends javax.swing.JFrame {
                 }
                 cont++;
             }
-            */
+
         }
 
         if (this.txtAdminName.getText().isEmpty()) {

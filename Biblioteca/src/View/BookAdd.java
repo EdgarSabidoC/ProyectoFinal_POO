@@ -1,5 +1,9 @@
 package View;
 
+import App.PruebaBiblioteca;
+import Model.Admin;
+import Model.Book;
+import Model.ID;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -245,6 +249,17 @@ public class BookAdd extends javax.swing.JFrame {
             
             
             // AQUÍ VA TODO LO QUE SE DEBE DE HACER AL PRESIONAR EL BOTÓN.
+            String author = this.txtAutor.getText();
+            String edition = this.txtEdition.getText();
+            String editorial = this.txtEditorial.getText();
+            String ISBN = this.txtISBN.getText();
+            String pages = this.txtPages.getText();
+            String title = this.txtTitle.getText();
+            String year = this.txtYear.getText();
+            
+            ((Admin)PruebaBiblioteca.user).addBookToList(PruebaBiblioteca.biblioteca.getBooksList(), new Book(author, Integer.parseInt(year), title, edition,
+                                                               editorial, Integer.parseInt(pages), ISBN, new ID("_base64", 10), false, null));
+            PruebaBiblioteca.biblioteca.updateInfoInFiles();
         }
         
         

@@ -1,5 +1,11 @@
 package View;
 
+import App.PruebaBiblioteca;
+import Model.Admin;
+import Model.Date;
+import Model.ID;
+import Model.Password;
+import Model.SuperAdmin;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -159,9 +165,13 @@ public class AdminAdd extends javax.swing.JFrame {
             && !(this.txtLastName1.getText().isEmpty())
             && !(this.txtLastName2.getText().isEmpty())) {
             // AQUÍ VA TODO LO QUE SE DEBE DE REALIZAR AL PRESIONAR EL BOTÓN.
+            String name = this.txtName.getText();
+            String lastName1 = this.txtLastName1.getText();
+            String lastName2 = this.txtLastName2.getText();
             
-            
-            
+            ((SuperAdmin)PruebaBiblioteca.user).addUserToList(PruebaBiblioteca.biblioteca.getAdminsList(), new Admin(name, lastName1, lastName2, new ID("_base64", 10), 
+                                                       new Password(12), new Date()));
+            PruebaBiblioteca.biblioteca.updateInfoInFiles();
         } 
         
         if(this.txtName.getText().isEmpty()) {

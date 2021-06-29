@@ -1,9 +1,13 @@
 package View;
 
+import App.PruebaBiblioteca;
+import Model.Member;
+import Model.SuperAdmin;
 import java.awt.Color;
 import java.awt.Font;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -185,13 +189,11 @@ public class Login extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnLoginAdminActionPerformed
 
+    
     //Metodo que ingresa al dashboard a traves de un usuario ingresado.
+    int cont = 1;
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         if (!(this.txtUsername.getText().isEmpty()) && !(this.txtPassword.getText().isEmpty())) {
-            new Dashboard().setVisible(true);
-            this.dispose();
-
-            /* ESTO SE DEBE DE REALIZAR PARA INICIAR SESIÓN CON EL MEMBER:
             
             SuperAdmin root = (SuperAdmin) PruebaBiblioteca.biblioteca.getAdminsList().get(0);
 
@@ -225,7 +227,6 @@ public class Login extends javax.swing.JFrame {
                 cont++;
             }
 
-            */
         }
         
         if(this.txtUsername.getText().isEmpty()) {

@@ -1,5 +1,6 @@
 package View;
 
+import App.PruebaBiblioteca;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import Model.*;
@@ -7,7 +8,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -21,11 +21,6 @@ import javax.swing.table.DefaultTableModel;
  *
  */
 public final class Dashboard extends javax.swing.JFrame {
-
-    public static Library biblioteca;
-    public static SuperAdmin root;
-    public static User usuario;
-
     public TBList bookTable = new TBList();
     public ArrayList<Book> bookArray;
     public ArrayList<User> userArray;
@@ -44,14 +39,14 @@ public final class Dashboard extends javax.swing.JFrame {
         HomeName();
 
         //Se ocultan opciones del menu según el tipo de usuario que haya ingresado.
-        if (usuario instanceof Member) {
+        if (PruebaBiblioteca.user instanceof Member) {
             //Se elimina la capacidad de ingresar a pestañas solo para adminsitradores y superadmin.
             PanelMenu.remove(btnSearchUsers);
             PanelMenu.remove(btnManageUsers);
             PanelMenu.remove(btnManageBooks);
 
             PanelFormMenu.remove(btnBookReturn);
-        } else if (usuario instanceof Admin && !(usuario instanceof SuperAdmin)) {
+        } else if (PruebaBiblioteca.user instanceof Admin && !(PruebaBiblioteca.user instanceof SuperAdmin)) {
             //Se elimina la capacidad de ingresar a pestañas solo para usuarios y superadmin.
             PanelFormMenu.remove(btnBookIssue);
             PanelFormMenu.remove(btnUserBook);
@@ -104,11 +99,11 @@ public final class Dashboard extends javax.swing.JFrame {
     }
 
     public void initTableBookList(JTable table) {
-        bookTable.initTableBookList(table, biblioteca.getBooksList());
+        bookTable.initTableBookList(table, PruebaBiblioteca.biblioteca.getBooksList());
     }
 
     public void initTableBookManage(JTable table) {
-        bookTable.initTableBookManage(table, biblioteca.getBooksList());
+        bookTable.initTableBookManage(table, PruebaBiblioteca.biblioteca.getBooksList());
         ButtonColumn buttonColumn = new ButtonColumn(table, bookremove, 10);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
     }
@@ -134,7 +129,7 @@ public final class Dashboard extends javax.swing.JFrame {
 
     public void initTableUserManage(JTable table, ArrayList<User> UserManage) {
         userArray = UserManage;
-        if (usuario instanceof Admin && !(usuario instanceof SuperAdmin)) {
+        if (PruebaBiblioteca.user instanceof Admin && !(PruebaBiblioteca.user instanceof SuperAdmin)) {
             bookTable.initTableUserManage(table, UserManage);
             ButtonColumn buttonColumn1 = new ButtonColumn(table, userremove, 5);
             buttonColumn1.setMnemonic(KeyEvent.VK_D);
@@ -151,7 +146,7 @@ public final class Dashboard extends javax.swing.JFrame {
 
     //Metodo que carga en el menu de inicio el nombre del usuario.
     public void HomeName() {
-        jblWelcomeUser.setText(usuario.getName().toUpperCase());
+        jblWelcomeUser.setText(PruebaBiblioteca.user.getName().toUpperCase());
     }
 
     //Metodo que limpia el contenido del panel del contenido previamente cargado
@@ -169,16 +164,16 @@ public final class Dashboard extends javax.swing.JFrame {
 
     private ArrayList<User> userSearchListTable() {
         ArrayList<User> UserList = new ArrayList<>();
-        if (usuario instanceof Admin && !(usuario instanceof SuperAdmin)) {
-            for (int i = 0; i < biblioteca.getNumberOfMembers(); i++) {
-                UserList.add(biblioteca.getMembersList().get(i));
+        if (PruebaBiblioteca.user instanceof Admin && !(PruebaBiblioteca.user instanceof SuperAdmin)) {
+            for (int i = 0; i < PruebaBiblioteca.biblioteca.getNumberOfMembers(); i++) {
+                UserList.add(PruebaBiblioteca.biblioteca.getMembersList().get(i));
             }
         } else {
-            for (int i = 0; i < biblioteca.getNumberOfMembers(); i++) {
-                UserList.add(biblioteca.getMembersList().get(i));
+            for (int i = 0; i < PruebaBiblioteca.biblioteca.getNumberOfMembers(); i++) {
+                UserList.add(PruebaBiblioteca.biblioteca.getMembersList().get(i));
             }
-            for (int i = 1; i < biblioteca.getNumberOfAdmins(); i++) {
-                UserList.add(biblioteca.getAdminsList().get(i));
+            for (int i = 1; i < PruebaBiblioteca.biblioteca.getNumberOfAdmins(); i++) {
+                UserList.add(PruebaBiblioteca.biblioteca.getAdminsList().get(i));
             }
         }
         return UserList;
@@ -190,20 +185,20 @@ public final class Dashboard extends javax.swing.JFrame {
             JTable table = (JTable) e.getSource();
             int modelRow = Integer.valueOf(e.getActionCommand());
 
-            SuperAdmin admin = (SuperAdmin) usuario;
+            SuperAdmin admin = (SuperAdmin) PruebaBiblioteca.user;
 
             User user = null;
             User usertemp = userArray.get(modelRow);
 
             if (usertemp instanceof Member) {
-                for (int i = 0; i < biblioteca.getMembersList().size(); i++) {
-                    if (usertemp.getUserID().compareID(biblioteca.getMembersList().get(i).getUserID().getCharCode())) {
-                        user = biblioteca.getMembersList().get(i);
+                for (int i = 0; i < PruebaBiblioteca.biblioteca.getMembersList().size(); i++) {
+                    if (usertemp.getUserID().compareID(PruebaBiblioteca.biblioteca.getMembersList().get(i).getUserID().getCharCode())) {
+                        user = PruebaBiblioteca.biblioteca.getMembersList().get(i);
                     }
                 }
 
                 if (((Member) user).getBookList().isEmpty()) {
-                    admin.deleteUserInList(biblioteca.getMembersList(), user);
+                    admin.deleteUserInList(PruebaBiblioteca.biblioteca.getMembersList(), user);
                     userArray.remove(modelRow);
                 } else {
                     JOptionPane.showMessageDialog(null, "No se puede borrar el usuario ya que aún tiene libros prestados");
@@ -211,18 +206,18 @@ public final class Dashboard extends javax.swing.JFrame {
                 }
 
             } else if (usertemp instanceof Admin) {
-                for (int i = 0; i < biblioteca.getAdminsList().size(); i++) {
-                    if (usertemp.getUserID().compareID(biblioteca.getAdminsList().get(i).getUserID().getCharCode())) {
-                        user = biblioteca.getAdminsList().get(i);
+                for (int i = 0; i < PruebaBiblioteca.biblioteca.getAdminsList().size(); i++) {
+                    if (usertemp.getUserID().compareID(PruebaBiblioteca.biblioteca.getAdminsList().get(i).getUserID().getCharCode())) {
+                        user = PruebaBiblioteca.biblioteca.getAdminsList().get(i);
                     }
                 }
 
-                admin.deleteUserInList(biblioteca.getAdminsList(), user);
+                admin.deleteUserInList(PruebaBiblioteca.biblioteca.getAdminsList(), user);
                 userArray.remove(modelRow);
             }
 
             ((DefaultTableModel) table.getModel()).removeRow(modelRow);
-            biblioteca.updateInfoInFiles();
+            PruebaBiblioteca.biblioteca.updateInfoInFiles();
         }
 
     };
@@ -233,19 +228,19 @@ public final class Dashboard extends javax.swing.JFrame {
             JTable table = (JTable) e.getSource();
             int modelRow = Integer.valueOf(e.getActionCommand());
 
-            Admin admin = (Admin) usuario;
+            Admin admin = (Admin) PruebaBiblioteca.user;
 
             Member user = null;
             User usertemp = userArray.get(modelRow);
 
-            for (int i = 0; i < biblioteca.getMembersList().size(); i++) {
-                if (usertemp.getUserID().compareID(biblioteca.getMembersList().get(i).getUserID().getCharCode())) {
-                    user = (Member) biblioteca.getMembersList().get(i);
+            for (int i = 0; i < PruebaBiblioteca.biblioteca.getMembersList().size(); i++) {
+                if (usertemp.getUserID().compareID(PruebaBiblioteca.biblioteca.getMembersList().get(i).getUserID().getCharCode())) {
+                    user = (Member) PruebaBiblioteca.biblioteca.getMembersList().get(i);
                 }
             }
 
             if (((Member) user).getBookList().isEmpty()) {
-                admin.deleteMemberInList(biblioteca.getMembersList(), user);
+                admin.deleteMemberInList(PruebaBiblioteca.biblioteca.getMembersList(), user);
                 userArray.remove(modelRow);
             } else {
                 JOptionPane.showMessageDialog(null, "No se puede borrar el usuario ya que aún tiene libros prestados");
@@ -253,7 +248,7 @@ public final class Dashboard extends javax.swing.JFrame {
             }
 
             ((DefaultTableModel) table.getModel()).removeRow(modelRow);
-            biblioteca.updateInfoInFiles();
+            PruebaBiblioteca.biblioteca.updateInfoInFiles();
         }
 
     };
@@ -276,19 +271,19 @@ public final class Dashboard extends javax.swing.JFrame {
             JTable table = (JTable) e.getSource();
             int modelRow = Integer.valueOf(e.getActionCommand());
 
-            Admin admin = (Admin) usuario;
+            Admin admin = (Admin) PruebaBiblioteca.user;
 
-            Book book = biblioteca.getBooksList().get(modelRow);
+            Book book = PruebaBiblioteca.biblioteca.getBooksList().get(modelRow);
 
             if (!book.isBorrowed()) {
-                admin.deleteBookInList(biblioteca.getBooksList(), book);
+                admin.deleteBookInList(PruebaBiblioteca.biblioteca.getBooksList(), book);
             } else {
                 JOptionPane.showMessageDialog(null, "No se puede borrar el libro ya que esta prestado");
                 return;
             }
 
             ((DefaultTableModel) table.getModel()).removeRow(modelRow);
-            biblioteca.updateInfoInFiles();
+            PruebaBiblioteca.biblioteca.updateInfoInFiles();
         }
     };
     //Accion que permite devolver un libro.
@@ -299,31 +294,31 @@ public final class Dashboard extends javax.swing.JFrame {
             int modelRow = Integer.valueOf(e.getActionCommand());
             ((DefaultTableModel) table.getModel()).removeRow(modelRow);
 
-            Admin AdminReturn = (Admin) usuario;
+            Admin AdminReturn = (Admin) PruebaBiblioteca.user;
 
             Book book = null;
-            for (int i = 0; i < biblioteca.getBooksList().size(); i++) {
-                if (bookArray.get(modelRow).getID().compareID(biblioteca.getBooksList().get(i).getID().getCharCode())) {
-                    book = biblioteca.getBooksList().get(i);
+            for (int i = 0; i < PruebaBiblioteca.biblioteca.getBooksList().size(); i++) {
+                if (bookArray.get(modelRow).getID().compareID(PruebaBiblioteca.biblioteca.getBooksList().get(i).getID().getCharCode())) {
+                    book = PruebaBiblioteca.biblioteca.getBooksList().get(i);
                 }
             }
 
             //Encontrar miembro
             Member membertemp = null;
             Member member = null;
-            for (int i = 0; i < biblioteca.getMembersList().size(); i++) {
-                membertemp = (Member) biblioteca.getMembersList().get(i);
+            for (int i = 0; i < PruebaBiblioteca.biblioteca.getMembersList().size(); i++) {
+                membertemp = (Member) PruebaBiblioteca.biblioteca.getMembersList().get(i);
                 for (int j = 0; j < membertemp.getBookList().size(); j++) {
                     if (book.getID().compareID(membertemp.getBookList().get(j).getID().getCharCode())) {
-                        member = (Member) biblioteca.getMembersList().get(i);
+                        member = (Member) PruebaBiblioteca.biblioteca.getMembersList().get(i);
                     }
                 }
             }
 
-            AdminReturn.returnABook(biblioteca.getMembersList(), biblioteca.getBooksList(), member, book);
+            AdminReturn.returnABook(PruebaBiblioteca.biblioteca.getMembersList(), PruebaBiblioteca.biblioteca.getBooksList(), member, book);
 
             bookArray.remove(modelRow);
-            biblioteca.updateInfoInFiles();
+            PruebaBiblioteca.biblioteca.updateInfoInFiles();
         }
 
     };
@@ -335,11 +330,11 @@ public final class Dashboard extends javax.swing.JFrame {
             int modelRow = Integer.valueOf(e.getActionCommand());
             ((DefaultTableModel) table.getModel()).removeRow(modelRow);
 
-            Member UserIssue = (Member) usuario;
-            UserIssue.bookABook(biblioteca.getBooksList(), bookArray.get(modelRow));
+            Member UserIssue = (Member) PruebaBiblioteca.user;
+            UserIssue.bookABook(PruebaBiblioteca.biblioteca.getBooksList(), bookArray.get(modelRow));
             bookArray.remove(modelRow);
 
-            biblioteca.updateInfoInFiles();
+            PruebaBiblioteca.biblioteca.updateInfoInFiles();
         }
 
     };
@@ -1375,11 +1370,11 @@ public final class Dashboard extends javax.swing.JFrame {
 
     private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
         //Se carga la información del usuario
-        txtName.setText(usuario.getName());
-        txtLastNames.setText(usuario.getFirstLastName() + " " + usuario.getSecondLastName());
-        txtUserID.setText(String.valueOf(usuario.getUserID().getCharCode()));
-        txtLastLogin.setText("Fecha: " + usuario.getLastLogin().getDateS() + " Hora: " + usuario.getLastLogin().getTimeS());
-        txtPassword.setText(String.valueOf(usuario.getUserPassword().getPasswordCode()));
+        txtName.setText(PruebaBiblioteca.user.getName());
+        txtLastNames.setText(PruebaBiblioteca.user.getFirstLastName() + " " + PruebaBiblioteca.user.getSecondLastName());
+        txtUserID.setText(String.valueOf(PruebaBiblioteca.user.getUserID().getCharCode()));
+        txtLastLogin.setText("Fecha: " + PruebaBiblioteca.user.getLastLogin().getDateS() + " Hora: " + PruebaBiblioteca.user.getLastLogin().getTimeS());
+        txtPassword.setText(String.valueOf(PruebaBiblioteca.user.getUserPassword().getPasswordCode()));
         //Se remueven la información cargada del panel.
         cleanPanel();
 
@@ -1402,8 +1397,8 @@ public final class Dashboard extends javax.swing.JFrame {
 
     private void btnBookIssueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookIssueActionPerformed
         ArrayList<Book> BookIssueUser = new ArrayList<>();
-        for (int i = 0; i < biblioteca.getBooksList().size(); i++) {
-            BookIssueUser.add(biblioteca.getBooksList().get(i));
+        for (int i = 0; i < PruebaBiblioteca.biblioteca.getBooksList().size(); i++) {
+            BookIssueUser.add(PruebaBiblioteca.biblioteca.getBooksList().get(i));
         }
 
         for (int i = (BookIssueUser.size() - 1); i >= 0; i--) {
@@ -1423,8 +1418,8 @@ public final class Dashboard extends javax.swing.JFrame {
 
     private void btnBookReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookReturnActionPerformed
         ArrayList<Book> BookReturnAdmin = new ArrayList<>();
-        for (int i = 0; i < biblioteca.getBooksList().size(); i++) {
-            BookReturnAdmin.add(biblioteca.getBooksList().get(i));
+        for (int i = 0; i < PruebaBiblioteca.biblioteca.getBooksList().size(); i++) {
+            BookReturnAdmin.add(PruebaBiblioteca.biblioteca.getBooksList().get(i));
         }
 
         for (int i = (BookReturnAdmin.size() - 1); i >= 0; i--) {
@@ -1475,6 +1470,7 @@ public final class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnManageUsersActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        PruebaBiblioteca.user = null;
         Login login = new Login();
         login.setVisible(true);
         this.dispose();
@@ -1528,8 +1524,8 @@ public final class Dashboard extends javax.swing.JFrame {
             firstLastName = txtLastName1.getText();
             secondLastName = txtLastName2.getText();
 
-            usuario.rename(name, firstLastName, secondLastName);
-            biblioteca.updateInfoInFiles();
+            PruebaBiblioteca.user.rename(name, firstLastName, secondLastName);
+            PruebaBiblioteca.biblioteca.updateInfoInFiles();
         }
         
         if(this.txtNameChange.getText().isEmpty()) {
@@ -1552,7 +1548,7 @@ public final class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRenameActionPerformed
 
     private void btnUserBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserBookActionPerformed
-        Member UserArray = (Member) usuario;
+        Member UserArray = (Member) PruebaBiblioteca.user;
         ArrayList<Book> UserBookArray = UserArray.getBookList();
         initTableUserBook(tableUserBook, UserBookArray);
 
@@ -1567,7 +1563,7 @@ public final class Dashboard extends javax.swing.JFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         if(!(this.txtBookSearch.getText().isEmpty())) {
             // Si el campo no está vacío:
-            ArrayList<Book> BookSearh = biblioteca.searchBook(txtBookSearch.getText());
+            ArrayList<Book> BookSearh = PruebaBiblioteca.biblioteca.searchBook(txtBookSearch.getText());
             initTableBookSearch(tableBookSearch, BookSearh);
         } 
         
@@ -1582,7 +1578,7 @@ public final class Dashboard extends javax.swing.JFrame {
     private void btnUserSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserSearchActionPerformed
          if(!(this.txtUserSearch.getText().isEmpty())) {
             // Si el campo no está vacío:
-            ArrayList<User> UserSearh = ((Admin) usuario).searchUserInList(userSearchListTable(), txtUserSearch.getText());
+            ArrayList<User> UserSearh = ((Admin) PruebaBiblioteca.user).searchUserInList(userSearchListTable(), txtUserSearch.getText());
             initTableUserSearch(tableUserSearch, UserSearh);
         }
          
@@ -1665,28 +1661,6 @@ public final class Dashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtUserSearchKeyReleased
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        File adminsDB = new File("Admins.ldb2");
-        File membersDB = new File("Members.ldb2");
-        File booksDB = new File("Books.ldb2");
-        biblioteca = new Library(new ArrayList(), new ArrayList(), new ArrayList<>(), adminsDB, membersDB, booksDB);
-        biblioteca.loadInfoFromFiles();
-        root = (SuperAdmin) biblioteca.getAdminsList().get(0);
-
-        //usuario = (Member) biblioteca.getMembersList().get(0);
-        usuario = (Admin) biblioteca.getAdminsList().get(1);
-        //usuario = root;
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BookIssue;
