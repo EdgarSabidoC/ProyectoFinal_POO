@@ -35,7 +35,7 @@ public class PruebaBiblioteca {
         
         // Estos ya están en los archivos:
         // Libros:
-        /*root.addBookToList(biblioteca.getBooksList(), new Book("José María García López", 2013, "El corazón de la piedra", "Primera Edición",
+        root.addBookToList(biblioteca.getBooksList(), new Book("José María García López", 2013, "El corazón de la piedra", "Primera Edición",
                                                                "Nocturna", 560, "978-84-939750-7-4", new ID("_base64", 10), false, null));
         
         root.addBookToList(biblioteca.getBooksList(), new Book("José María García López", 2013, "El corazón de la piedra", "Primera Edición",
@@ -60,7 +60,7 @@ public class PruebaBiblioteca {
         // Admin:
         root.addUserToList(biblioteca.getAdminsList(), new Admin("Edgar", "Sabido", "Cortes", new ID("_base64", 10), 
                                                        new Password(12), new Date()));
-        */
+        
         
         
         Admin admin = (Admin) biblioteca.getAdminsList().get(1);

@@ -26,17 +26,20 @@ public class Admin extends User {
             // Si en las listas no se encuentra el libro o al miembro:
             return false;
         }
-
-        // Se cambia la fecha de devolución a N/A:
-        booksList.get(booksList.indexOf(book)).setReturnDate(null);
-
-        // Se cambia el estado de prestado del libro:
-        booksList.get(booksList.indexOf(book)).setBorrowed(false);
-
+        
         // Se elimina el libro de la colección del miembro:
         int memberIndex = membersList.indexOf(member);
-        ((Member) membersList.get(memberIndex)).getBookList().remove(book);//removeBook(book);
-
+        int bookIndex = ((Member) membersList.get(memberIndex)).getBookList().indexOf(book);
+        ((Member) membersList.get(memberIndex)).removeBook(book);
+        
+        // Se cambia la fecha de devolución a N/A:
+        booksList.get(booksList.indexOf(book)).setReturnDate(null);
+        
+        
+        // Se cambia el estado de prestado del libro:
+        booksList.get(booksList.indexOf(book)).setBorrowed(false);
+        
+        
         return true;
     }
     

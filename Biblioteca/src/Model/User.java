@@ -43,11 +43,10 @@ public abstract class User implements Profile, Serializable {
         return userID;
     }
     
-    protected Password getUserPassword(){
+    public Password getUserPassword(){
         return password;
     }
     
-
     public Date getLastLogin() {
         return lastLogin;
     }

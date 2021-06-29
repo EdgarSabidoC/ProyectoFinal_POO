@@ -1,12 +1,15 @@
 package View;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
 /**
  *
- * @author Carlos Antonio Ruiz
+ * @author Edgar Sabido Cortés, Carlos Antonio Ruíz Domínguez, Luis Alfredo Cota Armenta.
+ * 
  */
 public class BookAdd extends javax.swing.JFrame {
 
@@ -100,60 +103,95 @@ public class BookAdd extends javax.swing.JFrame {
         PanelBookAdd.setPreferredSize(new java.awt.Dimension(370, 630));
         PanelBookAdd.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jblISBNError.setForeground(new java.awt.Color(0, 0, 0));
+        jblISBNError.setForeground(new java.awt.Color(255, 0, 51));
         PanelBookAdd.add(jblISBNError, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 580, 290, 20));
 
-        jblPagesError.setForeground(new java.awt.Color(0, 0, 0));
+        jblPagesError.setForeground(new java.awt.Color(255, 0, 51));
         PanelBookAdd.add(jblPagesError, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, 290, 20));
 
-        jblEditorialError.setForeground(new java.awt.Color(0, 0, 0));
+        jblEditorialError.setForeground(new java.awt.Color(255, 0, 51));
         PanelBookAdd.add(jblEditorialError, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 440, 290, 20));
 
-        jblEditionError.setForeground(new java.awt.Color(0, 0, 0));
+        jblEditionError.setForeground(new java.awt.Color(255, 0, 51));
         PanelBookAdd.add(jblEditionError, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 290, 20));
 
-        jblTitleError.setForeground(new java.awt.Color(0, 0, 0));
+        jblTitleError.setForeground(new java.awt.Color(255, 0, 51));
         PanelBookAdd.add(jblTitleError, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 290, 20));
 
-        jblYearError.setForeground(new java.awt.Color(0, 0, 0));
+        jblYearError.setForeground(new java.awt.Color(255, 0, 51));
         PanelBookAdd.add(jblYearError, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 290, 20));
 
-        jblAuthorError.setForeground(new java.awt.Color(0, 0, 0));
+        jblAuthorError.setForeground(new java.awt.Color(255, 0, 51));
         PanelBookAdd.add(jblAuthorError, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 290, 20));
 
         txtTitle.setBackground(new java.awt.Color(166, 184, 204));
         txtTitle.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txtTitle.setForeground(new java.awt.Color(0, 0, 0));
+        txtTitle.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTitleKeyReleased(evt);
+            }
+        });
         PanelBookAdd.add(txtTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 290, 50));
 
         txtYear.setBackground(new java.awt.Color(166, 184, 204));
         txtYear.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txtYear.setForeground(new java.awt.Color(0, 0, 0));
+        txtYear.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtYearKeyReleased(evt);
+            }
+        });
         PanelBookAdd.add(txtYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 290, 50));
 
         txtAutor.setBackground(new java.awt.Color(166, 184, 204));
         txtAutor.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txtAutor.setForeground(new java.awt.Color(0, 0, 0));
+        txtAutor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtAutorKeyReleased(evt);
+            }
+        });
         PanelBookAdd.add(txtAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 290, 50));
 
         txtISBN.setBackground(new java.awt.Color(166, 184, 204));
         txtISBN.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txtISBN.setForeground(new java.awt.Color(0, 0, 0));
+        txtISBN.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtISBNKeyReleased(evt);
+            }
+        });
         PanelBookAdd.add(txtISBN, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 530, 290, 50));
 
         txtEditorial.setBackground(new java.awt.Color(166, 184, 204));
         txtEditorial.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txtEditorial.setForeground(new java.awt.Color(0, 0, 0));
+        txtEditorial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtEditorialKeyReleased(evt);
+            }
+        });
         PanelBookAdd.add(txtEditorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 290, 50));
 
         txtEdition.setBackground(new java.awt.Color(166, 184, 204));
         txtEdition.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txtEdition.setForeground(new java.awt.Color(0, 0, 0));
+        txtEdition.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtEditionKeyReleased(evt);
+            }
+        });
         PanelBookAdd.add(txtEdition, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 290, 50));
 
         txtPages.setBackground(new java.awt.Color(166, 184, 204));
         txtPages.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txtPages.setForeground(new java.awt.Color(0, 0, 0));
+        txtPages.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPagesKeyReleased(evt);
+            }
+        });
         PanelBookAdd.add(txtPages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 290, 50));
 
         btnAddBook.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -196,8 +234,143 @@ public class BookAdd extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBookActionPerformed
-
+        
+        if(!(this.txtAutor.getText().isEmpty()) 
+            && !(this.txtYear.getText().isEmpty())
+            && !(this.txtTitle.getText().isEmpty())
+            && !(this.txtEdition.getText().isEmpty())
+            && !(this.txtEditorial.getText().isEmpty())
+            && !(this.txtPages.getText().isEmpty())
+            && !(this.txtISBN.getText().isEmpty())) {
+            
+            
+            // AQUÍ VA TODO LO QUE SE DEBE DE HACER AL PRESIONAR EL BOTÓN.
+        }
+        
+        
+        if(this.txtAutor.getText().isEmpty()) {
+            this.jblAuthorError.setText("*Campo obligatorio");
+            this.txtAutor.setBackground(Color.PINK);
+            this.jblAuthorError.setVisible(true);
+        }
+        
+        if(this.txtYear.getText().isEmpty()) {
+            this.jblYearError.setText("*Campo obligatorio");
+            this.txtYear.setBackground(Color.PINK);
+            this.jblYearError.setVisible(true);
+        }
+        
+        if(this.txtTitle.getText().isEmpty()) {
+            this.jblTitleError.setText("*Campo obligatorio");
+            this.txtTitle.setBackground(Color.PINK);
+            this.jblTitleError.setVisible(true);
+        }
+        
+        if(this.txtEdition.getText().isEmpty()) {
+            this.jblEditionError.setText("*Campo obligatorio");
+            this.txtEdition.setBackground(Color.PINK);
+            this.jblEditionError.setVisible(true);
+        }
+        
+        if(this.txtEditorial.getText().isEmpty()) {
+            this.jblEditorialError.setText("*Campo obligatorio");
+            this.txtEditorial.setBackground(Color.PINK);
+            this.jblEditorialError.setVisible(true);
+        }
+        
+        if(this.txtPages.getText().isEmpty()) {
+            this.jblPagesError.setText("*Campo obligatorio");
+            this.txtPages.setBackground(Color.PINK);
+            this.jblPagesError.setVisible(true);
+        }
+        
+        if(this.txtISBN.getText().isEmpty()) {
+            this.jblISBNError.setText("*Campo obligatorio");
+            this.txtISBN.setBackground(Color.PINK);
+            this.jblISBNError.setVisible(true);
+        }
     }//GEN-LAST:event_btnAddBookActionPerformed
+
+    private void txtAutorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAutorKeyReleased
+        // Char leído al presionar la tecla:
+        Character c = evt.getKeyChar();
+
+        if (c >= KeyEvent.VK_0 && c <= KeyEvent.VK_9) {
+            // Si se ingresan letras:
+            new Validate().isValidStringWithoutDigits(this.txtAutor, this.jblAuthorError);
+
+        } else if (this.txtAutor.getText().isEmpty() || new Validate().isValidStringWithoutDigits(this.txtAutor, this.jblAuthorError)) {
+            // Si el campo de texto está vacío o es una cadena sin números:
+            this.jblAuthorError.setVisible(false);
+            this.txtAutor.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_txtAutorKeyReleased
+
+    private void txtYearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtYearKeyReleased
+        // Char leído al presionar la tecla:
+        Character c = evt.getKeyChar();
+
+        if (c >= KeyEvent.VK_A && c <= KeyEvent.VK_Z || c == 'ñ' || c == 'Ñ') {
+            // Si se ingresan letras:
+            new Validate().isValidInteger(this.txtYear, this.jblYearError);
+        } else if (this.txtYear.getText().isEmpty() || new Validate().isValidInteger(this.txtYear, this.jblYearError)) {
+            // Si el campo de texto está vacío o puede ser convertido a int:
+            this.jblYearError.setVisible(false);
+            this.txtYear.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_txtYearKeyReleased
+
+    private void txtTitleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTitleKeyReleased
+        if(this.jblTitleError.isVisible()) {
+            // Si el campo de texto está vacío o se escribe algo:
+            this.jblTitleError.setVisible(false);
+            this.txtTitle.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_txtTitleKeyReleased
+
+    private void txtEditionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEditionKeyReleased
+        if(this.jblEditionError.isVisible()) {
+            // Si el campo de texto está vacío o se escribe algo:
+            this.jblEditionError.setVisible(false);
+            this.txtEdition.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_txtEditionKeyReleased
+
+    private void txtEditorialKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEditorialKeyReleased
+        if(this.jblEditorialError.isVisible()) {
+            // Si el campo de texto está vacío o se escribe algo:
+            this.jblEditorialError.setVisible(false);
+            this.txtEditorial.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_txtEditorialKeyReleased
+
+    private void txtPagesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPagesKeyReleased
+        // Char leído al presionar la tecla:
+        Character c = evt.getKeyChar();
+
+        if (c >= KeyEvent.VK_A && c <= KeyEvent.VK_Z || c == 'ñ' || c == 'Ñ') {
+            // Si se ingresan letras:
+            new Validate().isValidInteger(this.txtPages, this.jblPagesError);
+        } else if (this.txtPages.getText().isEmpty() || new Validate().isValidInteger(this.txtPages, this.jblPagesError)) {
+            // Si el campo de texto está vacío o puede ser convertido a int:
+            this.jblPagesError.setVisible(false);
+            this.txtPages.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_txtPagesKeyReleased
+
+    private void txtISBNKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtISBNKeyReleased
+        // Char leído al presionar la tecla:
+        Character c = evt.getKeyChar();
+
+        if (c >= KeyEvent.VK_A && c <= KeyEvent.VK_Z || c == 'ñ' || c == 'Ñ') {
+            // Si se ingresan letras:
+            new Validate().isValidStringOnlyDigits(this.txtISBN, this.jblISBNError);
+        } else if(this.txtISBN.getText().isEmpty() || new Validate().isValidStringOnlyDigits(this.txtISBN, this.jblISBNError)) {
+            // Si el campo de texto está vacío o son sólo números:
+            this.jblISBNError.setVisible(false);
+            this.txtISBN.setBackground(Color.WHITE);
+        }
+    }//GEN-LAST:event_txtISBNKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelBookAdd;
