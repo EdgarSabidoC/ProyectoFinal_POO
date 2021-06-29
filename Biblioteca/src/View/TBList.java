@@ -1,6 +1,7 @@
 package View;
 
 
+import App.PruebaBiblioteca;
 import Model.Admin;
 import Model.Book;
 import Model.Member;
@@ -174,7 +175,7 @@ public class TBList {
         
         List<Integer> columnas = new ArrayList<>();
          
-        if(Dashboard.usuario instanceof Admin) {
+        if(PruebaBiblioteca.user instanceof Admin) {
             columnas.add(10);
             columnas.add(11);
             columnas.add(12);
@@ -216,7 +217,7 @@ public class TBList {
         
         List<Integer> columnas = new ArrayList<>();
          
-        if(Dashboard.usuario instanceof Admin) {
+        if(PruebaBiblioteca.user instanceof Admin) {
             columnas.add(10);
             columnas.add(11);
             columnas.add(12);

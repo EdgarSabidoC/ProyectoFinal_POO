@@ -1,6 +1,8 @@
 package View;
 
+import Model.User;
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -10,6 +12,16 @@ import javax.swing.JTextField;
  * 
  */
 public class Validate {
+    // Valida si existe el ID de un usuario:
+    public boolean isValidID(ArrayList<User> usersList, char[] ID){
+        for(int i = 0; i < usersList.size(); i++) {
+           if(usersList.get(i).getUserID().compareID(ID)) {
+               return true;
+           }
+        }
+        
+        return false;
+    }
     
     // Valida que se ingrese un número entero positivo (que la cadena sea no vacía y sólo números).
     // Para número de páginas y año.

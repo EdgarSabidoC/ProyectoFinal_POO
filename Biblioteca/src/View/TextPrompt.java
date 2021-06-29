@@ -1,5 +1,11 @@
 package View;
 
+
+/**
+ * Creado por Rob Camick.
+ * Recuperado de : http://www.camick.com/java/source/TextPrompt.java
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
