@@ -10,6 +10,7 @@ import javax.swing.JTextField;
  * 
  */
 public class Validate {
+    
     // Valida que se ingrese un número entero positivo (que la cadena sea no vacía y sólo números).
     // Para número de páginas y año.
     public boolean isValidInteger(JTextField textField, JLabel label) {
@@ -75,7 +76,7 @@ public class Validate {
             
             if(textField.getText().matches(".*\\d+.*")) {
                 // Si son números:
-                throw new IntervalException("No se aceptan números.");
+                throw new IntervalException("Sólo se pueden usar letras.");
             }
             
         } catch (IntervalException error) {
@@ -126,7 +127,7 @@ public class Validate {
             
             if(textField.getText().isEmpty()) {
                 // Si el campo está vacío:
-                throw new IntervalException("El campo está vacío.");
+                throw new IntervalException("Campo vacío.");
             }
             
             if(textField.getText().contains(" ")) {
@@ -156,7 +157,7 @@ public class Validate {
             
             if(textField.getText().isEmpty()) {
                 // Si el campo está vacío:
-                throw new IntervalException("El campo está vacío.");
+                throw new IntervalException("Campo vacío.");
             }
             
             if(!(textField.getText().matches(".*\\d+.*"))) {

@@ -60,7 +60,7 @@ public class Member extends User {
         }
 
         // Se agrega la fecha de devolución al libro:
-        booksList.get(booksList.indexOf(book)).setReturnDate(new Date());
+        booksList.get(booksList.indexOf(book)).setReturnDate(new Date().getDateAfterSevenD());
 
         // Se cambia el estado de prestado del libro:
         booksList.get(booksList.indexOf(book)).setBorrowed(true);
