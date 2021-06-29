@@ -88,6 +88,13 @@ public class Date implements Serializable {
         return date.plusDays(7);
     }
     
+    public Date getDateAfterSevenD() {
+        Date date = new Date();
+        date.setDate(this.date.plusDays(7));
+        date.setDateTime(this.dateTime.plusDays(7));
+        return date;
+    }
+    
     public LocalTime getTime() {
         return time;
     }
